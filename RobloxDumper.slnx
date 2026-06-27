@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="RobloxDumper/RobloxDumper.vcxproj" Id="08d47792-be24-4fa4-8d47-1a110e573dd3" />
+</Solution>
