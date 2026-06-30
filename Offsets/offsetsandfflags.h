@@ -46,6 +46,45 @@ namespace Offsets {
         static constexpr uint32_t Size = 0x20;
     }
 
+    namespace DataModel {
+        static constexpr uint32_t GameLoaded = 0x670;
+        static constexpr uint32_t JobId = 0x138;
+        static constexpr uint32_t ServerIP = 0x658;
+    }
+
+    namespace Humanoid {
+        static constexpr uint32_t Health = 0x194;
+        static constexpr uint32_t MaxHealth = 0x1b4;
+        static constexpr uint32_t WalkSpeed = 0x1dc;
+        static constexpr uint32_t JumpPower = 0x1b0;
+        static constexpr uint32_t JumpHeight = 0x1a0;
+        static constexpr uint32_t HipHeight = 0x19c;
+        static constexpr uint32_t MaxSlopeAngle = 0x1b8;
+        static constexpr uint32_t WalkTimer = 0x1d0;
+        static constexpr uint32_t HealthDisplayDistance = 0x190;
+        static constexpr uint32_t AutoJumpEnabled = 0x1e0;
+        static constexpr uint32_t AutoRotate = 0x1e1;
+        static constexpr uint32_t Sit = 0x1e8;
+        static constexpr uint32_t BreakJointsOnDeath = 0x1e5;
+        static constexpr uint32_t NameOcclusion = 0x1c0;
+        static constexpr uint32_t PlatformStand = 0x1e6;
+        static constexpr uint32_t RequiresNeck = 0x1e2;
+        static constexpr uint32_t UseJumpPower = 0x1e7;
+        static constexpr uint32_t RigType = 0x1fc;
+        static constexpr uint32_t HumanoidState = 0x208;
+        static constexpr uint32_t CameraOffset = 0x1bc;
+        static constexpr uint32_t MoveDirection = 0x1d4;
+        static constexpr uint32_t HumanoidRootPart = 0x480;
+        static constexpr uint32_t SeatPart = 0x490;
+        static constexpr uint32_t DisplayName = 0xd0;
+    }
+
+    namespace Workspace {
+        static constexpr uint32_t CurrentCamera = 0x4c0;
+        static constexpr uint32_t World = 0x418;
+        static constexpr uint32_t DistributedGameTime = 0x4e0;
+    }
+
 } // namespace Offsets
 
 namespace FFlags {
@@ -56,7 +95,7 @@ namespace FFlags {
     }
 
     namespace Values {
-        static constexpr size_t Count = 36C5;
+        static constexpr size_t Count = 36C6;
 
         // Individual FFlag offsets (RVA from module base)
         static constexpr uintptr_t RbxNNTensorTrace = 0x784B090;
@@ -317,7 +356,7 @@ namespace FFlags {
         static constexpr uintptr_t BatchLogEventSenderTimestampBudgetWindowMs = 0x783AB60;
         static constexpr uintptr_t AvatarMemoryTrackerUpdateIntervalMs = 0x779D858;
         static constexpr uintptr_t DebugEnableDisconnectionLabel = 0x81A2230;
-        static constexpr uintptr_t LuaProfileUserLoadedPageCounter = 0xFFFF823A858F75C0;
+        static constexpr uintptr_t LuaProfileUserLoadedPageCounter = 0xFFFF826602706BC0;
         static constexpr uintptr_t MemoryStoreUpdateAsyncRetryMaxLimit = 0x783C7A0;
         static constexpr uintptr_t DebugEnableThreadFunctionsForAuroraScripts = 0x7D003B8;
         static constexpr uintptr_t GraphicsNewCLI200827 = 0x7E45658;
@@ -442,7 +481,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugGraphicsDisableDirect3D11 = 0x7E457F8;
         static constexpr uintptr_t DebugCrashOnShutdownProbability2 = 0x8178688;
         static constexpr uintptr_t MemoryReclamationTestV2 = 0x77ED9F8;
-        static constexpr uintptr_t LuaAppUniversalityAppNavLayerName = 0xFFFF823A823613A0;
+        static constexpr uintptr_t LuaAppUniversalityAppNavLayerName = 0xFFFF8265FFED13A0;
         static constexpr uintptr_t TelemetryDeprecateBlockingSend_UGCValidation = 0x7DC83C0;
         static constexpr uintptr_t DebugAQSGLTFLocalCopyPath = 0x783CB20;
         static constexpr uintptr_t CrashMetricBufferClearThresholdSeconds = 0x77ED4B0;
@@ -504,7 +543,7 @@ namespace FFlags {
         static constexpr uintptr_t SlimShadowUploadAccurateTelemetry = 0x7E0E468;
         static constexpr uintptr_t AssetQualityPollingTimeoutMs = 0x783CAF0;
         static constexpr uintptr_t VideoMomentsPlaceFilter = 0x7DC3068;
-        static constexpr uintptr_t AvatarChatSettingsVideoLink = 0xFFFF823A8255F280;
+        static constexpr uintptr_t AvatarChatSettingsVideoLink = 0xFFFF8265FF4FF280;
         static constexpr uintptr_t PerformanceControlComputePrimaryTunableConfigDefaultWaitFramesAfterStep = 0x77ED2B8;
         static constexpr uintptr_t RespectImprovedPhysicsReplicationDisabledConfig = 0x7DC5368;
         static constexpr uintptr_t NetworkStreamInitSize = 0x780A798;
@@ -613,7 +652,7 @@ namespace FFlags {
         static constexpr uintptr_t NetworkProcessPacketThresholdMs = 0x7C0CF08;
         static constexpr uintptr_t MicroProfilerRawFreeUseOperatorArrayDelete = 0x81A2720;
         static constexpr uintptr_t AnalyticsNS1BeaconConfig = 0x77EC440;
-        static constexpr uintptr_t TeamCreateNewPlaceUploadOptInPlaceIds = 0xFFFF823A8245D3D0;
+        static constexpr uintptr_t TeamCreateNewPlaceUploadOptInPlaceIds = 0xFFFF8265FF38D4C0;
         static constexpr uintptr_t SlimSupportR15WithoutLayeredClothing = 0x7E0F358;
         static constexpr uintptr_t AssetQualityEngineService = 0x8452D80;
         static constexpr uintptr_t OnlyLogAttachedUnconnectedUREs = 0x8452D48;
@@ -891,7 +930,7 @@ namespace FFlags {
         static constexpr uintptr_t CookieProtocol = 0x7792A28;
         static constexpr uintptr_t MeshLodApplyGeomMeshOptimizer = 0x7E39C20;
         static constexpr uintptr_t ConnectionStatusMonitor = 0x7816910;
-        static constexpr uintptr_t LuaAppSortsWithDividers = 0xFFFF823A82460C60;
+        static constexpr uintptr_t LuaAppSortsWithDividers = 0xFFFF8265FF3A0C60;
         static constexpr uintptr_t ProceduralModelCooperativeTimeoutMilliseconds = 0x783C868;
         static constexpr uintptr_t FlagRolloutTestDynamicBool48 = 0x8169320;
         static constexpr uintptr_t ReportSoundAssetsRate = 0x7E12348;
@@ -1203,7 +1242,7 @@ namespace FFlags {
         static constexpr uintptr_t CreatorConfigServiceRccFetcherMaxRetries = 0x783B920;
         static constexpr uintptr_t WorkspaceAnimatorRetargetingEnabledDefault = 0x7DC52C8;
         static constexpr uintptr_t RbxTransportQuicPacketSender = 0x77EE248;
-        static constexpr uintptr_t RemoveTCPath = 0xFFFF823A853CBA80;
+        static constexpr uintptr_t RemoveTCPath = 0xFFFF82660219B750;
         static constexpr uintptr_t WorldRollbackUpdateControllers = 0x7DCBFA0;
         static constexpr uintptr_t FlagRolloutTestDynamicBool36 = 0x8169140;
         static constexpr uintptr_t FileCacheCheckSize = 0x8171390;
@@ -1230,7 +1269,7 @@ namespace FFlags {
         static constexpr uintptr_t WindowsRecursiveMessagePumpReducedFramerate = 0x778E068;
         static constexpr uintptr_t SubscriptionsPerServerBase = 0x77CE588;
         static constexpr uintptr_t PerformanceControlMemoryBufferAggregationMethod = 0x7E52788;
-        static constexpr uintptr_t JoinCodePattern = 0xFFFF823A82363FE0;
+        static constexpr uintptr_t JoinCodePattern = 0xFFFF8265FFED3FE0;
         static constexpr uintptr_t CreatorConfigAssetFetcherMaxRetries = 0x783B890;
         static constexpr uintptr_t ContentResidency = 0x779EF08;
         static constexpr uintptr_t LinkingProtocolInfluxHundredthsPercentage = 0x7BF4780;
@@ -1249,7 +1288,7 @@ namespace FFlags {
         static constexpr uintptr_t CreatorConfigAssetProviderTelemetryIncludeUniverseIdAndPlaceId = 0x841E718;
         static constexpr uintptr_t DebugAudioSpeechToTextAlwaysAllow = 0x7E2BFF8;
         static constexpr uintptr_t JunkFieldEditTimeMetadataComponent = 0x8162378;
-        static constexpr uintptr_t ChatDetailsLeaveGroupBtnClickedCounter = 0xFFFF823A82FB8900;
+        static constexpr uintptr_t ChatDetailsLeaveGroupBtnClickedCounter = 0xFFFF8265FFDF8540;
         static constexpr uintptr_t CLI179323Enforce = 0x7CFD630;
         static constexpr uintptr_t NavigationMaxMemoryForReadTerrainBytes = 0x77D1E18;
         static constexpr uintptr_t FlagRolloutTestStaticBool18 = 0x8169798;
@@ -1357,7 +1396,7 @@ namespace FFlags {
         static constexpr uintptr_t PTFScrollingFrameAncestorMatchingDirection = 0x7DBA6D8;
         static constexpr uintptr_t DebugIgnoreVolumeIsZeroAssert = 0x8111158;
         static constexpr uintptr_t NavigationNewHeuristicAlgorithm2 = 0x7DCF620;
-        static constexpr uintptr_t ChatDetailsCreateUnfilteredChatCellRenderedCounter = 0xFFFF823A82FBE380;
+        static constexpr uintptr_t ChatDetailsCreateUnfilteredChatCellRenderedCounter = 0xFFFF8265FFDFE340;
         static constexpr uintptr_t TelemetryProtocolForwardMetadata = 0x8161B88;
         static constexpr uintptr_t RIDE12798 = 0x7CFF3A0;
         static constexpr uintptr_t TextSafetyAnalyticsSenderMaxBytesPerSecondServer = 0x77C8520;
@@ -1603,7 +1642,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugSimPrimalConsistentAlign2Axes = 0x841C4E0;
         static constexpr uintptr_t MaxStreams = 0x77D8C90;
         static constexpr uintptr_t RTAnimationTrackerTrace = 0x783A5F0;
-        static constexpr uintptr_t ProfileQRPageFriendRequestBannerShown = 0xFFFF823A824ABA20;
+        static constexpr uintptr_t ProfileQRPageFriendRequestBannerShown = 0xFFFF8265FF3FBC50;
         static constexpr uintptr_t DebugSimSolverAlign2AxesGS = 0x841C4B8;
         static constexpr uintptr_t AnimationLodIkFadeDurationMs = 0x77B1EC0;
         static constexpr uintptr_t CameraFrustumReplicationFrequencyHz = 0x779BD30;
@@ -1635,7 +1674,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugSimSolverLevitationDeactivateTurning = 0x841C360;
         static constexpr uintptr_t PerformanceControlSendJavaHeapInfo = 0x7E522F0;
         static constexpr uintptr_t DebugRenderingTestLabel = 0x77D0D90;
-        static constexpr uintptr_t CreatorSubtitleNavigationExperimentLayer = 0xFFFF823A854CFB40;
+        static constexpr uintptr_t CreatorSubtitleNavigationExperimentLayer = 0xFFFF82660229FAC0;
         static constexpr uintptr_t DebugSimSolverLevitationDeactivateFriction = 0x841C338;
         static constexpr uintptr_t GetProductInfoErrorThrottleThreshold = 0x77B6408;
         static constexpr uintptr_t DebugAvatarImporterBundleConfiguration = 0x841A628;
@@ -1665,7 +1704,7 @@ namespace FFlags {
         static constexpr uintptr_t RBXASSERT_CLI155124 = 0x7CDB300;
         static constexpr uintptr_t Text = 0x77D5DE8;
         static constexpr uintptr_t FixHttpStreamingCallbackUseAfterFree = 0x816D6A8;
-        static constexpr uintptr_t RoactChatUserLoadedCounter = 0xFFFF823A8584AC40;
+        static constexpr uintptr_t RoactChatUserLoadedCounter = 0xFFFF82660267AB50;
         static constexpr uintptr_t KeyRingFileErrorPointInfluxThresholdHundredths = 0x8160B40;
         static constexpr uintptr_t SimGroundControllerBalanceDerivedLocomotionLimit = 0x80FD770;
         static constexpr uintptr_t DataStoreStartupThrottlingInitialBudgetPercent = 0x77CC3E8;
@@ -1788,7 +1827,7 @@ namespace FFlags {
         static constexpr uintptr_t SQLiteDiskFullCleanMB = 0x8171680;
         static constexpr uintptr_t HttpClientResolveInvalidRangeResponse = 0x816DAA0;
         static constexpr uintptr_t ReactiveJoinGameInstanceRolloutHundredthsPercentage = 0x7BF3910;
-        static constexpr uintptr_t SduiEagerProcessCollectionIds = 0xFFFF823A853CE210;
+        static constexpr uintptr_t SduiEagerProcessCollectionIds = 0xFFFF82660219E480;
         static constexpr uintptr_t UGCValidateMaxSensibleBinaryStringLength = 0x783A7A0;
         static constexpr uintptr_t RakNetEncryptionFailureReportHundredthsPercent = 0x7E36970;
         static constexpr uintptr_t DMRecorderBatchRotationSeconds = 0x77C77D8;
@@ -2138,7 +2177,7 @@ namespace FFlags {
         static constexpr uintptr_t ExcludeExpChatRephraseStatusIneligible = 0x7DAC210;
         static constexpr uintptr_t InlineHashStates = 0x7826230;
         static constexpr uintptr_t TextChatSetDirectChatRequesterNilCheck = 0x7CA89F8;
-        static constexpr uintptr_t LookLightingConfigurationJson = 0xFFFF823A82701580;
+        static constexpr uintptr_t LookLightingConfigurationJson = 0xFFFF8265FF701580;
         static constexpr uintptr_t FlagRolloutTestDynamicBool12 = 0x8168D80;
         static constexpr uintptr_t EnableAudioPlayerTelemetry2 = 0x7E2B320;
         static constexpr uintptr_t HttpParallelLimit_RequestFriendService = 0x816CF50;
@@ -2182,7 +2221,7 @@ namespace FFlags {
         static constexpr uintptr_t ReportDebugCallstackThrottleHundredthPercent = 0x7816DC0;
         static constexpr uintptr_t FmodSoundAtomicRefCount = 0x811DE18;
         static constexpr uintptr_t WebrtcConnectionTimeoutMs = 0x77DFBB0;
-        static constexpr uintptr_t ChatDetailsLeaveGroupDialogLeaveClickedCounter = 0xFFFF823A82FBFD80;
+        static constexpr uintptr_t ChatDetailsLeaveGroupDialogLeaveClickedCounter = 0xFFFF8265FFDFFD40;
         static constexpr uintptr_t MachineIDUtil = 0x7816D50;
         static constexpr uintptr_t EnableCanSendGameInviteAsync429ErrorMarshalingFix = 0x7DC3BA0;
         static constexpr uintptr_t BootcampCLI205865Log = 0x77CE0D8;
@@ -2257,7 +2296,7 @@ namespace FFlags {
         static constexpr uintptr_t EmaHalfLife = 0x7816B40;
         static constexpr uintptr_t AnimationGraphCollectionRate = 0x7CC4F80;
         static constexpr uintptr_t DebugCLI52064TransmitUS = 0x7BFB8B0;
-        static constexpr uintptr_t ChatDetailsReportUserClickedCounter = 0xFFFF823A82FBE540;
+        static constexpr uintptr_t ChatDetailsReportUserClickedCounter = 0xFFFF8265FFDFE500;
         static constexpr uintptr_t PerformanceControlIXP = 0x77ED570;
         static constexpr uintptr_t PerformanceControlUseExcessInBudgetCalculations = 0x7E51DD8;
         static constexpr uintptr_t EmaSampleRate = 0x7816B28;
@@ -2439,11 +2478,11 @@ namespace FFlags {
         static constexpr uintptr_t ReportollectionServiceEventThrottleHundrethsPercent = 0x7DAB650;
         static constexpr uintptr_t GraphicsVulkanMtSubmitResizing2 = 0x7E461E8;
         static constexpr uintptr_t NamedMutex = 0x7816880;
-        static constexpr uintptr_t UserProfilesRequestSuccessAfterRetry = 0xFFFF823A824ABDE0;
+        static constexpr uintptr_t UserProfilesRequestSuccessAfterRetry = 0xFFFF8265FF3FBE80;
         static constexpr uintptr_t ValidateFragmentSerializationLeanDM2 = 0x7DBC400;
         static constexpr uintptr_t SimCsgStoreUnresolvedAssetId = 0x80F4320;
         static constexpr uintptr_t MininumRequiredMemoryInMB = 0x7816840;
-        static constexpr uintptr_t EasierUnmutingIXPLayerValue = 0xFFFF823A82458030;
+        static constexpr uintptr_t EasierUnmutingIXPLayerValue = 0xFFFF8265FF388060;
         static constexpr uintptr_t DynamicTranslationSenderMaxAllowedSendsPerIntervalServer = 0x77C86B0;
         static constexpr uintptr_t UnexpectedIradSetGcThrottleHP = 0x7C09318;
         static constexpr uintptr_t BgUpdateRedirectsRejectInfluxHundredthsPercentage = 0x7D06F08;
@@ -2511,7 +2550,7 @@ namespace FFlags {
         static constexpr uintptr_t Physics = 0x77C8C20;
         static constexpr uintptr_t UserTouchJumpHeightDisable = 0x77C9940;
         static constexpr uintptr_t HangDetectionJobV2TimeoutMs = 0x78165F8;
-        static constexpr uintptr_t ConversationScreenExitCounter = 0xFFFF823A82459320;
+        static constexpr uintptr_t ConversationScreenExitCounter = 0xFFFF8265FF389C50;
         static constexpr uintptr_t BatchWorkflowRefreshMaxBatchSize = 0x77EB050;
         static constexpr uintptr_t ReverbPerEmitter = 0x7E19108;
         static constexpr uintptr_t UseWorldFromOrigin = 0x7CDCEC8;
@@ -3136,7 +3175,7 @@ namespace FFlags {
         static constexpr uintptr_t InterpolationFrameVelocityThresholdMillionth = 0x77D2B98;
         static constexpr uintptr_t UGCValidateTorsoZMinSlender = 0x77B49C8;
         static constexpr uintptr_t SQLiteThrottleErrorsHundredthsPercent = 0x8171618;
-        static constexpr uintptr_t BlackbirdUpsellHiddenRequestTypes = 0xFFFF823A857CF700;
+        static constexpr uintptr_t BlackbirdUpsellHiddenRequestTypes = 0xFFFF8266025FFFC0;
         static constexpr uintptr_t SQLiteThrottleDiskFullErrorsMax = 0x780B060;
         static constexpr uintptr_t IXPExperienceMenuSettingsLayerName = 0x77C0E00;
         static constexpr uintptr_t TrackPublishingHashOutput = 0x7802730;
@@ -3187,7 +3226,7 @@ namespace FFlags {
         static constexpr uintptr_t FileCacheGuardLowDiskSpace = 0x81713B8;
         static constexpr uintptr_t VMSErrorAnalysisEs = 0x7CFFCF0;
         static constexpr uintptr_t DebugLadderSensorConfigureVerticalQueryBoundsAccordingToProperties = 0x8100030;
-        static constexpr uintptr_t AssetAccessEligibleAssetTypesCSV = 0xFFFF823A82FBB600;
+        static constexpr uintptr_t AssetAccessEligibleAssetTypesCSV = 0xFFFF8265FFDFB5C0;
         static constexpr uintptr_t WMSAttributeAngleThresholdVertexPositionMerge = 0x81132A8;
         static constexpr uintptr_t EnableGameJoinRetryMinimumWaitTime = 0x7BEDEF0;
         static constexpr uintptr_t FileCachePermReserveSize = 0x780AEE8;
@@ -3231,7 +3270,7 @@ namespace FFlags {
         static constexpr uintptr_t ToolboxRemoveRestrictedAssetWarning2 = 0x7DA9628;
         static constexpr uintptr_t PhysicsEMAInverseSmoothingFactorThrottling = 0x77D2850;
         static constexpr uintptr_t HttpUncompressedSizeKeepEntry = 0x816E038;
-        static constexpr uintptr_t FacialAnimation1BetaFeatureUrl = 0xFFFF823A82440EC0;
+        static constexpr uintptr_t FacialAnimation1BetaFeatureUrl = 0xFFFF8265FF390EC0;
         static constexpr uintptr_t EnablePlaceGzipEffectEvaluationTelemetry = 0x7DC7ED8;
         static constexpr uintptr_t SqliteCacheUseTTLOnRead = 0x8170F18;
         static constexpr uintptr_t LoadStreamAnimationFailureTelemetryHundredthsPercentage = 0x7CC5D90;
@@ -3259,7 +3298,7 @@ namespace FFlags {
         static constexpr uintptr_t SQLiteCacheMaxBlobSizeWithoutL2Bytes = 0x780AD20;
         static constexpr uintptr_t VideoReportIsLoadedMetrics2 = 0x84377E8;
         static constexpr uintptr_t SQLiteCachePreloadedCacheTTLSeconds = 0x780ACF0;
-        static constexpr uintptr_t InExperienceShopTooltipStorageKey = 0xFFFF823A8588A280;
+        static constexpr uintptr_t InExperienceShopTooltipStorageKey = 0xFFFF8266026BA280;
         static constexpr uintptr_t SQLiteCacheAssetDeliveryResponseTTLSeconds = 0x780ACD8;
         static constexpr uintptr_t RbxStorageCapacityFixedMB = 0x81709E8;
         static constexpr uintptr_t PannerSupportsVolumetricAudio = 0x7E2AB88;
@@ -3389,9 +3428,9 @@ namespace FFlags {
         static constexpr uintptr_t FMODPlaybackChannelFasterLoadedQueries = 0x811CBE0;
         static constexpr uintptr_t FixMigrateAvatarTelemetryToDurationLogger3 = 0x7CDAC70;
         static constexpr uintptr_t DebugAssertTelemetry_HundredthPercent = 0x8168978;
-        static constexpr uintptr_t AdGuiLivePreviewWatermarkV2 = 0xFFFF823A8245F0B0;
+        static constexpr uintptr_t AdGuiLivePreviewWatermarkV2 = 0xFFFF8265FF38EFC0;
         static constexpr uintptr_t VideoCaptureSelfTestRedPixelsPercent = 0x77E0428;
-        static constexpr uintptr_t PartyVoiceBannerErrorUserNotEligibleURL = 0xFFFF823A824A3BE0;
+        static constexpr uintptr_t PartyVoiceBannerErrorUserNotEligibleURL = 0xFFFF8265FF3F3BE0;
         static constexpr uintptr_t ServerPeerIdHashedGuid = 0x816FDA0;
         static constexpr uintptr_t NetAssetVerifiedTypes = 0x816FD78;
         static constexpr uintptr_t StratusSessionHistory = 0x77C6DE8;
@@ -3402,7 +3441,7 @@ namespace FFlags {
         static constexpr uintptr_t MaxAudibleSoundChannels = 0x77FADD0;
         static constexpr uintptr_t DebugLocalTeamTestRccHost = 0x780A7E8;
         static constexpr uintptr_t ParticlesFramesBetweenNonVisibleUpdatesSlow = 0x77A3D88;
-        static constexpr uintptr_t ConversationIneligibleModalRenderedCounter = 0xFFFF823A82FBD780;
+        static constexpr uintptr_t ConversationIneligibleModalRenderedCounter = 0xFFFF8265FFDFD740;
         static constexpr uintptr_t Commerce = 0x77B6968;
         static constexpr uintptr_t TM2NotSupportedUserMask = 0x7C48BC0;
         static constexpr uintptr_t DebugLocalTeamTestRccConnection = 0x816FD00;
@@ -3430,7 +3469,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceTelemetryGlobalThrottleHundredthsPercent = 0x7E3B028;
         static constexpr uintptr_t FixStringCheckInNS = 0x816FAD0;
         static constexpr uintptr_t PrimalCollisionPenetrationResolutionDamping = 0x77B7A90;
-        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxDismissedCounter = 0xFFFF823A82FBCEC0;
+        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxDismissedCounter = 0xFFFF8265FFDFC940;
         static constexpr uintptr_t ClusterSenderMaxJoinBandwidthBpsScaling = 0x779C618;
         static constexpr uintptr_t AppArchExperimentHelper = 0x7792030;
         static constexpr uintptr_t MaxDataPayloadSize = 0x780A768;
@@ -3483,7 +3522,7 @@ namespace FFlags {
         static constexpr uintptr_t SmoothClusterUseTextureArrays = 0x7C456D0;
         static constexpr uintptr_t StreamingObserverMemoryOptimization = 0x816F7C8;
         static constexpr uintptr_t COMCalls = 0x77C8970;
-        static constexpr uintptr_t CustomVideoUploadBetaFeatureUrl = 0xFFFF823A824F0800;
+        static constexpr uintptr_t CustomVideoUploadBetaFeatureUrl = 0xFFFF8265FF430800;
         static constexpr uintptr_t DebugAddTestStreamingFrustum = 0x816F740;
         static constexpr uintptr_t CLI160771_SecurityContextString = 0x7DBBC40;
         static constexpr uintptr_t AnimationSA8TrackCompactionClient = 0x816F6E0;
@@ -3497,7 +3536,7 @@ namespace FFlags {
         static constexpr uintptr_t NavigationWaypointSpacing = 0x77D1D38;
         static constexpr uintptr_t VoiceChatJoinProfilingUsingTelemetryStat_RCC = 0x8161680;
         static constexpr uintptr_t LuauCodeGenReuseUdataTagLimit = 0x77E5C40;
-        static constexpr uintptr_t ContactImportingTimeStat = 0xFFFF823A858F7CC0;
+        static constexpr uintptr_t ContactImportingTimeStat = 0xFFFF826602708340;
         static constexpr uintptr_t MemoryUtilityCurveNumSegments = 0x77ED6A0;
         static constexpr uintptr_t UnlimitedHttpRequestsForRobloxApisAllowlistCsv = 0x77CAAD0;
         static constexpr uintptr_t DebugHashTableMetrics = 0x816F0F0;
@@ -3673,7 +3712,7 @@ namespace FFlags {
         static constexpr uintptr_t SseClient = 0x7807248;
         static constexpr uintptr_t HttpClientMaxInternalIndefiniteRequests = 0x816E160;
         static constexpr uintptr_t HttpServiceMaxInternalWebStreamClients = 0x7807230;
-        static constexpr uintptr_t LuaUniversalMorePageLayer = 0xFFFF823A83133080;
+        static constexpr uintptr_t LuaUniversalMorePageLayer = 0xFFFF8265FFEF2900;
         static constexpr uintptr_t DebugDisableAuroraScriptAllowList = 0x7CFD9E0;
         static constexpr uintptr_t HttpServiceMaxInternalSseClients = 0x7807200;
         static constexpr uintptr_t VideoMetricsAggregationMinSamples = 0x77C59C8;
@@ -3795,7 +3834,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlSoundCachePriority = 0x77ED348;
         static constexpr uintptr_t ClientPacketHealthyMsPerSecondLimit = 0x779C540;
         static constexpr uintptr_t HttpCacheForcedAssetEviction = 0x816D4B0;
-        static constexpr uintptr_t DeprecateSystemPrimaryAndSecondaryButtonABTest_LayerName = 0xFFFF823A854C6FC0;
+        static constexpr uintptr_t DeprecateSystemPrimaryAndSecondaryButtonABTest_LayerName = 0xFFFF826602296F40;
         static constexpr uintptr_t EnableGImageDetectsExif = 0x8113848;
         static constexpr uintptr_t MemoryUtilityCurveBaseHundrethsPercent = 0x77ED6D0;
         static constexpr uintptr_t SimulationCallbackPreCreateThread = 0x7DC2860;
@@ -3935,7 +3974,7 @@ namespace FFlags {
         static constexpr uintptr_t RbxTransportConnectionRxQueueSize = 0x77EE130;
         static constexpr uintptr_t NetworkAudit = 0x7806DA8;
         static constexpr uintptr_t ScrollerDeferTouchScrollToFrameEnd = 0x7DE9830;
-        static constexpr uintptr_t ChatDetailsCreateUnfilteredChatCellClickedCounter = 0xFFFF823A82FBE240;
+        static constexpr uintptr_t ChatDetailsCreateUnfilteredChatCellClickedCounter = 0xFFFF8265FFDFE200;
         static constexpr uintptr_t HttpTraceLight = 0x7806D78;
         static constexpr uintptr_t DevFrameworkListInsetAndForwardRef = 0x7DA9A18;
         static constexpr uintptr_t HttpTraceNew = 0x7806D58;
@@ -4399,7 +4438,7 @@ namespace FFlags {
         static constexpr uintptr_t AnalyticsDeferredEphemeralReportingDiagnostic = 0x78050D8;
         static constexpr uintptr_t GameClientTeleportInsightsCounterThrottleHundredthsPercentage = 0x7DC4918;
         static constexpr uintptr_t AnalyticsMaxDeferredStats = 0x7805090;
-        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxRenderedCounter = 0xFFFF823A82FBD100;
+        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxRenderedCounter = 0xFFFF8265FFDFD0C0;
         static constexpr uintptr_t AnalyticsDeferredEphemeralReportingIntervalSeconds = 0x7805078;
         static constexpr uintptr_t DataStoreKeyLockTtlSeconds = 0x77CDA90;
         static constexpr uintptr_t SimCSGUseRuntimeContent = 0x7E2C628;
@@ -4452,7 +4491,7 @@ namespace FFlags {
         static constexpr uintptr_t DifferentiateStreamedOut = 0x8162458;
         static constexpr uintptr_t VoiceChatMinIncomingPacketsForPacketLoss = 0x7802D18;
         static constexpr uintptr_t VideoReportExternalHardwareExtensionCoverage = 0x7E461C0;
-        static constexpr uintptr_t ProfileRepositionExperimentLayer = 0xFFFF823A8236C560;
+        static constexpr uintptr_t ProfileRepositionExperimentLayer = 0xFFFF8265FFEDC560;
         static constexpr uintptr_t SimRuntimeContentTranscodeQueueTimeEstimator = 0x7DC6988;
         static constexpr uintptr_t ReportDeviceInfoRollout = 0x7BEA068;
         static constexpr uintptr_t HandleCloneModifiedProperties = 0x8162350;
@@ -4464,7 +4503,7 @@ namespace FFlags {
         static constexpr uintptr_t RbxTransportMaxPacketsToProcessInSingleLoopIteration = 0x77EDF08;
         static constexpr uintptr_t SlimFixCSGDecalUVs = 0x7E0F570;
         static constexpr uintptr_t RbxTransportQuicHandshakeErrorMTFix = 0x7E57498;
-        static constexpr uintptr_t UserProfilesRequestFailAfterRetry = 0xFFFF823A858F8BC0;
+        static constexpr uintptr_t UserProfilesRequestFailAfterRetry = 0xFFFF826602709280;
         static constexpr uintptr_t FixTeleportThrottleEraseOnClientFailure = 0x7DC3FE0;
         static constexpr uintptr_t TtiTelemetryIntegrationCheck = 0x7803F18;
         static constexpr uintptr_t DMCTMigrateServerScriptService = 0x7DC74D0;
@@ -4722,7 +4761,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlEventBasedTelemetryEffectPredictionEventRatePoints = 0x7E520E0;
         static constexpr uintptr_t RbxTransportDummyClientWakeupOnShutdown = 0x7C74828;
         static constexpr uintptr_t StreamingBandwidthQueueingLimitPercent = 0x779BFB0;
-        static constexpr uintptr_t ConversationPvDialogActionClickedCounter = 0xFFFF823A82FBE1C0;
+        static constexpr uintptr_t ConversationPvDialogActionClickedCounter = 0xFFFF8265FFDFE140;
         static constexpr uintptr_t FmodMediumPoolSize = 0x77FB100;
         static constexpr uintptr_t ReportIsFriendsWithUsageThrottle = 0x7DDDC88;
         static constexpr uintptr_t ScriptContextReadLuaValueAsStringItemLimit = 0x77B9540;
@@ -4917,7 +4956,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlTextureManagerMediumTextureLevel = 0x77AB748;
         static constexpr uintptr_t CLI203633NormalizeRbxAssetSlashes = 0x7E4F298;
         static constexpr uintptr_t DebugSimPrimalFixedStiffnessAngular = 0x77F0E20;
-        static constexpr uintptr_t DebugCollectQtDiagnosticsPrefix = 0xFFFF823A82456230;
+        static constexpr uintptr_t DebugCollectQtDiagnosticsPrefix = 0xFFFF8265FF386290;
         static constexpr uintptr_t DebugForceCopyTexture3DFallback = 0x7E46728;
         static constexpr uintptr_t DataStoreAnalyticsReportEveryNSeconds = 0x77CC550;
         static constexpr uintptr_t DebugSimPrimalFixedStiffnessLinear = 0x77F0E08;
@@ -5010,7 +5049,7 @@ namespace FFlags {
         static constexpr uintptr_t EnablePaymentsProtocolPerformSubscriptionPurchaseTelemetry = 0x7BF9908;
         static constexpr uintptr_t SerializedNetworkedLuauInteger = 0x7C00188;
         static constexpr uintptr_t DefaultDepth = 0x77F0B78;
-        static constexpr uintptr_t ConversationPvDialogDismissedCounter = 0xFFFF823A82FBEC00;
+        static constexpr uintptr_t ConversationPvDialogDismissedCounter = 0xFFFF8265FFDFE440;
         static constexpr uintptr_t DefaultPPercentTenths = 0x77F0B60;
         static constexpr uintptr_t ParallelizeInteractionGroups = 0x7E193B0;
         static constexpr uintptr_t LuaGcStatsMinReportHeapSizeMb = 0x77B8320;
@@ -5119,7 +5158,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugUseByteCountLimitForPhysicsReplication = 0x7C08628;
         static constexpr uintptr_t TranscoderTextureDimensionMax = 0x77E9F00;
         static constexpr uintptr_t TestCSGNewFunctionPublish = 0x80F4348;
-        static constexpr uintptr_t VngAppUpsellUrl = 0xFFFF823A82FB7AC0;
+        static constexpr uintptr_t VngAppUpsellUrl = 0xFFFF8265FFDF7A80;
         static constexpr uintptr_t DebugForceGmaEligibilityAdUnitId = 0x77B05E8;
         static constexpr uintptr_t ReportBatchAPIWorkflowV2Stats = 0x7E4D2B8;
         static constexpr uintptr_t EnableAvatarCreation = 0x7CDB710;
@@ -5195,7 +5234,7 @@ namespace FFlags {
         static constexpr uintptr_t VisuallyMovingWakeOnAdd = 0x80E3370;
         static constexpr uintptr_t DeprecateLegacyTeleportServiceCounters = 0x7DC45E0;
         static constexpr uintptr_t ProtectClientsToUpdateAccess = 0x7CBE670;
-        static constexpr uintptr_t CapturesPageOpenedInGameMenu = 0xFFFF823A858F8180;
+        static constexpr uintptr_t CapturesPageOpenedInGameMenu = 0xFFFF826602708C40;
         static constexpr uintptr_t VisuallyMovingSleepOnRemove = 0x80E3348;
         static constexpr uintptr_t BasePartScopedScriptRestrictionBlock = 0x80E32F8;
         static constexpr uintptr_t ReportRaknetDeferredTimeMsHundredthsPercentage = 0x7E35880;
@@ -5251,7 +5290,7 @@ namespace FFlags {
         static constexpr uintptr_t UserFixVRAvatarGesturesSeats = 0x77C9850;
         static constexpr uintptr_t RuppSerializationErrorReportHundredthsPercent = 0x7E594A8;
         static constexpr uintptr_t WrapDeformMeshProviderForceCacheSize = 0x7CDCA28;
-        static constexpr uintptr_t RecommendationUniverseAllowList = 0xFFFF823A8550B340;
+        static constexpr uintptr_t RecommendationUniverseAllowList = 0xFFFF8266022DB340;
         static constexpr uintptr_t VideoCaptureMaxLongSideLowMem = 0x77C66E0;
         static constexpr uintptr_t RuppMissingTlvsPointsThrottleHundredthsPercent = 0x7E59438;
         static constexpr uintptr_t DebugSimulateDeviceLostRepeatIntervalFrames = 0x7E44FC8;
@@ -5268,7 +5307,7 @@ namespace FFlags {
         static constexpr uintptr_t ClusterEstimatedCompressionRatioHundredths = 0x779A3E8;
         static constexpr uintptr_t SocketOtherFailureRatioAggregationTimeThresholdInSeconds = 0x77EF160;
         static constexpr uintptr_t SocketOtherFailureRatioAggregationCountThreshold = 0x77EF148;
-        static constexpr uintptr_t VoiceUpsellLayer = 0xFFFF823A82458390;
+        static constexpr uintptr_t VoiceUpsellLayer = 0xFFFF8265FF388360;
         static constexpr uintptr_t SocketBlockedRatioAggregationCountThreshold = 0x77EF118;
         static constexpr uintptr_t UGCValidateLipsUpperBoundU = 0x77B59A0;
         static constexpr uintptr_t UserPlayerScriptsUseScriptableBindings = 0x7DA9135;
@@ -5475,10 +5514,10 @@ namespace FFlags {
         static constexpr uintptr_t RbxTransportListenerUsePacketTs = 0x7E578F8;
         static constexpr uintptr_t TextChatServiceDeprecatePlayerChatted = 0x7C8DB58;
         static constexpr uintptr_t RbxTransportQuicListener = 0x77EE198;
-        static constexpr uintptr_t PivotEditorLearnMoreUrl = 0xFFFF823A824A0FD0;
+        static constexpr uintptr_t PivotEditorLearnMoreUrl = 0xFFFF8265FF3F0FD0;
         static constexpr uintptr_t RbxTransportQuicFixShutdown = 0x7E57658;
         static constexpr uintptr_t PerformanceControlCrashMetricPostProcessingAlgorithmType = 0x7E52548;
-        static constexpr uintptr_t AvatarJointUpgradeBetaFeatureUrl = 0xFFFF823A824F0D80;
+        static constexpr uintptr_t AvatarJointUpgradeBetaFeatureUrl = 0xFFFF8265FF430D80;
         static constexpr uintptr_t ThirdPartyUserServiceIsAccountSwitchingSupported = 0x7DC2120;
         static constexpr uintptr_t AddNgtcp2LogsToRtcIo = 0x7E57608;
         static constexpr uintptr_t DebugForceGmaEligibilityExperimentVariant = 0x77B0608;
@@ -5622,7 +5661,7 @@ namespace FFlags {
         static constexpr uintptr_t TPKeyDecalUseSharedCode = 0x7E43F30;
         static constexpr uintptr_t InExperienceRealWorldCommerceUrlAllowlist = 0x77C8E30;
         static constexpr uintptr_t RemoteFunctionSingleInvocationSizeLimit = 0x7DC8E48;
-        static constexpr uintptr_t FriendsCarouselLoadedWithUsers = 0xFFFF823A858F78C0;
+        static constexpr uintptr_t FriendsCarouselLoadedWithUsers = 0xFFFF826602707E00;
         static constexpr uintptr_t StreamingSpawnPauseStatsThrottleHP = 0x7C0A0A0;
         static constexpr uintptr_t PerformanceControlLmkdPropertiesHundredthPercentageSent = 0x7E52BE8;
         static constexpr uintptr_t PerformanceControlEventIngestHundredthPercentageSent = 0x7E52B98;
@@ -5830,7 +5869,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlComputePrimaryTunableConfigDefaultStepsPerTurn = 0x77ED2A0;
         static constexpr uintptr_t UGCIsValidR15AnimationRigCheck = 0x7CC46D8;
         static constexpr uintptr_t PerformanceControlHeadroomHundredthsPct = 0x77ED250;
-        static constexpr uintptr_t StudioPlaceVersionHistoryHelpLink = 0xFFFF823A824405C0;
+        static constexpr uintptr_t StudioPlaceVersionHistoryHelpLink = 0xFFFF8265FF3905C0;
         static constexpr uintptr_t PerformanceControlFastEmaAlphaFrameWindow = 0x77ED198;
         static constexpr uintptr_t VideoAndroidHardwareTurnOnModelFilter = 0x7E37698;
         static constexpr uintptr_t AssetProviderDetailedFailureRendering = 0x7C498E8;
@@ -5877,7 +5916,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlTextureQualityExponentTenThousandths = 0x7E4FF88;
         static constexpr uintptr_t PerformanceControlDualSurfaceAppReduceMemoryUtility = 0x7E4FF38;
         static constexpr uintptr_t DebugLRCustomBwLimit = 0x7BFF998;
-        static constexpr uintptr_t ConversationPvBannerRenderedCounter = 0xFFFF823A82FBD680;
+        static constexpr uintptr_t ConversationPvBannerRenderedCounter = 0xFFFF8265FFDFD880;
         static constexpr uintptr_t RenderLocalLightFadeInMs = 0x77A3ED8;
         static constexpr uintptr_t VoiceSubscriberAudioQualityUpperThresholdDb = 0x77D9CB8;
         static constexpr uintptr_t UseHashMapForPendingTerrain = 0x7C0C538;
@@ -5994,13 +6033,13 @@ namespace FFlags {
         static constexpr uintptr_t FixGlyphProviderSizeDataMetrics = 0x7E4E298;
         static constexpr uintptr_t NoDragDetectorInSpanningTree = 0x7DC5C60;
         static constexpr uintptr_t CLI139085 = 0x7E367A8;
-        static constexpr uintptr_t AXMISExperimentLayerName = 0xFFFF823A855B15E0;
+        static constexpr uintptr_t AXMISExperimentLayerName = 0xFFFF8266023A1520;
         static constexpr uintptr_t VolumetricSteepnessNumerator = 0x77DACF0;
         static constexpr uintptr_t TextLayoutSetFontSizeDontFloorIfScaled = 0x7E4D380;
         static constexpr uintptr_t RLReceiveFailureDecryptionThreshold = 0x77DF9B8;
         static constexpr uintptr_t NumConcurrentBatchRefreshWorkflowsPerAssetProviderInstance = 0x77EB0B0;
         static constexpr uintptr_t SecureCdnEnrollHeaderValue = 0x77EB030;
-        static constexpr uintptr_t AndroidDeprecationBodyPhase2LocalizationKey = 0xFFFF823A8245B1E0;
+        static constexpr uintptr_t AndroidDeprecationBodyPhase2LocalizationKey = 0xFFFF8265FF38B180;
         static constexpr uintptr_t SecureCdnEnrollHeaderKey = 0x77EB010;
         static constexpr uintptr_t AddAssetTypeToARWorkflowEvents = 0x7E4D110;
         static constexpr uintptr_t AssetProviderRedirectCacheWriteFiberCount = 0x77EAF60;
@@ -6310,7 +6349,7 @@ namespace FFlags {
         static constexpr uintptr_t FRMLockstepIncludeClouds = 0x7E426B8;
         static constexpr uintptr_t PreloadContentRepresentationFormat = 0x77D3748;
         static constexpr uintptr_t UIShadowClampBlurRadius = 0x7E0D118;
-        static constexpr uintptr_t ConversationLearnMoreDialogRenderedCounter = 0xFFFF823A82FBED40;
+        static constexpr uintptr_t ConversationLearnMoreDialogRenderedCounter = 0xFFFF8265FFDFED00;
         static constexpr uintptr_t UITexturePerfTierHandleStudioQL = 0x7E42640;
         static constexpr uintptr_t FRMMigrateCloudsToPushModel = 0x7E42578;
         static constexpr uintptr_t DebugRakNetCrashEarlyWhenFailedToStopUpdateLoopGracefully = 0x7E35ED8;
@@ -6322,6 +6361,7 @@ namespace FFlags {
         static constexpr uintptr_t TranslationLocaleIdVerbose = 0x77C7C08;
         static constexpr uintptr_t drsScaleDownThresholdDiv100 = 0x77E94C0;
         static constexpr uintptr_t SlimReplicationParallelStepBatching = 0x77D7828;
+        static constexpr uintptr_t MomentsDebugModeAllowList = 0xFFFF8265FF6E0C00;
         static constexpr uintptr_t VideoEstimatedFramesInCodec = 0x77E3A68;
         static constexpr uintptr_t AutomaticDRS = 0x7E42468;
         static constexpr uintptr_t DebugStudioAssetProxyOverrides = 0x7D01FC8;
@@ -6331,7 +6371,7 @@ namespace FFlags {
         static constexpr uintptr_t ForceOffMSAAForQuestVR = 0x7E42400;
         static constexpr uintptr_t UgcLocaleFromGameJoinEnabled = 0x7DA4260;
         static constexpr uintptr_t RakPeerUseInstanceJobId = 0x7E35CD0;
-        static constexpr uintptr_t ClientToastNotificationsRedirectLayerName = 0xFFFF823A8236AEB0;
+        static constexpr uintptr_t ClientToastNotificationsRedirectLayerName = 0xFFFF8265FFEDAEB0;
         static constexpr uintptr_t IXPGraphicsOptimizationModeControlName = 0x77E9440;
         static constexpr uintptr_t ThumbnailTextureLoadTimeoutSecs = 0x779D628;
         static constexpr uintptr_t SimWorldTaskQueueParallelTasks = 0x77D06C8;
@@ -6502,7 +6542,7 @@ namespace FFlags {
         static constexpr uintptr_t RefreshLocksEnabled = 0x7DBE030;
         static constexpr uintptr_t LoadUncompressedRbxmCacheForOta = 0x7E39D70;
         static constexpr uintptr_t VideoWinHwEncoderFixFirstFrameMissing = 0x7E37598;
-        static constexpr uintptr_t ChatLandingSearchBtnClickedCounter = 0xFFFF823A824590E0;
+        static constexpr uintptr_t ChatLandingSearchBtnClickedCounter = 0xFFFF8265FF389350;
         static constexpr uintptr_t mi_option_page_max_candidates = 0x7821680;
         static constexpr uintptr_t SetIsServerInRakPeerConnect = 0x7E35DC8;
         static constexpr uintptr_t SlimScaleQuantizeMode = 0x7E0FEA8;
@@ -6541,7 +6581,7 @@ namespace FFlags {
         static constexpr uintptr_t MFTFirstKeyFrameIssueEventHundredthsPercent = 0x7E39240;
         static constexpr uintptr_t CoreStrengthIsImportant = 0x7CFEC90;
         static constexpr uintptr_t VideoWinHwEncoderUtilRefactorFriendlyName = 0x7E39118;
-        static constexpr uintptr_t FStringTimeoutLoadingLocalPlayerInBackgroundDM = 0xFFFF823A854B4A60;
+        static constexpr uintptr_t FStringTimeoutLoadingLocalPlayerInBackgroundDM = 0xFFFF826602284940;
         static constexpr uintptr_t DebugVideoWinHwEncoderNoPooling = 0x7E38F28;
         static constexpr uintptr_t UserFreecamTiltControl = 0x7DAA8B8;
         static constexpr uintptr_t RobloxStarterNetworkStarterModule = 0x778F918;
@@ -6699,7 +6739,7 @@ namespace FFlags {
         static constexpr uintptr_t IsrMetricsAggregateEventThrottleHP = 0x7C74258;
         static constexpr uintptr_t VideoFixEncryptedAlignment = 0x7E37568;
         static constexpr uintptr_t NetworkReportContentIdLimitIntervalSeconds = 0x7BFE680;
-        static constexpr uintptr_t ProfileQRPageFriendRequestBannerDismissed = 0xFFFF823A824ABCA0;
+        static constexpr uintptr_t ProfileQRPageFriendRequestBannerDismissed = 0xFFFF8265FF3FBED0;
         static constexpr uintptr_t SimEditableMemoryBudgetHigh = 0x77CA060;
         static constexpr uintptr_t WebrtcFrameTimeoutMs = 0x77DFB80;
         static constexpr uintptr_t DebugRealtimeMediaUseHwRenderer = 0x7E374E8;
@@ -6744,7 +6784,7 @@ namespace FFlags {
         static constexpr uintptr_t DisplaySizeMediumStartsAtMM = 0x77D52B0;
         static constexpr uintptr_t ResetDescendantDirtyFlagAfterChildrenViewportLayout = 0x7E060E8;
         static constexpr uintptr_t MaterialGeneratorHideTempMaterialVariants = 0x7DA9D28;
-        static constexpr uintptr_t FriendsLandingUserLoadedPageCounter = 0xFFFF823A858F70C0;
+        static constexpr uintptr_t FriendsLandingUserLoadedPageCounter = 0xFFFF826602707E80;
         static constexpr uintptr_t RakNetConnectionStartWindow_HundredthsPercentage = 0x7E37010;
         static constexpr uintptr_t RLReceiveFailurePacketManagementThreshold = 0x77DFA48;
         static constexpr uintptr_t LRPullTimeMicroSec = 0x779B280;
@@ -6795,7 +6835,7 @@ namespace FFlags {
         static constexpr uintptr_t DisableChatModerationModeSummarySuppression = 0x7C8D4D0;
         static constexpr uintptr_t WaitOnRecvFromLoopEndedMS = 0x77DF150;
         static constexpr uintptr_t RakNetNakResendDelayRttPercent = 0x7E36A68;
-        static constexpr uintptr_t ConversationIneligibleModalLearnMoreClickedCounter = 0xFFFF823A82FBD400;
+        static constexpr uintptr_t ConversationIneligibleModalLearnMoreClickedCounter = 0xFFFF8265FFDFD3C0;
         static constexpr uintptr_t EnableReportBindingNames = 0x7C76970;
         static constexpr uintptr_t VideoAdaptionResultMetrics = 0x7D73B80;
         static constexpr uintptr_t SkipNewGuidItemsClient = 0x7C07A28;
@@ -6855,7 +6895,7 @@ namespace FFlags {
         static constexpr uintptr_t UserFixCameraPanAfterShiftLock = 0x77CF030;
         static constexpr uintptr_t UserPlayerScriptsTapToMoveUsesIAS = 0x7DAB058;
         static constexpr uintptr_t NetworkCapBitReportPerMyriad = 0x7E35AD0;
-        static constexpr uintptr_t EditProfileOpened = 0xFFFF823A8584B420;
+        static constexpr uintptr_t EditProfileOpened = 0xFFFF82660267BA80;
         static constexpr uintptr_t UpdateAppPoliciesAfterFacialAgeEstimation = 0x7DC34F8;
         static constexpr uintptr_t RakNetMissingPingThresholdMs = 0x77DF250;
         static constexpr uintptr_t UGCValidateFullBodyZMaxClassic = 0x77B4D58;
@@ -6878,7 +6918,7 @@ namespace FFlags {
         static constexpr uintptr_t RaknetJoinOrDisconnectRequest = 0x77DF098;
         static constexpr uintptr_t WeakThreadRef = 0x77C8C90;
         static constexpr uintptr_t DebugRakNetConnectTracePrintRcsSystemAddress = 0x7E35740;
-        static constexpr uintptr_t FAEUpsellOverlayDeepLinkPattern = 0xFFFF823A855A9500;
+        static constexpr uintptr_t FAEUpsellOverlayDeepLinkPattern = 0xFFFF8266023994C0;
         static constexpr uintptr_t RakNetMissingPingPong = 0x77DF050;
         static constexpr uintptr_t NetworkTrace = 0x77DF030;
         static constexpr uintptr_t StylingTransitionsDefaultTransition = 0x7E33610;
@@ -6913,7 +6953,7 @@ namespace FFlags {
         static constexpr uintptr_t EnableInvalidateRobloxSubscriptionDetailsCacheOnChange = 0x7CE6608;
         static constexpr uintptr_t CsmConnectionManager = 0x77DC110;
         static constexpr uintptr_t DUARPassVREnabled = 0x7BEF248;
-        static constexpr uintptr_t ExpChatChatWithTFAmpNameSpace = 0xFFFF823A8582B9C0;
+        static constexpr uintptr_t ExpChatChatWithTFAmpNameSpace = 0xFFFF82660265BA80;
         static constexpr uintptr_t StreamingTerrainLodRadiusPercent3 = 0x779C0B0;
         static constexpr uintptr_t RccRealtimeRelay = 0x77DC058;
         static constexpr uintptr_t DisableInvalidateOnUnbind = 0x77C8BF0;
@@ -6963,7 +7003,7 @@ namespace FFlags {
         static constexpr uintptr_t SimDcdErrReproTelemetry = 0x7E2CFE0;
         static constexpr uintptr_t WhitelistedAssetIdsForSolidModeling = 0x77DB6F0;
         static constexpr uintptr_t ReportHangStatusThrottleHundredthPercent = 0x778F250;
-        static constexpr uintptr_t AppChatTcLearnMoreUrl = 0xFFFF823A824A5030;
+        static constexpr uintptr_t AppChatTcLearnMoreUrl = 0xFFFF8265FF3F5030;
         static constexpr uintptr_t ReportVREnabledEventThrottleHundrethsPercent3 = 0x7DC2EA0;
         static constexpr uintptr_t SimCsgMeshPartAsyncNone = 0x7E2CE78;
         static constexpr uintptr_t VoiceChatServiceMiscEventRateLimitDuration = 0x77D4240;
@@ -6996,7 +7036,7 @@ namespace FFlags {
         static constexpr uintptr_t AcousticSimulationFixUnorderedLazyInit = 0x7E19410;
         static constexpr uintptr_t SimCSGEnableSynchronousCommit = 0x7E2C910;
         static constexpr uintptr_t UserNoUpdateOnLoop = 0x77C9730;
-        static constexpr uintptr_t LinkedSourceMigratorUrl = 0xFFFF823A824403E0;
+        static constexpr uintptr_t LinkedSourceMigratorUrl = 0xFFFF8265FF3903E0;
         static constexpr uintptr_t SimDumpDcdLogFile = 0x7E2C888;
         static constexpr uintptr_t SimCSGCdecPerfTelemetryCompCount = 0x77DB690;
         static constexpr uintptr_t DebugExportObjUsesSolidMesh = 0x7E2C5F0;
@@ -7123,7 +7163,7 @@ namespace FFlags {
         static constexpr uintptr_t SoundInventorySnapshotPeriodSeconds = 0x77DA878;
         static constexpr uintptr_t BulletContactBreakThresholdPercent = 0x77D2508;
         static constexpr uintptr_t SlimEnableGameplayUploadCap = 0x7E0E568;
-        static constexpr uintptr_t ChromeBetaFeatureUrl = 0xFFFF823A82480A20;
+        static constexpr uintptr_t ChromeBetaFeatureUrl = 0xFFFF8265FF3C0A20;
         static constexpr uintptr_t EnableModifiedAudioTelemetry = 0x7E18CC0;
         static constexpr uintptr_t FilterEmptySoundTelemetrySession = 0x7E18C88;
         static constexpr uintptr_t SlimControllerACRRequestEventThrottleHundredthsPercent = 0x7C48890;
@@ -7234,7 +7274,7 @@ namespace FFlags {
         static constexpr uintptr_t VideoMetricsClientFlushIntervalMilliseconds = 0x77CF3F8;
         static constexpr uintptr_t PartyDataUpdateRateLimitCapacity = 0x77D43D8;
         static constexpr uintptr_t AvatarMemoryTrackingBugFix = 0x7C16010;
-        static constexpr uintptr_t DiscoverabilityUpsellNonPrefillDiscoverableUserIdsWhitelist = 0xFFFF823A82710BE0;
+        static constexpr uintptr_t DiscoverabilityUpsellNonPrefillDiscoverableUserIdsWhitelist = 0xFFFF8265FF710BE0;
         static constexpr uintptr_t VoiceChatStopFetchingAudioTimeoutSeconds = 0x77DA1C0;
         static constexpr uintptr_t DataModelJobDefensiveEngineContextCheck = 0x7DBAC48;
         static constexpr uintptr_t FixVector2int16WithFloatMult = 0x7CFE2F8;
@@ -7432,7 +7472,7 @@ namespace FFlags {
         static constexpr uintptr_t SlimSizeQuantizeBits = 0x77D7B18;
         static constexpr uintptr_t FaceAnimatorIncludeDisableToastEventPrompt = 0x7CC5C28;
         static constexpr uintptr_t SlimCFrameRotationQuantizeAbsolute = 0x77D7AB8;
-        static constexpr uintptr_t ChatLandingConversationClickedCounter = 0xFFFF823A823DB280;
+        static constexpr uintptr_t ChatLandingConversationClickedCounter = 0xFFFF8265FF76B240;
         static constexpr uintptr_t RbxTransportDummyClientPingStatsThrottleHP = 0x7C746C8;
         static constexpr uintptr_t BootcampCLI210530 = 0x7DC15E0;
         static constexpr uintptr_t SlimCFrameRotationQuantizeBits = 0x77D7AA0;
@@ -7471,7 +7511,7 @@ namespace FFlags {
         static constexpr uintptr_t SimUseWorldStepsPerFixedStep = 0x7DCC068;
         static constexpr uintptr_t SlimReplicateTransformsHierarchy = 0x7E0FB98;
         static constexpr uintptr_t SimConstraintDetailsBudgetCount = 0x77AE5A8;
-        static constexpr uintptr_t DynamicHeadCostumeExtraAssets = 0xFFFF823A82710F60;
+        static constexpr uintptr_t DynamicHeadCostumeExtraAssets = 0xFFFF8265FF710F60;
         static constexpr uintptr_t LocServiceUseTrimmedCoreScriptLocTable = 0x7DA4238;
         static constexpr uintptr_t ExpectedAccessoryPublishPriceRobux = 0x77C7238;
         static constexpr uintptr_t SlimDisablePivotInterpolationWhenModelStreamedIn = 0x7E0FB70;
@@ -7562,7 +7602,7 @@ namespace FFlags {
         static constexpr uintptr_t AuroraDebuggerUseNewHud = 0x7DBEBF8;
         static constexpr uintptr_t SlimEnableGarbageCollection = 0x7E0EF50;
         static constexpr uintptr_t TextChatTelemetryAddUniverseId = 0x7C8D328;
-        static constexpr uintptr_t ExpChatPresetChatIXPLayerName = 0xFFFF823A85885240;
+        static constexpr uintptr_t ExpChatPresetChatIXPLayerName = 0xFFFF8266026B5240;
         static constexpr uintptr_t SlimAssetFetchFlowCapacity = 0x7E0EEF0;
         static constexpr uintptr_t VideoCaptureClampToShortSide = 0x7D98BA0;
         static constexpr uintptr_t SlimAssetFetchFlowRatePerSecond = 0x7E0EEC8;
@@ -8006,7 +8046,7 @@ namespace FFlags {
         static constexpr uintptr_t ADS4948SendUniverseIdToEventStream = 0x7DDE140;
         static constexpr uintptr_t ClbCatalogAssetIds = 0x77C8E70;
         static constexpr uintptr_t VoxelizerReadLockMaxIters = 0x77AE688;
-        static constexpr uintptr_t SuppressMutedErrorKeys = 0xFFFF823A824F0B80;
+        static constexpr uintptr_t SuppressMutedErrorKeys = 0xFFFF8265FF430B80;
         static constexpr uintptr_t CLI46794SendToTelemetry = 0x7DDE118;
         static constexpr uintptr_t CharacterInfoThrottleHundredthsPercent = 0x7DDDF88;
         static constexpr uintptr_t PlayerLoadTimeEventsThrottleHundredthsPercent = 0x7DDDF28;
@@ -8059,7 +8099,7 @@ namespace FFlags {
         static constexpr uintptr_t UserResetTouchStateOnMenuOpen = 0x77C9598;
         static constexpr uintptr_t EnableUdmuxTokenProcessing = 0x7DD1828;
         static constexpr uintptr_t CollisionMeshCachingMaxRecorded = 0x7BFF960;
-        static constexpr uintptr_t ChromeServiceDefaultPins = 0xFFFF823A8245D820;
+        static constexpr uintptr_t ChromeServiceDefaultPins = 0xFFFF8265FF38DA60;
         static constexpr uintptr_t PlayersApiUsageTelemetryHundredthsPercent = 0x7DD1800;
         static constexpr uintptr_t DebugEnableBootcampPlugin = 0x7DA9BA0;
         static constexpr uintptr_t AvatarFetchRCCCacheMaxEntries = 0x77D48A0;
@@ -8140,7 +8180,7 @@ namespace FFlags {
         static constexpr uintptr_t CLI46794SendInputTelemetryHundredthsPercentage = 0x7DD0818;
         static constexpr uintptr_t UserFixOverlappingRtlChatMessages2 = 0x77C9988;
         static constexpr uintptr_t PlayerWrapCountReportPercent = 0x77D44C0;
-        static constexpr uintptr_t StudioPlayModeAllowedBuiltins = 0xFFFF823A825B0F80;
+        static constexpr uintptr_t StudioPlayModeAllowedBuiltins = 0xFFFF8265FF5B0F80;
         static constexpr uintptr_t LCImportOriginSnapbackThreshold = 0x77CB7A0;
         static constexpr uintptr_t MaxClientSimulationRadius = 0x77D4490;
         static constexpr uintptr_t MinClientSimulationRadius = 0x77D4478;
@@ -8225,7 +8265,7 @@ namespace FFlags {
         static constexpr uintptr_t TextureManager2Priority = 0x779EF38;
         static constexpr uintptr_t EnableDeeplinkAttributionAdNameTelemetry = 0x7BF4878;
         static constexpr uintptr_t ScreenProtocolCore = 0x77BD698;
-        static constexpr uintptr_t VoiceUpsellV2ExperimentLayerLua = 0xFFFF823A824580C0;
+        static constexpr uintptr_t VoiceUpsellV2ExperimentLayerLua = 0xFFFF8265FF388240;
         static constexpr uintptr_t NavigationClimbBoundingBoxDepth = 0x77D3618;
         static constexpr uintptr_t NavigationNoIntersectionOffsetPercetage = 0x77D3600;
         static constexpr uintptr_t NavigationRaycastHigherCostDetection = 0x7DCF708;
@@ -8490,7 +8530,7 @@ namespace FFlags {
         static constexpr uintptr_t NavigationHighComputePathTimeThresholdMsec = 0x77D1F38;
         static constexpr uintptr_t BuildCountourFailureCounterMaxPerSession = 0x77D1F20;
         static constexpr uintptr_t PathfindingHFBHighMemoryMaxPerSession = 0x77D1F08;
-        static constexpr uintptr_t ChatLandingScreenRenderedCounter = 0xFFFF823A82459260;
+        static constexpr uintptr_t ChatLandingScreenRenderedCounter = 0xFFFF8265FF389170;
         static constexpr uintptr_t CacheableContentProviderUsesRuntime = 0x7D03820;
         static constexpr uintptr_t DebugRunVideoVisibilityV1 = 0x7D881A8;
         static constexpr uintptr_t PathfindingLargeTileMaxPerSession = 0x77D1EF0;
@@ -8499,7 +8539,7 @@ namespace FFlags {
         static constexpr uintptr_t PathfindingStatsPerRequestThrottleHundrethsPercentPoints = 0x7DCA250;
         static constexpr uintptr_t DisableTtiExperiment2025MemoryMapRbxm = 0x7D07F28;
         static constexpr uintptr_t PathfindingStatsPerRequestThrottleHundrethsPercentEIPerRequest = 0x7DCA228;
-        static constexpr uintptr_t ChatDetailsAddFriendsBtnClickedCounter = 0xFFFF823A82FB8180;
+        static constexpr uintptr_t ChatDetailsAddFriendsBtnClickedCounter = 0xFFFF8265FFDF8200;
         static constexpr uintptr_t NetworkInProcessLimitGameplayMsRcc = 0x7C0CF58;
         static constexpr uintptr_t AddRomarkAnalyticsForPathfinding = 0x7DCA1A0;
         static constexpr uintptr_t SmoothFullscreenZoomDurationMs = 0x77B0530;
@@ -8531,7 +8571,7 @@ namespace FFlags {
         static constexpr uintptr_t NavigationVerticalDistanceLimit = 0x77D1DE8;
         static constexpr uintptr_t EnableCommerceGA = 0x7CE6318;
         static constexpr uintptr_t NavigationAgentHeight = 0x77D1CC0;
-        static constexpr uintptr_t ConversationPvDialogRenderedCounter = 0xFFFF823A82FBF080;
+        static constexpr uintptr_t ConversationPvDialogRenderedCounter = 0xFFFF8265FFDFDCC0;
         static constexpr uintptr_t NavigationAgentRadius = 0x77D1CA8;
         static constexpr uintptr_t NavigationSearchTileOffset = 0x77D1DD0;
         static constexpr uintptr_t PlayerShutdownLuaTimeoutSeconds = 0x77C8DD0;
@@ -8561,7 +8601,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugVoiceUseCountingAudioSink = 0x7DC9108;
         static constexpr uintptr_t LuauCodegenAggregateStatsEventCooldownSec = 0x77B85D0;
         static constexpr uintptr_t AECRingBufferSizeTenthsMs = 0x77D17D8;
-        static constexpr uintptr_t ShareLinkResolved = 0xFFFF823A8584A400;
+        static constexpr uintptr_t ShareLinkResolved = 0xFFFF82660267B450;
         static constexpr uintptr_t VideoUseRenderBufferResolutionConstraint = 0x7D73C48;
         static constexpr uintptr_t DebugAnimatingEverythingWire_dev = 0x7DC8B30;
         static constexpr uintptr_t VoiceChatEventReplicatorWrapperEnabled = 0x7DC9080;
@@ -8828,7 +8868,7 @@ namespace FFlags {
         static constexpr uintptr_t SimSolverFixStepPhysicsForHumanoidTC = 0x7DC5810;
         static constexpr uintptr_t TouchEventsUseCollisionGroupsPhase3 = 0x7DC5790;
         static constexpr uintptr_t RbxTransportMonotonicClockNetworkInitializedHundredthsPercentage = 0x7DC56F0;
-        static constexpr uintptr_t ChatDetailsRenderedCounter = 0xFFFF823A82459A10;
+        static constexpr uintptr_t ChatDetailsRenderedCounter = 0xFFFF8265FF389620;
         static constexpr uintptr_t PercentApiRequestsRecordGoogleAnalytics = 0x77CA160;
         static constexpr uintptr_t ReportRbxTransportTimeInitializationTelemetry = 0x7DC56B8;
         static constexpr uintptr_t AnimationLodInverseVisibilityMinLod1 = 0x77B2180;
@@ -8931,7 +8971,7 @@ namespace FFlags {
         static constexpr uintptr_t EnableStudioSubscriptionDetailCacheing = 0x7CE6630;
         static constexpr uintptr_t EnableTeleportInitFailedV2 = 0x7DC4518;
         static constexpr uintptr_t DeprecateLegacyGroupTeleportAnalytics = 0x7DC44F0;
-        static constexpr uintptr_t ResetLayoutWhenPreviousResetPriorToDate = 0xFFFF823A824539B0;
+        static constexpr uintptr_t ResetLayoutWhenPreviousResetPriorToDate = 0xFFFF8265FF3835C0;
         static constexpr uintptr_t DeprecateLegacyTeleportEphemeralCounters = 0x7DC44C8;
         static constexpr uintptr_t HeapProfilerMaxPayloadData = 0x77B8770;
         static constexpr uintptr_t UGCValidateTriangleLimitTorso = 0x77B4DE8;
@@ -8942,7 +8982,7 @@ namespace FFlags {
         static constexpr uintptr_t StreamingClientAddIntegrityMode3 = 0x7C012F0;
         static constexpr uintptr_t CLI191972GuiThrottleHundredthsPercentage = 0x7DC4428;
         static constexpr uintptr_t ReportThumbnailTypeToStat = 0x7D05690;
-        static constexpr uintptr_t UserSearchLoadingTimeFailedStats = 0xFFFF823A858F8240;
+        static constexpr uintptr_t UserSearchLoadingTimeFailedStats = 0xFFFF82660270A040;
         static constexpr uintptr_t CLI191972DataThrottleHundredthsPercentage = 0x7DC4400;
         static constexpr uintptr_t TM2OverrideUncompressedMajorVersion = 0x7C48C88;
         static constexpr uintptr_t StandalonePlaybackClientEnabled = 0x7DA16A8;
@@ -9078,7 +9118,7 @@ namespace FFlags {
         static constexpr uintptr_t ReportGamepadUsageEventThrottleHundrethsPercent = 0x7DC2400;
         static constexpr uintptr_t WheelEventUsageHundrethsPercent = 0x7DC23D8;
         static constexpr uintptr_t PreferredInputTouchDelayTimeSeconds = 0x77CF078;
-        static constexpr uintptr_t NewConversationCreatedCounter = 0xFFFF823A82459140;
+        static constexpr uintptr_t NewConversationCreatedCounter = 0xFFFF8265FF389020;
         static constexpr uintptr_t DerivedTouchSwipeVelocityThresholdSquared = 0x77CF048;
         static constexpr uintptr_t NewCameraControls = 0x7DC22C0;
         static constexpr uintptr_t SimEnableEditablePermissionCheck = 0x7D9EB38;
@@ -9087,7 +9127,7 @@ namespace FFlags {
         static constexpr uintptr_t ProcessEventQueueOnInput = 0x7DC2268;
         static constexpr uintptr_t ExpectedEmotePublishPriceRobux = 0x77C7250;
         static constexpr uintptr_t FindAssetUtilRefactorAppendSlashIfRequired = 0x7D011F8;
-        static constexpr uintptr_t ProfileQRCodeScannerOpened = 0xFFFF823A858F85C0;
+        static constexpr uintptr_t ProfileQRCodeScannerOpened = 0xFFFF826602708040;
         static constexpr uintptr_t Cli207746 = 0x7D098B8;
         static constexpr uintptr_t SignalSubserviceLogs = 0x77CF018;
         static constexpr uintptr_t LuaStartPagePreLaunchTeamCreate = 0x7DA9E20;
@@ -9281,7 +9321,7 @@ namespace FFlags {
         static constexpr uintptr_t ValidatePromptHoldDuration = 0x7DC0070;
         static constexpr uintptr_t PromptUIScalingFactor = 0x77CD9E8;
         static constexpr uintptr_t SmoothClusterFixDanglingMaterialTable = 0x7DBC3B0;
-        static constexpr uintptr_t ChatTranslationEnabledLocales = 0xFFFF823A82480DA0;
+        static constexpr uintptr_t ChatTranslationEnabledLocales = 0xFFFF8265FF3C0DA0;
         static constexpr uintptr_t SimRuntimeContentStorageImprove = 0x7DBFD80;
         static constexpr uintptr_t CaptureStorageFallCheckHttpUsageInOldCacheSize = 0x7DBFD58;
         static constexpr uintptr_t GraphicsTextureManager2DenyPattern = 0x779DC38;
@@ -9391,7 +9431,7 @@ namespace FFlags {
         static constexpr uintptr_t AuroraInputSimplerBuffer = 0x7DBE130;
         static constexpr uintptr_t AuroraInputRecorderCacheAbsoluteDir = 0x77CC670;
         static constexpr uintptr_t UITextureLowSingleTextureMemoryMB = 0x779E758;
-        static constexpr uintptr_t LuaErrorByPlatformCounter = 0xFFFF823A8584A700;
+        static constexpr uintptr_t LuaErrorByPlatformCounter = 0xFFFF82660267A310;
         static constexpr uintptr_t TextScraperReportUserIdSize = 0x77C8000;
         static constexpr uintptr_t DataStoreUseNewRateLimiterHeaders = 0x7DBE0A0;
         static constexpr uintptr_t DataStoreUpdateRequestQueuedWarningMsg = 0x7DBE078;
@@ -9477,7 +9517,7 @@ namespace FFlags {
         static constexpr uintptr_t MaxLogHistory = 0x77CB7D8;
         static constexpr uintptr_t LogServiceBatchProcessMessageIntervalSeconds = 0x77CB7C0;
         static constexpr uintptr_t RemoveAccoutrementIsLayeredClothingEnabledChecks = 0x7DBD588;
-        static constexpr uintptr_t CustomizedLandingExperienceSort = 0xFFFF823A855B43D0;
+        static constexpr uintptr_t CustomizedLandingExperienceSort = 0xFFFF8266023A4220;
         static constexpr uintptr_t KeepChildrenOverridesAfterUpdate = 0x7CA2CF0;
         static constexpr uintptr_t LCRigidConstraintSupport = 0x7DBD560;
         static constexpr uintptr_t LCLimitImportOriginOffsetBeforeDeformation = 0x7DBD500;
@@ -9533,7 +9573,7 @@ namespace FFlags {
         static constexpr uintptr_t AuroraRollback = 0x77CB480;
         static constexpr uintptr_t ServerAuthorityIgnoreSensorProperties = 0x7DBC7C0;
         static constexpr uintptr_t DontShowInvalidProximityPrompts = 0x7DBC6B8;
-        static constexpr uintptr_t BacktraceLogTags = 0xFFFF823A82559840;
+        static constexpr uintptr_t BacktraceLogTags = 0xFFFF8265FF4F9840;
         static constexpr uintptr_t StitchInstancesCheckDataModelOnFrameEnd = 0x7DBC620;
         static constexpr uintptr_t NetworkSchemaSupportsUserType = 0x7BFE4B8;
         static constexpr uintptr_t StitchNativeInstances = 0x7DBC5C0;
@@ -9687,7 +9727,7 @@ namespace FFlags {
         static constexpr uintptr_t AlternateChatKey13OrOverVng = 0x77C9E58;
         static constexpr uintptr_t TextChatInExperienceSafeChat = 0x7DABFA8;
         static constexpr uintptr_t LegacyChatStudioWarning = 0x7DABF80;
-        static constexpr uintptr_t HelpPageIxpLayer = 0xFFFF823A85554680;
+        static constexpr uintptr_t HelpPageIxpLayer = 0xFFFF826602344640;
         static constexpr uintptr_t CanUserChatPresetAsyncCalledThrottlePermyriad = 0x7DABF58;
         static constexpr uintptr_t TextChatReconcilePerPlayerRatelimit = 0x7DABEE0;
         static constexpr uintptr_t TextChatFilterAttributionB = 0x7DABE08;
@@ -9779,7 +9819,7 @@ namespace FFlags {
         static constexpr uintptr_t UserVRRotationUpdate = 0x77C9670;
         static constexpr uintptr_t UserVRCameraZoomFix = 0x77C9640;
         static constexpr uintptr_t FixCurveAnimationGarbageChannelData = 0x7CD5938;
-        static constexpr uintptr_t ConversationScreenRenderedCounter = 0xFFFF823A82459D70;
+        static constexpr uintptr_t ConversationScreenRenderedCounter = 0xFFFF8265FF389E00;
         static constexpr uintptr_t UserDynamicThumbstickMoveOverButtons2 = 0x77C9610;
         static constexpr uintptr_t UserDynamicThumbstickMoveOverButtons = 0x77C95F8;
         static constexpr uintptr_t UserUpdatePlayerScriptsTouchControlsEnabled = 0x77C9568;
@@ -9953,7 +9993,7 @@ namespace FFlags {
         static constexpr uintptr_t AvatarJointUpgradeReplaceBodyPartR15 = 0x7CDA250;
         static constexpr uintptr_t DynamicTranslationSenderMaxPlayerIntegrityListSize = 0x77C85D8;
         static constexpr uintptr_t HumanoidSimWorldReportPercentageHundredths = 0x7CDA0E8;
-        static constexpr uintptr_t StudioLuauLints = 0xFFFF823A824A0B70;
+        static constexpr uintptr_t StudioLuauLints = 0xFFFF8265FF3F0B70;
         static constexpr uintptr_t TextSafetyAnalyticsSenderMaxBytesPerSecondClient = 0x77C8508;
         static constexpr uintptr_t TextSafetyAnalyticsSenderRequeueFailedEntries = 0x7DA82A0;
         static constexpr uintptr_t TextSafetyAnalyticsSenderClientToServerSampleRateHundrethsPercent = 0x7DA81B0;
@@ -10044,7 +10084,7 @@ namespace FFlags {
         static constexpr uintptr_t InvalidStringAtomReportHundredthsPercentage = 0x77B94C8;
         static constexpr uintptr_t ExperienceStateDeltasVerboseDebug = 0x77C78F8;
         static constexpr uintptr_t EnableVideoGenService = 0x7CE8888;
-        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxLearnMoreClickedCounter = 0xFFFF823A824A23D0;
+        static constexpr uintptr_t ChatLandingUnfilteredThreadsFtuxLearnMoreClickedCounter = 0xFFFF8265FF3F23D0;
         static constexpr uintptr_t IsDMCTDataCenterBlocklistingEnabled = 0x7DA15F0;
         static constexpr uintptr_t DataModelChangeTrackingBlocklistedDataCenterIDs = 0x77C7840;
         static constexpr uintptr_t DMRecorderBatchOutputPath = 0x77C7820;
@@ -10093,7 +10133,7 @@ namespace FFlags {
         static constexpr uintptr_t EditableContentTypeThrottleHundredthsPercent = 0x7D9EAE8;
         static constexpr uintptr_t LsbOptimizeMax = 0x77BA2D8;
         static constexpr uintptr_t WhiteListedAssetIdForEdittingCommaSeparated = 0x77C72D0;
-        static constexpr uintptr_t UserSearchLoadingTimeNextPageFailedStats = 0xFFFF823A858F9280;
+        static constexpr uintptr_t UserSearchLoadingTimeNextPageFailedStats = 0xFFFF8266027096C0;
         static constexpr uintptr_t InExperienceCreation = 0x77C72A0;
         static constexpr uintptr_t TeleportV2InvocationsInfluxHundredthsPercentage = 0x7D9E538;
         static constexpr uintptr_t PromptImportAnimationClipFromVideoAsyncEnabled = 0x7D9EA30;
@@ -10226,7 +10266,7 @@ namespace FFlags {
         static constexpr uintptr_t VideoDebugUseHighestResolution = 0x7D73980;
         static constexpr uintptr_t VideoResolutionWorkaround = 0x7D73908;
         static constexpr uintptr_t UGCValidateRestrictAttachmentPositions = 0x7CDEC90;
-        static constexpr uintptr_t ConversationPvBannerActionClickedCounter = 0xFFFF823A82FBCB00;
+        static constexpr uintptr_t ConversationPvBannerActionClickedCounter = 0xFFFF8265FFDFD040;
         static constexpr uintptr_t VideoBufferForDecodeMs = 0x77C51D0;
         static constexpr uintptr_t VideoMaxDelayBeforePausingClockMs = 0x77C51B8;
         static constexpr uintptr_t VideoLoadedRemovalMinimumIntervalMs = 0x77B0560;
@@ -10246,7 +10286,7 @@ namespace FFlags {
         static constexpr uintptr_t HideLegacyForAll = 0x7C8DF20;
         static constexpr uintptr_t VideoCaptureSelfTestDontPersistTempFailures = 0x7D71848;
         static constexpr uintptr_t DebugVideoCaptureSelfTestKeepTempFile = 0x7D717D8;
-        static constexpr uintptr_t ConversationLearnMoreBannerActionClickedCounter = 0xFFFF823A82FBD840;
+        static constexpr uintptr_t ConversationLearnMoreBannerActionClickedCounter = 0xFFFF8265FFDFD9C0;
         static constexpr uintptr_t VideoCaptureSnapshotMinFrameTimeSecond = 0x77C4EC8;
         static constexpr uintptr_t VideoCaptureLegacyF12DurationMs = 0x77C4E98;
         static constexpr uintptr_t RealtimeMediaPresentationQueue = 0x7D3ED98;
@@ -10290,7 +10330,7 @@ namespace FFlags {
         static constexpr uintptr_t IXPPartyConversationPage = 0x77C1180;
         static constexpr uintptr_t IXPConsumerPlatformsIOSUIRefactor = 0x77C1100;
         static constexpr uintptr_t PartyCoordinationUnifyCoplayIxpLayer = 0x77C1080;
-        static constexpr uintptr_t ExternalUserPluginLoadDenyList = 0xFFFF823A858C47C0;
+        static constexpr uintptr_t ExternalUserPluginLoadDenyList = 0xFFFF8266026D47C0;
         static constexpr uintptr_t PartyCoordinationExperienceJoinIxpLayer = 0x77C1040;
         static constexpr uintptr_t PartyFormationCreateUserLayer = 0x77C1020;
         static constexpr uintptr_t InferredCrashReportBacktraceToken = 0x7791E90;
@@ -10325,7 +10365,7 @@ namespace FFlags {
         static constexpr uintptr_t KeyboardLayoutUsage_ReportHundredthsPercent = 0x7BE8220;
         static constexpr uintptr_t ISRMinVelocityPriorityComponentHundredth = 0x77ACAE0;
         static constexpr uintptr_t FallbackThumbnailColorAsString = 0x77BD5D0;
-        static constexpr uintptr_t ConversationMessageSentCounter = 0xFFFF823A8245A010;
+        static constexpr uintptr_t ConversationMessageSentCounter = 0xFFFF8265FF38A0D0;
         static constexpr uintptr_t DebugFallbackThumbnailUtilNoCache = 0x7D07270;
         static constexpr uintptr_t DebugFallbackThumbnailUseCheckers = 0x7D07248;
         static constexpr uintptr_t ContentProviderNumberOfCallbackFibers = 0x77BD5B8;
@@ -10407,7 +10447,7 @@ namespace FFlags {
         static constexpr uintptr_t RemoteEventSoundRateLimitMax = 0x779A430;
         static constexpr uintptr_t CLI210639 = 0x7D04D90;
         static constexpr uintptr_t SimRuntimeContentDisableUriConstructor = 0x7D04D40;
-        static constexpr uintptr_t JoinLinkHttpPattern = 0xFFFF823A82363E60;
+        static constexpr uintptr_t JoinLinkHttpPattern = 0xFFFF8265FFED3E60;
         static constexpr uintptr_t AnimationReplication = 0x77B1258;
         static constexpr uintptr_t OptimizeContentPropertyCheck = 0x7D04CC8;
         static constexpr uintptr_t PTREventThreshold = 0x779B720;
@@ -10583,7 +10623,7 @@ namespace FFlags {
         static constexpr uintptr_t TaskLibReportBadSynchronizeCall = 0x7D002E0;
         static constexpr uintptr_t TaskLibErrorBadDesynchronizeCall = 0x7D002B8;
         static constexpr uintptr_t EarlyReplicatorStatsMaxCount = 0x779A130;
-        static constexpr uintptr_t UGCLCAllowedAssetTypeIds = 0xFFFF823A825550C0;
+        static constexpr uintptr_t UGCLCAllowedAssetTypeIds = 0xFFFF8265FF4F50C0;
         static constexpr uintptr_t ParallelLuaStatsInfluxCooldownSec = 0x77BA438;
         static constexpr uintptr_t ParallelLuaStatsInfluxHundrethsPercentage = 0x77BA420;
         static constexpr uintptr_t StackTraceResolveScriptPath = 0x7D001C0;
@@ -10675,7 +10715,7 @@ namespace FFlags {
         static constexpr uintptr_t HeapProfilerCompressionLevel = 0x77B8740;
         static constexpr uintptr_t DebugPartialScriptResimulation = 0x7CFDF30;
         static constexpr uintptr_t DebugAuroraServiceRevertAddBindingForNextFixedStep = 0x7CFDF08;
-        static constexpr uintptr_t JoinGameCardViewProfileExperimentLayer = 0xFFFF823A855B3EC0;
+        static constexpr uintptr_t JoinGameCardViewProfileExperimentLayer = 0xFFFF8266023A4010;
         static constexpr uintptr_t DebugExperimentalAuroraServiceFrameUpdate = 0x7CFDEE0;
         static constexpr uintptr_t CapsEquipToolClient = 0x7CDA7D8;
         static constexpr uintptr_t AuroraScriptService = 0x77B8718;
@@ -10872,7 +10912,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugSimPrimalGenericInefficientSymmetrizeH = 0x7CF9F78;
         static constexpr uintptr_t DebugSimPrimalBundleConstraints = 0x7CF9F50;
         static constexpr uintptr_t DebugSimPrimalSymmetrizedHFormat = 0x7CF9F28;
-        static constexpr uintptr_t HomePageNavigationViewAllFriends = 0xFFFF823A82557240;
+        static constexpr uintptr_t HomePageNavigationViewAllFriends = 0xFFFF8265FF4F7240;
         static constexpr uintptr_t DebugSimPrimalComputeInitialStiffnessZeroInvMomForNonSimBody = 0x7CF9ED8;
         static constexpr uintptr_t TcClientReplicatorEarlyStatsEventsThrottle = 0x7BFFBF8;
         static constexpr uintptr_t DebugSimPrimalDualLinearToleranceNormalization = 0x7CF9EB0;
@@ -10880,7 +10920,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugSimPrimalStageSeparation = 0x7CF9E38;
         static constexpr uintptr_t DebugSimPrimalSkipFinalPositionDualUpdate = 0x7CF9E10;
         static constexpr uintptr_t DebugSimPrimalProfileLabels = 0x7CF9DE8;
-        static constexpr uintptr_t ChatDetailsLeaveGroupDialogRenderedCounter = 0xFFFF823A82FBFF40;
+        static constexpr uintptr_t ChatDetailsLeaveGroupDialogRenderedCounter = 0xFFFF8265FFDFFF00;
         static constexpr uintptr_t DebugSimPrimalConsistentPostSolvePositionIntegration = 0x7CF9DB0;
         static constexpr uintptr_t ReportTopReplicationContainerAndAvatarStatsHundredths = 0x7BFF4C8;
         static constexpr uintptr_t DebugSimPrimalLumpAccordingToDocumentation = 0x7CF9D88;
@@ -10952,7 +10992,7 @@ namespace FFlags {
         static constexpr uintptr_t GamePassOwnershipBatchingMaxSize = 0x77B7448;
         static constexpr uintptr_t GamePassInfoBatchingActivityCooldownMs = 0x77B7418;
         static constexpr uintptr_t GamePassInfoBatchingLongWindowMs = 0x77B73E8;
-        static constexpr uintptr_t FriendsLandingLoadingPageTimeStats = 0xFFFF823A858F7280;
+        static constexpr uintptr_t FriendsLandingLoadingPageTimeStats = 0xFFFF826602707B40;
         static constexpr uintptr_t GamePassInfoBatchingShortWindowMs = 0x77B73D0;
         static constexpr uintptr_t DeveloperSubscriptionInfoBatchingLongWindowMs = 0x77B7358;
         static constexpr uintptr_t DeveloperSubscriptionInfoBatchingShortWindowMs = 0x77B7340;
@@ -11152,7 +11192,7 @@ namespace FFlags {
         static constexpr uintptr_t FixPartParentedToCharacterModel = 0x7CE0308;
         static constexpr uintptr_t RobloxTelemetryAvatarEditorServiceItemDetailsBatchingAnalyticsThrottleHundredthsPercent = 0x77B5DE0;
         static constexpr uintptr_t UGCValidateArmYMinSlender = 0x77B45D8;
-        static constexpr uintptr_t SkyboxOrientationBetaFeatureUrl = 0xFFFF823A824F0480;
+        static constexpr uintptr_t SkyboxOrientationBetaFeatureUrl = 0xFFFF8265FF430480;
         static constexpr uintptr_t MinScaleSize = 0x77B5DB0;
         static constexpr uintptr_t LimitScale = 0x7CE0298;
         static constexpr uintptr_t LockFreeRigRetargetingKey = 0x7CC4818;
@@ -11201,12 +11241,12 @@ namespace FFlags {
         static constexpr uintptr_t UGCValidationUseFIntsInMakeupBounds = 0x7CDF4A8;
         static constexpr uintptr_t UGCValidateLipsUpperBoundV = 0x77B59B8;
         static constexpr uintptr_t UGCValidateLipsLowerBoundV = 0x77B5988;
-        static constexpr uintptr_t ConversationInfoBtnClickedCounter = 0xFFFF823A82459650;
+        static constexpr uintptr_t ConversationInfoBtnClickedCounter = 0xFFFF8265FF389EC0;
         static constexpr uintptr_t RecommendationLogImpressionEventThrottleHundredthsPercent = 0x77AC4C8;
         static constexpr uintptr_t UGCValidateRightEyeUpperBoundV = 0x77B5958;
         static constexpr uintptr_t UGCValidateRightEyeUpperBoundU = 0x77B5940;
         static constexpr uintptr_t UGCValidateLeftEyeLowerBoundV = 0x77B58C8;
-        static constexpr uintptr_t ChatLandingPvUpsellFailedCounter = 0xFFFF823A8245F230;
+        static constexpr uintptr_t ChatLandingPvUpsellFailedCounter = 0xFFFF8265FF38F410;
         static constexpr uintptr_t UGCValidateFaceMakeupRoughnessMapTextureLimit = 0x77B5880;
         static constexpr uintptr_t AddTimestampToChatMessage2 = 0x7DD1678;
         static constexpr uintptr_t UGCValidateFaceMakeupMetalnessMapTextureLimit = 0x77B5868;
@@ -11351,7 +11391,7 @@ namespace FFlags {
         static constexpr uintptr_t TerrainSdfHullThreshold100 = 0x77AE570;
         static constexpr uintptr_t DebugISRDisableTimeCappedOffsetDrift = 0x7C73CC0;
         static constexpr uintptr_t UGCValidateArmYMaxNormal = 0x77B4638;
-        static constexpr uintptr_t ConversationPvUpsellSucceededCounter = 0xFFFF823A82FBDF80;
+        static constexpr uintptr_t ConversationPvUpsellSucceededCounter = 0xFFFF8265FFDFDF40;
         static constexpr uintptr_t UGCValidateArmYMinNormal = 0x77B45F0;
         static constexpr uintptr_t UGCValidateArmXMaxNormal = 0x77B45A8;
         static constexpr uintptr_t UGCValidateArmXMaxClassic = 0x77B4578;
@@ -11516,7 +11556,7 @@ namespace FFlags {
         static constexpr uintptr_t AvatarAutoSetupJobRefactor = 0x7CDB6B0;
         static constexpr uintptr_t Photo2Avatar = 0x77B3760;
         static constexpr uintptr_t InExperienceAvatarCreation = 0x77B3750;
-        static constexpr uintptr_t VoiceUserAgencyIXPLayerName = 0xFFFF823A82456410;
+        static constexpr uintptr_t VoiceUserAgencyIXPLayerName = 0xFFFF8265FF3862F0;
         static constexpr uintptr_t InExpAvatarCreationEventsThrottleHundredthPercent = 0x7CDB5E0;
         static constexpr uintptr_t EnableGenerationServiceSchemaDefinition2 = 0x7CE8AA8;
         static constexpr uintptr_t ServerResetCharacterEvent = 0x7CDB590;
@@ -11524,7 +11564,7 @@ namespace FFlags {
         static constexpr uintptr_t HumanoidStateUseRuntimeSyncPrims = 0x7CDB3E8;
         static constexpr uintptr_t SeatWeldTimeout = 0x77B3738;
         static constexpr uintptr_t WaitForSeatWeld = 0x7CDB3B0;
-        static constexpr uintptr_t EdpPlayerFeedbackServiceRoute = 0xFFFF823A858F8A80;
+        static constexpr uintptr_t EdpPlayerFeedbackServiceRoute = 0xFFFF82660270ABC0;
         static constexpr uintptr_t SimDefaultHumanoidTimestepMultiplier = 0x7CDB360;
         static constexpr uintptr_t RBXASSERT_CLI155124_RolloutScale = 0x77B3720;
         static constexpr uintptr_t HumanoidReplicateSimulated2TurnOffLocalState = 0x7CDB2B0;
@@ -11541,7 +11581,7 @@ namespace FFlags {
         static constexpr uintptr_t AvatarChatServiceFeaturesReplicationTimeoutMs = 0x77B36A8;
         static constexpr uintptr_t AvatarChatServiceClientFeaturesCacheSize = 0x77B3690;
         static constexpr uintptr_t AvatarChatServiceExposeUserVerifiedForVoiceMock = 0x7CDAE10;
-        static constexpr uintptr_t CountriesWithGenericIllegalContentReporting2 = 0xFFFF823A82482690;
+        static constexpr uintptr_t CountriesWithGenericIllegalContentReporting2 = 0xFFFF8265FF3C2690;
         static constexpr uintptr_t AvatarChatServiceFixClientFeaturesCacheLeakV2 = 0x7CDADE8;
         static constexpr uintptr_t AvatarChatServiceExposeUserVerifiedForVoiceV2 = 0x7CDADC0;
         static constexpr uintptr_t AvatarChatProtocolDebugV1 = 0x7CDAD90;
@@ -11564,7 +11604,7 @@ namespace FFlags {
         static constexpr uintptr_t FixDMWriteAssertInFilterNetworkHumanoidStateCallback = 0x7CDA550;
         static constexpr uintptr_t FixISROffClientsIgnoreHumanoidStateUpdatesFromISROnServer = 0x7CDA528;
         static constexpr uintptr_t ForceFlattenR15PlusHead = 0x7CDA478;
-        static constexpr uintptr_t RevampedAssetManagerReleaseBetaFeatureUrl = 0xFFFF823A82441B20;
+        static constexpr uintptr_t RevampedAssetManagerReleaseBetaFeatureUrl = 0xFFFF8265FF391B20;
         static constexpr uintptr_t AvatarR15PlusAccoutrementAttachmentAncestor = 0x7CDA3F0;
         static constexpr uintptr_t AvatarJointUpgradeR15Plus = 0x7CDA3C8;
         static constexpr uintptr_t DebugDisableVoxelGridSendFragmentToClient = 0x7C821A0;
@@ -11605,13 +11645,13 @@ namespace FFlags {
         static constexpr uintptr_t AnimGraphMaxAttributeKeyLength = 0x77B2D70;
         static constexpr uintptr_t AnimGraphEnforceLimits = 0x7CD8378;
         static constexpr uintptr_t AnimGraphPoolLoopedEvents = 0x7CD7FF8;
-        static constexpr uintptr_t TextureGenerator2BetaFeatureUrl = 0xFFFF823A824A1B10;
+        static constexpr uintptr_t TextureGenerator2BetaFeatureUrl = 0xFFFF8265FF3F1B10;
         static constexpr uintptr_t UITextureGCFrameCount = 0x779E908;
         static constexpr uintptr_t AnimGraphZeroDurationClipFix = 0x7CD7FD0;
         static constexpr uintptr_t CompositeValueCurveEnabled = 0x7CD59D8;
         static constexpr uintptr_t CLI48770 = 0x7CD57F8;
         static constexpr uintptr_t AnimationLodFacsVisibilityDenominator = 0x77B2C80;
-        static constexpr uintptr_t RM3Tier0ConfigServiceApiEndpoint = 0xFFFF823A8572E140;
+        static constexpr uintptr_t RM3Tier0ConfigServiceApiEndpoint = 0xFFFF82660255E140;
         static constexpr uintptr_t AnimationLodFacsVisibilityMin = 0x77B2C50;
         static constexpr uintptr_t AnimationLodFacsDistanceMax = 0x77B2C38;
         static constexpr uintptr_t ReactiveJoinMaxRetries = 0x77921B8;
@@ -11745,7 +11785,7 @@ namespace FFlags {
         static constexpr uintptr_t StreamingReportPerformanceStatsAverageLerpValueThousands = 0x779A0D0;
         static constexpr uintptr_t AnimationGraphTelemetry = 0x7CC4D28;
         static constexpr uintptr_t IncludeAnimationServerAuthrityFields = 0x7CC4D00;
-        static constexpr uintptr_t ChatLandingComposeBtnClickedCounter = 0xFFFF823A823DB0C0;
+        static constexpr uintptr_t ChatLandingComposeBtnClickedCounter = 0xFFFF8265FF76B080;
         static constexpr uintptr_t ReportRobustRetargetingUsedOnlyWhenDataExists = 0x7CC4CB0;
         static constexpr uintptr_t ReportSystemIdleTime2 = 0x7DD0CA8;
         static constexpr uintptr_t MaxActiveAnimationTracksWithWeightThreshold = 0x77B1488;
@@ -11757,7 +11797,7 @@ namespace FFlags {
         static constexpr uintptr_t AnimationRigIsValidR15MaxSize = 0x77B1470;
         static constexpr uintptr_t StudioFixPluginPlayModeBreakpoints2 = 0x7D00790;
         static constexpr uintptr_t PrebuiltR15MatchingIgnoreBones = 0x7CC4840;
-        static constexpr uintptr_t ChatLandingNotifBtnClickedCounter = 0xFFFF823A82459080;
+        static constexpr uintptr_t ChatLandingNotifBtnClickedCounter = 0xFFFF8265FF3890B0;
         static constexpr uintptr_t UseRigAttachmentsForMotorPrePost = 0x7CC47F0;
         static constexpr uintptr_t MultipleKinematicParentsWarning = 0x7CC4778;
         static constexpr uintptr_t RM3ScreenshotResize2 = 0x7C759A8;
@@ -11769,7 +11809,7 @@ namespace FFlags {
         static constexpr uintptr_t AnimationRigMaxStringSize = 0x77B13D8;
         static constexpr uintptr_t AnimUtilityCleanup = 0x7CBF018;
         static constexpr uintptr_t FIX_CLI201782 = 0x7CBEA10;
-        static constexpr uintptr_t DeprecateLegacyTelemetryCountersDenyList = 0xFFFF823A85749E00;
+        static constexpr uintptr_t DeprecateLegacyTelemetryCountersDenyList = 0xFFFF826602579E60;
         static constexpr uintptr_t AnimatorJointPrefetchLookahead = 0x77B1268;
         static constexpr uintptr_t AnimatorUseRuntimeSyncPrims = 0x7CBE960;
         static constexpr uintptr_t ReportMaxOfActiveAnimatorTracksByType = 0x7CBE938;
@@ -11799,7 +11839,7 @@ namespace FFlags {
         static constexpr uintptr_t SystemInfoProtocolInfluxPriorityHundredthsPercentage = 0x7BF97A8;
         static constexpr uintptr_t MaxActiveAnimationTracks = 0x77B11D0;
         static constexpr uintptr_t AnimatorThrottleRccFramesToSkip = 0x7CBE300;
-        static constexpr uintptr_t AppChatAvatarPresenceIxpLayer = 0xFFFF823A855BFE60;
+        static constexpr uintptr_t AppChatAvatarPresenceIxpLayer = 0xFFFF8266023AFCE0;
         static constexpr uintptr_t AnimatorResetRigOnRemoved = 0x7CBE228;
         static constexpr uintptr_t ServerJoinRejectCountHundredthPercentageSent = 0x7C06580;
         static constexpr uintptr_t AnimatorAnywhere = 0x7CBE200;
@@ -11822,7 +11862,7 @@ namespace FFlags {
         static constexpr uintptr_t ODARefreshIntervalMs = 0x77B0980;
         static constexpr uintptr_t ValidateClientAdCampaignEligibilityResponseErrorEventThrottleHundrethsPercent = 0x7CB6EE0;
         static constexpr uintptr_t ImmersiveBrandedAdCampaignEligibilityCacheMaxSize = 0x77B08C8;
-        static constexpr uintptr_t CursorGroupHelp = 0xFFFF823A82480BE0;
+        static constexpr uintptr_t CursorGroupHelp = 0xFFFF8265FF3C0BE0;
         static constexpr uintptr_t ImmersiveBrandedAdCampaignEligibilityClientResponseTimeoutMs = 0x77B08B0;
         static constexpr uintptr_t SimEditableMeshQuads2 = 0x7DCFD88;
         static constexpr uintptr_t ImmersiveBrandedAdsClientImpl = 0x77B0870;
@@ -11872,7 +11912,7 @@ namespace FFlags {
         static constexpr uintptr_t DebugRewardedAdsSkipEligibilityCheck = 0x7CB4750;
         static constexpr uintptr_t ImmersiveAdPerfDataEventThrottleHundredthsPercent = 0x7CB4718;
         static constexpr uintptr_t EnableIRCStudioBeta2 = 0x7E0E170;
-        static constexpr uintptr_t ExplorerFilterHelpUrl = 0xFFFF823A82440AA0;
+        static constexpr uintptr_t ExplorerFilterHelpUrl = 0xFFFF8265FF390AA0;
         static constexpr uintptr_t AdsSessionReadyAdditionalDelayMilliseconds = 0x7CB46F0;
         static constexpr uintptr_t LuaAppInteractiveOrFireAfterDelayMilliseconds = 0x77B0170;
         static constexpr uintptr_t CLI192151TruncationLength = 0x77B0148;
@@ -12209,7 +12249,7 @@ namespace FFlags {
         static constexpr uintptr_t NetworkSchemaCompressionRatio = 0x779AEA0;
         static constexpr uintptr_t RbxTransportDummyServer = 0x77ACED8;
         static constexpr uintptr_t RbxTransportDummyClientReportPubKeyOnQuicError = 0x7C748F0;
-        static constexpr uintptr_t ConversationLearnMoreDialogDismissedCounter = 0xFFFF823A82FBEB80;
+        static constexpr uintptr_t ConversationLearnMoreDialogDismissedCounter = 0xFFFF8265FFDFEB40;
         static constexpr uintptr_t RbxTransportDummyClientReportConnectionStatsThrottleHP = 0x7C748A0;
         static constexpr uintptr_t RbxTransportDummyClientNetworkEmulationRecvLatencyMs = 0x7C74760;
         static constexpr uintptr_t RbxTransportDummyClientNetworkEmulationSendLatencyMs = 0x7C74738;
@@ -12294,7 +12334,7 @@ namespace FFlags {
         static constexpr uintptr_t TerrainOTAMaxTextureSize = 0x77ABC90;
         static constexpr uintptr_t DebugDisableSmoothClusterGrassOcclusionCullingTest = 0x7C51FB8;
         static constexpr uintptr_t GrassLengthCustomization_FRMDensityScaling_LowerBound = 0x77ABC78;
-        static constexpr uintptr_t ChatLandingPvUpsellRenderedCounter = 0xFFFF823A8245F440;
+        static constexpr uintptr_t ChatLandingPvUpsellRenderedCounter = 0xFFFF8265FF38F620;
         static constexpr uintptr_t GrassLengthCustomization_FRMDensityScaling_UpperBound = 0x77ABC60;
         static constexpr uintptr_t FixGrassQuantizeCrash = 0x7C51F70;
         static constexpr uintptr_t GrassMovementReducedMotionFactor = 0x77ABC48;
@@ -12495,7 +12535,7 @@ namespace FFlags {
         static constexpr uintptr_t HighlightsFixAncestorChanges = 0x7C3D3B0;
         static constexpr uintptr_t DebugRenderMeshForceLod = 0x77A3BE0;
         static constexpr uintptr_t ExtrapolateLODDistanceBuffer = 0x7C3D318;
-        static constexpr uintptr_t CapturesShareToastButtonActivated = 0xFFFF823A858F8340;
+        static constexpr uintptr_t CapturesShareToastButtonActivated = 0xFFFF8266027087C0;
         static constexpr uintptr_t SDFSpread = 0x77A3BA0;
         static constexpr uintptr_t SDFBitmapFallbackThreshold = 0x77A3B88;
         static constexpr uintptr_t SDFDenyList = 0x77A3B50;
@@ -12949,7 +12989,7 @@ namespace FFlags {
         static constexpr uintptr_t AdjustMixedPriorityGroup1Count = 0x779B7E0;
         static constexpr uintptr_t FairMixedPriorityAsymptoteMultDeltaTime = 0x779B7C8;
         static constexpr uintptr_t PTREventWindow = 0x779B738;
-        static constexpr uintptr_t UserSearchLoadingTimeNextPageDoneStats = 0xFFFF823A858F90C0;
+        static constexpr uintptr_t UserSearchLoadingTimeNextPageDoneStats = 0xFFFF826602709B40;
         static constexpr uintptr_t PTRPacketTolerance = 0x779B708;
         static constexpr uintptr_t DisconnectOnISRSendThrow = 0x7C08008;
         static constexpr uintptr_t TeamCreateMeansTeamCreateReportHundredths = 0x7C07D78;
@@ -12959,7 +12999,7 @@ namespace FFlags {
         static constexpr uintptr_t ServerAuthorityFilterClientSideStrict = 0x7C07CD8;
         static constexpr uintptr_t NetworkFilterCli194709 = 0x7C07CB0;
         static constexpr uintptr_t RemoteDebuggingOpenScriptSource2 = 0x7D00730;
-        static constexpr uintptr_t ProfileQRPageFriendRequestBannerAccepted = 0xFFFF823A824ABB60;
+        static constexpr uintptr_t ProfileQRPageFriendRequestBannerAccepted = 0xFFFF8265FF3FBD90;
         static constexpr uintptr_t NetworkFilterRejectSandboxedToolReparentHundredthsPercentage = 0x7C07C88;
         static constexpr uintptr_t NetworkFilterRejectSandboxedToolReparent = 0x7C07C38;
         static constexpr uintptr_t RemoveNetworkFilterLegacyParentExceptions = 0x7C07C10;
@@ -13019,7 +13059,7 @@ namespace FFlags {
         static constexpr uintptr_t RbxTransportReplicationRecvPacketLossHundredthsPercent = 0x7C05F50;
         static constexpr uintptr_t LrPullSystemCloudEdit = 0x7C05EC8;
         static constexpr uintptr_t WindowsIMESupportHighlight = 0x7BE8248;
-        static constexpr uintptr_t ContactImportModalPageLoadCounter = 0xFFFF823A858F7B80;
+        static constexpr uintptr_t ContactImportModalPageLoadCounter = 0xFFFF826602708200;
         static constexpr uintptr_t PacketsPerHop = 0x779B250;
         static constexpr uintptr_t ISRImproveReplicationToNetworkOwnerCheck = 0x7C05820;
         static constexpr uintptr_t NetworkJobUseParallelFor = 0x7C057F8;
@@ -13063,7 +13103,7 @@ namespace FFlags {
         static constexpr uintptr_t LrNetAssetPropertyLookup = 0x7C03E58;
         static constexpr uintptr_t DebugLrCacheCategoryMax = 0x7C03E30;
         static constexpr uintptr_t DebugDisableEngineNetConfigInvalidAccessCrash = 0x7C03DE0;
-        static constexpr uintptr_t OpenCloudSupportedMethodNamesCsv = 0xFFFF823A826F0D40;
+        static constexpr uintptr_t OpenCloudSupportedMethodNamesCsv = 0xFFFF8265FF6F0D40;
         static constexpr uintptr_t SchemaNetworkStreamSize = 0x779AED8;
         static constexpr uintptr_t GetDiskUsageSamplingPercent = 0x7790060;
         static constexpr uintptr_t IntegrateSendInPeer = 0x7C03B50;
@@ -13363,7 +13403,7 @@ namespace FFlags {
         static constexpr uintptr_t PlatformQoSEmergencyType = 0x7BF4660;
         static constexpr uintptr_t PlatformQoSEmergencyRolloutHundrethsPercent = 0x7BF4638;
         static constexpr uintptr_t StatusFileManagerLogV2 = 0x7792C08;
-        static constexpr uintptr_t NewUserExperimentLayer = 0xFFFF823A82363950;
+        static constexpr uintptr_t NewUserExperimentLayer = 0xFFFF8265FFED3950;
         static constexpr uintptr_t AudioFocusManager = 0x7792BE0;
         static constexpr uintptr_t PerformanceControlService = 0x7792BD0;
         static constexpr uintptr_t PCSCEVFeasibilityCounter = 0x7BF43C8;
@@ -13417,7 +13457,7 @@ namespace FFlags {
         static constexpr uintptr_t PerformanceControlIXPFlagsExposureManufacturerCheckCsv = 0x7791890;
         static constexpr uintptr_t PerformanceControlIXPFlagsExposureHardwareCheck = 0x7791870;
         static constexpr uintptr_t FinalizedCrossExpVoiceMemoryMB = 0x7791858;
-        static constexpr uintptr_t AEGIS1AgeVerifiedRealtimeNamespace = 0xFFFF823A854BF320;
+        static constexpr uintptr_t AEGIS1AgeVerifiedRealtimeNamespace = 0xFFFF82660228FB60;
         static constexpr uintptr_t PerformanceControlUtil = 0x7791848;
         static constexpr uintptr_t ScreenTimeImplPollingIntervalSeconds = 0x7791818;
         static constexpr uintptr_t ComponentManagerAddCreationGraph2 = 0x7E4F1C0;
@@ -13697,7 +13737,7 @@ namespace FFlags {
         static constexpr uintptr_t AllowUncompressedDecalTPGen3 = 0x81118C8;
         static constexpr uintptr_t IgnoreWriteLockInParallelLua2 = 0x80FFEF0;
         static constexpr uintptr_t SimDcdDeltaReplication3 = 0x80FDE70;
-        static constexpr uintptr_t ExperienceGuidelinesExplainedPageUrl = 0xFFFF823A824A2DD0;
+        static constexpr uintptr_t ExperienceGuidelinesExplainedPageUrl = 0xFFFF8265FF3F2DD0;
         static constexpr uintptr_t SimClampInertiaOnRead3 = 0x80FDE00;
         static constexpr uintptr_t SimCSGUpgradePartOperationAssetWrite2 = 0x80F4288;
         static constexpr uintptr_t ExtraObserverNetworkStats2 = 0x7C11690;
@@ -13799,7 +13839,7 @@ namespace FFlags {
         static constexpr uintptr_t SimImprovedAnimationConstraintRollout2 = 0x7DC59B0;
         static constexpr uintptr_t CLI191972Gui2 = 0x7DC4340;
         static constexpr uintptr_t DebugCLI191972Data2 = 0x7DC4308;
-        static constexpr uintptr_t StudioInfiniteRadiusIxpLayerCreatorId = 0xFFFF823A857CF0C0;
+        static constexpr uintptr_t StudioInfiniteRadiusIxpLayerCreatorId = 0xFFFF8266025FF040;
         static constexpr uintptr_t CLI191972Setting2 = 0x7DC4260;
         static constexpr uintptr_t EnableIrisRerouteToRCC2 = 0x7DC3DB8;
         static constexpr uintptr_t EnablePartyDevAPI4 = 0x7DC3C80;
@@ -13880,7 +13920,7 @@ namespace FFlags {
         static constexpr uintptr_t KeepGmaAliveAfterDmShutdown2 = 0x7CB4308;
         static constexpr uintptr_t TextChatUseV2AllocateChannel2 = 0x7CA8CD0;
         static constexpr uintptr_t IAS_InstancePointersHoldAcrossReplication3 = 0x7CA2748;
-        static constexpr uintptr_t ChatLandingGroupsBtnClicked = 0xFFFF823A8245D730;
+        static constexpr uintptr_t ChatLandingGroupsBtnClicked = 0xFFFF8265FF38D6A0;
         static constexpr uintptr_t UseMeshScaleInVoxelizer2 = 0x7DCD278;
         static constexpr uintptr_t SCMGetCompatibilityTokens3 = 0x7C91270;
         static constexpr uintptr_t EnableExpChatSummarySetting2 = 0x7C8DB88;
@@ -13918,7 +13958,7 @@ namespace FFlags {
         static constexpr uintptr_t SendMeshTTMQTelemetry2 = 0x7C3D378;
         static constexpr uintptr_t RenderEditInPlace2 = 0x7C3D2A8;
         static constexpr uintptr_t OCUseDeferredFeedback3 = 0x7C1AD50;
-        static constexpr uintptr_t FStringPartyPageCarouselExpLayer = 0xFFFF823A854B9AA0;
+        static constexpr uintptr_t FStringPartyPageCarouselExpLayer = 0xFFFF826602289C20;
         static constexpr uintptr_t PerformanceControlTextureManager2Integrated4 = 0x7C1A238;
         static constexpr uintptr_t TexturePacksStreamableContent3 = 0x7C1A110;
         static constexpr uintptr_t RenderClusterOctreeFixAlwaysOnTop2 = 0x7C19B28;
@@ -13930,7 +13970,7 @@ namespace FFlags {
         static constexpr uintptr_t SolverV2EnableObserverStatsReport674 = 0x7C11648;
         static constexpr uintptr_t ReportTypeBandwidthStatsInterval1 = 0x7BFFFD8;
         static constexpr uintptr_t CheckAndSendServerStreamingMetaInfoRefactor2 = 0x7C0C378;
-        static constexpr uintptr_t PlayerScriptCapabilities = 0xFFFF823A82710240;
+        static constexpr uintptr_t PlayerScriptCapabilities = 0xFFFF8265FF710240;
         static constexpr uintptr_t SDIRefactor4 = 0x7C0C150;
         static constexpr uintptr_t FrustumStreamingVerificationStats2 = 0x7C0A3F0;
         static constexpr uintptr_t InvalidFocusHandling2 = 0x7C0A3B8;
@@ -13965,121 +14005,121 @@ namespace FFlags {
         static constexpr uintptr_t WinBackgroundDownloadUpdates2 = 0x7BD70F8;
         static constexpr uintptr_t EnableSystrayDev5 = 0x7BD69A8;
         static constexpr uintptr_t RemoveWebClickELTStartMilestoneAdj2 = 0x7BD6120;
-        static constexpr uintptr_t AndroidDeprecationLoggingEventName = 0xFFFF823A8245B0C0;
-        static constexpr uintptr_t CoreScriptBacktraceErrorUploadToken = 0xFFFF823A82440440;
-        static constexpr uintptr_t ChatLandingPvUpsellContinueClickedCounter = 0xFFFF823A82FBCFC0;
-        static constexpr uintptr_t AudioVolumetricSoundsBetaFeatureUrl = 0xFFFF823A82440B60;
-        static constexpr uintptr_t AXCategories = 0xFFFF823A826E0600;
-        static constexpr uintptr_t CrashpadUploadToBacktraceAndroidPlayerToken = 0xFFFF823A82440DA0;
-        static constexpr uintptr_t StudioSunsetMac1012LearnMoreLink = 0xFFFF823A824604E0;
-        static constexpr uintptr_t FriendsCarouselRequestFriendship = 0xFFFF823A82556580;
-        static constexpr uintptr_t FriendsCarouselRevokeFriendRequest = 0xFFFF823A825563C0;
-        static constexpr uintptr_t FriendsCarouselUserPressed = 0xFFFF823A82557080;
-        static constexpr uintptr_t AllFriendsNextPageCarouselLoadingTimeDoneStats = 0xFFFF823A824ABC50;
-        static constexpr uintptr_t StudioPackagesDynamicIgnoreList = 0xFFFF823A824548E0;
-        static constexpr uintptr_t ConversationPvUpsellFailedCounter = 0xFFFF823A8245FAA0;
-        static constexpr uintptr_t ChatEmptyStateScreenRenderedCounter = 0xFFFF823A82FB8100;
-        static constexpr uintptr_t AvatarChatSettingsAudioLink = 0xFFFF823A824A0CB0;
-        static constexpr uintptr_t ChatTranslationLayerName = 0xFFFF823A82455180;
-        static constexpr uintptr_t LuaAppExploreApiSupportedSortNames = 0xFFFF823A82761880;
-        static constexpr uintptr_t BlackbirdUpsellHiddenRequestTypes2 = 0xFFFF823A85849350;
-        static constexpr uintptr_t IOSNotchExperimentPlaceBlocklist = 0xFFFF823A82790A80;
-        static constexpr uintptr_t EasierUnmutingIXPLayerValueTCS = 0xFFFF823A82458150;
-        static constexpr uintptr_t AXDefaultAvatarToShopLayer3 = 0xFFFF823A82458270;
-        static constexpr uintptr_t ChatLandingPvUpsellDismissedCounter = 0xFFFF823A82FBCBC0;
-        static constexpr uintptr_t UXForCameraPerformanceIXPLayerName = 0xFFFF823A82458510;
-        static constexpr uintptr_t ReturningUserExperimentLayer = 0xFFFF823A82363A70;
-        static constexpr uintptr_t LuaGameInviteMenuLayer = 0xFFFF823A824A1890;
-        static constexpr uintptr_t ConversationSendBtnClickedCounter = 0xFFFF823A82459EF0;
-        static constexpr uintptr_t PresencePropagationDelayMetricName = 0xFFFF823A823DE000;
-        static constexpr uintptr_t MaterialPickerBetaFeatureUrl = 0xFFFF823A82480F60;
-        static constexpr uintptr_t LandingVideoAsset = 0xFFFF823A8245D010;
-        static constexpr uintptr_t WebviewUrlAllowlist = 0xFFFF823A8245D880;
-        static constexpr uintptr_t MicrophoneDevicePermissionsLoggingEventName = 0xFFFF823A82FB7440;
-        static constexpr uintptr_t ChatAddFriendsBtnClickedCounter = 0xFFFF823A8245E900;
-        static constexpr uintptr_t ConversationUpgradeDialogRenderedCounter = 0xFFFF823A82FBEAC0;
-        static constexpr uintptr_t VNGWebshopUrl = 0xFFFF823A82FBCC80;
-        static constexpr uintptr_t ChatLandingPvUpsellSucceededCounter = 0xFFFF823A82FBBD40;
-        static constexpr uintptr_t ConversationIneligibleModalLeftGroupCounter = 0xFFFF823A82FBD5C0;
-        static constexpr uintptr_t ConversationPvUpsellContinueClickedCounter = 0xFFFF823A82FBD980;
-        static constexpr uintptr_t ConversationPvUpsellLeftGroupCounter = 0xFFFF823A82FBDC00;
-        static constexpr uintptr_t ConversationPvUpsellRenderedCounter = 0xFFFF823A82FBDDC0;
-        static constexpr uintptr_t ConversationLearnMoreBannerRenderedCounter = 0xFFFF823A82FBD4C0;
-        static constexpr uintptr_t ConversationUpgradeBannerActionClickedCounter = 0xFFFF823A82FBD380;
-        static constexpr uintptr_t ConversationUpgradeBannerRenderedCounter = 0xFFFF823A82FBE100;
-        static constexpr uintptr_t ConversationUpgradeDialogActionClickedCounter = 0xFFFF823A82FBEF00;
-        static constexpr uintptr_t ConversationUpgradeDialogDismissedCounter = 0xFFFF823A82FBEE00;
-        static constexpr uintptr_t ConversationPvDialogFailedCounter = 0xFFFF823A8245FF80;
-        static constexpr uintptr_t ConversationPvDialogSucceededCounter = 0xFFFF823A82FBF240;
-        static constexpr uintptr_t ChatDetailsLeaveGroupDialogStayClickedCounter = 0xFFFF823A82FBFC80;
-        static constexpr uintptr_t DraggerImprovementsOnboardingUrl = 0xFFFF823A82480CC0;
-        static constexpr uintptr_t ShareCaptureGenerateLinkFailed = 0xFFFF823A858F8480;
-        static constexpr uintptr_t AvatarDeepLinkPattern = 0xFFFF823A82363080;
-        static constexpr uintptr_t DynamicRCCMemoryLimitsCustomPoliciesJson = 0xFFFF823A82441160;
-        static constexpr uintptr_t EnabledPartnerBillingPremiumProductIds = 0xFFFF823A8313C780;
-        static constexpr uintptr_t LuaAppFoundationColorsABTest_LayerName = 0xFFFF823A82364C70;
-        static constexpr uintptr_t ConnectTooltipLocalStorageKey = 0xFFFF823A8313E680;
-        static constexpr uintptr_t LCCageQualityDocumentationLink = 0xFFFF823A82441400;
-        static constexpr uintptr_t MusicTooltipLocalStorageKey_v2 = 0xFFFF823A85315380;
-        static constexpr uintptr_t ItemDetailsHttpPattern = 0xFFFF823A82369AD0;
-        static constexpr uintptr_t CapturesActivatedInGameMenu = 0xFFFF823A858F62C0;
-        static constexpr uintptr_t UnfilteredThreadsLearnMoreUrl = 0xFFFF823A824A3DC0;
-        static constexpr uintptr_t SortInvitesByScoreExperimentLayer = 0xFFFF823A85364F00;
-        static constexpr uintptr_t ImmersiveBrandedAdsLearnMoreUrl = 0xFFFF823A824A9DB0;
-        static constexpr uintptr_t FAEUpsellDeviceNamePipeDenyList = 0xFFFF823A824814A0;
-        static constexpr uintptr_t CapturesCarouselOpened = 0xFFFF823A858F7300;
-        static constexpr uintptr_t LuaAppIECVRLayerName = 0xFFFF823A853C4430;
-        static constexpr uintptr_t LuaEnabledSduiTreatmentTypes = 0xFFFF823A85402940;
-        static constexpr uintptr_t AppIaScrollAwayIxpVariantKey = 0xFFFF823A853C9E30;
-        static constexpr uintptr_t ExplorerSyntaxGuideUrl = 0xFFFF823A824A5170;
-        static constexpr uintptr_t SendTCRequestPath = 0xFFFF823A853CB8D0;
-        static constexpr uintptr_t IEAvatarAutoSetupBetaFeatureUrl = 0xFFFF823A82441880;
-        static constexpr uintptr_t RewardedVideoAdsDocumentationUrl = 0xFFFF823A82441DC0;
-        static constexpr uintptr_t LuaAppSduiEventDetailsIxpLayer = 0xFFFF823A85843E00;
-        static constexpr uintptr_t SquadCoordinationExperienceJoinExperimentLayer = 0xFFFF823A854C8940;
-        static constexpr uintptr_t OpenUserLuaProfileFromItemPageLayer = 0xFFFF823A82442480;
-        static constexpr uintptr_t FlyoutIxpLayer = 0xFFFF823A855B3BC0;
-        static constexpr uintptr_t OpenUserLuaProfileFromEDPIxpLayer = 0xFFFF823A85515D40;
-        static constexpr uintptr_t PartyPageCarouselVariant = 0xFFFF823A854B9860;
-        static constexpr uintptr_t AXBackendDrivenCatalogLayersFString = 0xFFFF823A826E0100;
-        static constexpr uintptr_t ContactsListEmojiSortingIxpLayer = 0xFFFF823A855B7E80;
-        static constexpr uintptr_t ProfileQRPageLoadFailed = 0xFFFF823A858F7F80;
-        static constexpr uintptr_t PartyEmulatorBetaFeatureUrl = 0xFFFF823A824F1380;
-        static constexpr uintptr_t LuaAppSlpIxpLayer = 0xFFFF823A8588E6C0;
-        static constexpr uintptr_t ReimportBetaFeatureUrl = 0xFFFF823A824A7A10;
-        static constexpr uintptr_t RbxTransportDummyClientEnabledMinorVersions = 0xFFFF823A858FC340;
-        static constexpr uintptr_t UserProfilesRequestSuccess = 0xFFFF823A858F8D00;
-        static constexpr uintptr_t LuaAppUniverseIdToBrandNameMapping = 0xFFFF823A8577BC40;
-        static constexpr uintptr_t LuaAppSentryDsn = 0xFFFF823A824A9C20;
-        static constexpr uintptr_t ProfileQRPageLoad = 0xFFFF823A8584A0A0;
-        static constexpr uintptr_t AXCatalogAndEditorExposureLayerName = 0xFFFF823A8574B030;
-        static constexpr uintptr_t AXTooltipAllowedTooltips = 0xFFFF823A824A9130;
-        static constexpr uintptr_t FoundationImagesWhitelistedIconAssets = 0xFFFF823A82482BD0;
-        static constexpr uintptr_t DeprecateLegacyTelemetryStatsDenyList = 0xFFFF823A82680080;
-        static constexpr uintptr_t ExpChatChatWithTFAmpFeatureName = 0xFFFF823A824AAC10;
-        static constexpr uintptr_t LuaAppSduiEdpIxpLayer = 0xFFFF823A85880800;
-        static constexpr uintptr_t SegmentByPartsBetaFeatureUrl = 0xFFFF823A824F3500;
-        static constexpr uintptr_t GameInviteBannerEnabledGameIds2 = 0xFFFF823A824AA2B0;
-        static constexpr uintptr_t PurchaseModalBonusBannerLayer = 0xFFFF823A8588E480;
-        static constexpr uintptr_t AddUILessModeIxpLayer = 0xFFFF823A85848630;
-        static constexpr uintptr_t AppChatChatBubbleUIRevampIxpLayer = 0xFFFF823A85849230;
-        static constexpr uintptr_t GamesUrlPath = 0xFFFF823A8584A2B0;
-        static constexpr uintptr_t FriendsLandingMountingPageTimeStats = 0xFFFF823A858F7440;
-        static constexpr uintptr_t LuaProfileUserLoadedPageWithDataCounter = 0xFFFF823A858F7780;
-        static constexpr uintptr_t SocialTabUserLoadedCounter = 0xFFFF823A8584AD60;
-        static constexpr uintptr_t ContactsListLoadedCounter = 0xFFFF823A8584A520;
-        static constexpr uintptr_t ShareLinkAppOpen = 0xFFFF823A8584A8B0;
-        static constexpr uintptr_t DiscoverabilityModalLoadCounter = 0xFFFF823A858F76C0;
-        static constexpr uintptr_t CustomizeNameModalOpened = 0xFFFF823A858F7380;
-        static constexpr uintptr_t CapturesDeactivatedInGameMenu = 0xFFFF823A858F7C00;
-        static constexpr uintptr_t CapturesEntrypointActivated = 0xFFFF823A858F71C0;
-        static constexpr uintptr_t UserProfilesRequestBegin = 0xFFFF823A858F88C0;
-        static constexpr uintptr_t UserProfilesRequestFail = 0xFFFF823A858F8A00;
-        static constexpr uintptr_t UserProfilesUnmountEarly = 0xFFFF823A858F8F00;
-        static constexpr uintptr_t UserSearchLoadingTimeDoneStats = 0xFFFF823A858F8540;
-        static constexpr uintptr_t LuaAppGameTileMigrationExpLayer = 0xFFFF823A8584BC00;
-        static constexpr uintptr_t PointAndClickDefaultExperimentLayer = 0xFFFF823A824AB610;
-        static constexpr uintptr_t FlagRepoGitHashDynamicString = 0xFFFF823A858FD5C0;
+        static constexpr uintptr_t AndroidDeprecationLoggingEventName = 0xFFFF8265FF38B000;
+        static constexpr uintptr_t CoreScriptBacktraceErrorUploadToken = 0xFFFF8265FF390440;
+        static constexpr uintptr_t ChatLandingPvUpsellContinueClickedCounter = 0xFFFF8265FFDFCF80;
+        static constexpr uintptr_t AudioVolumetricSoundsBetaFeatureUrl = 0xFFFF8265FF390B60;
+        static constexpr uintptr_t AXCategories = 0xFFFF8265FF6E0600;
+        static constexpr uintptr_t CrashpadUploadToBacktraceAndroidPlayerToken = 0xFFFF8265FF390DA0;
+        static constexpr uintptr_t StudioSunsetMac1012LearnMoreLink = 0xFFFF8265FF3A04E0;
+        static constexpr uintptr_t FriendsCarouselRequestFriendship = 0xFFFF8265FF4F6580;
+        static constexpr uintptr_t FriendsCarouselRevokeFriendRequest = 0xFFFF8265FF4F63C0;
+        static constexpr uintptr_t FriendsCarouselUserPressed = 0xFFFF8265FF4F7080;
+        static constexpr uintptr_t AllFriendsNextPageCarouselLoadingTimeDoneStats = 0xFFFF8265FF3FB8E0;
+        static constexpr uintptr_t StudioPackagesDynamicIgnoreList = 0xFFFF8265FF384850;
+        static constexpr uintptr_t ConversationPvUpsellFailedCounter = 0xFFFF8265FF38FC20;
+        static constexpr uintptr_t ChatEmptyStateScreenRenderedCounter = 0xFFFF8265FFDF80C0;
+        static constexpr uintptr_t AvatarChatSettingsAudioLink = 0xFFFF8265FF3F0CB0;
+        static constexpr uintptr_t ChatTranslationLayerName = 0xFFFF8265FF385270;
+        static constexpr uintptr_t LuaAppExploreApiSupportedSortNames = 0xFFFF8265FF771880;
+        static constexpr uintptr_t BlackbirdUpsellHiddenRequestTypes2 = 0xFFFF8266026793B0;
+        static constexpr uintptr_t IOSNotchExperimentPlaceBlocklist = 0xFFFF8265FF7A0A80;
+        static constexpr uintptr_t EasierUnmutingIXPLayerValueTCS = 0xFFFF8265FF388180;
+        static constexpr uintptr_t AXDefaultAvatarToShopLayer3 = 0xFFFF8265FF3882A0;
+        static constexpr uintptr_t ChatLandingPvUpsellDismissedCounter = 0xFFFF8265FFDFCCC0;
+        static constexpr uintptr_t UXForCameraPerformanceIXPLayerName = 0xFFFF8265FF388540;
+        static constexpr uintptr_t ReturningUserExperimentLayer = 0xFFFF8265FFED3A70;
+        static constexpr uintptr_t LuaGameInviteMenuLayer = 0xFFFF8265FF3F1890;
+        static constexpr uintptr_t ConversationSendBtnClickedCounter = 0xFFFF8265FF389D40;
+        static constexpr uintptr_t PresencePropagationDelayMetricName = 0xFFFF8265FF76DFC0;
+        static constexpr uintptr_t MaterialPickerBetaFeatureUrl = 0xFFFF8265FF3C0F60;
+        static constexpr uintptr_t LandingVideoAsset = 0xFFFF8265FF38D040;
+        static constexpr uintptr_t WebviewUrlAllowlist = 0xFFFF8265FF38D8B0;
+        static constexpr uintptr_t MicrophoneDevicePermissionsLoggingEventName = 0xFFFF8265FFDF7400;
+        static constexpr uintptr_t ChatAddFriendsBtnClickedCounter = 0xFFFF8265FF38E960;
+        static constexpr uintptr_t ConversationUpgradeDialogRenderedCounter = 0xFFFF8265FFDFEA40;
+        static constexpr uintptr_t VNGWebshopUrl = 0xFFFF8265FFDFCC40;
+        static constexpr uintptr_t ChatLandingPvUpsellSucceededCounter = 0xFFFF8265FFDFC0C0;
+        static constexpr uintptr_t ConversationIneligibleModalLeftGroupCounter = 0xFFFF8265FFDFD580;
+        static constexpr uintptr_t ConversationPvUpsellContinueClickedCounter = 0xFFFF8265FFDFD940;
+        static constexpr uintptr_t ConversationPvUpsellLeftGroupCounter = 0xFFFF8265FFDFDBC0;
+        static constexpr uintptr_t ConversationPvUpsellRenderedCounter = 0xFFFF8265FFDFDD80;
+        static constexpr uintptr_t ConversationLearnMoreBannerRenderedCounter = 0xFFFF8265FFDFD440;
+        static constexpr uintptr_t ConversationUpgradeBannerActionClickedCounter = 0xFFFF8265FFDFC680;
+        static constexpr uintptr_t ConversationUpgradeBannerRenderedCounter = 0xFFFF8265FFDFE0C0;
+        static constexpr uintptr_t ConversationUpgradeDialogActionClickedCounter = 0xFFFF8265FFDFEEC0;
+        static constexpr uintptr_t ConversationUpgradeDialogDismissedCounter = 0xFFFF8265FFDFED80;
+        static constexpr uintptr_t ConversationPvDialogFailedCounter = 0xFFFF8265FF38FFB0;
+        static constexpr uintptr_t ConversationPvDialogSucceededCounter = 0xFFFF8265FFDFF200;
+        static constexpr uintptr_t ChatDetailsLeaveGroupDialogStayClickedCounter = 0xFFFF8265FFDFFC00;
+        static constexpr uintptr_t DraggerImprovementsOnboardingUrl = 0xFFFF8265FF3C0CC0;
+        static constexpr uintptr_t ShareCaptureGenerateLinkFailed = 0xFFFF826602708280;
+        static constexpr uintptr_t AvatarDeepLinkPattern = 0xFFFF8265FFED3080;
+        static constexpr uintptr_t DynamicRCCMemoryLimitsCustomPoliciesJson = 0xFFFF8265FF391160;
+        static constexpr uintptr_t EnabledPartnerBillingPremiumProductIds = 0xFFFF8265FFEFC700;
+        static constexpr uintptr_t LuaAppFoundationColorsABTest_LayerName = 0xFFFF8265FFED4C70;
+        static constexpr uintptr_t ConnectTooltipLocalStorageKey = 0xFFFF8265FFEFE600;
+        static constexpr uintptr_t LCCageQualityDocumentationLink = 0xFFFF8265FF391400;
+        static constexpr uintptr_t MusicTooltipLocalStorageKey_v2 = 0xFFFF8265FEC75340;
+        static constexpr uintptr_t ItemDetailsHttpPattern = 0xFFFF8265FFED9AD0;
+        static constexpr uintptr_t CapturesActivatedInGameMenu = 0xFFFF826602708CC0;
+        static constexpr uintptr_t UnfilteredThreadsLearnMoreUrl = 0xFFFF8265FF3F3DC0;
+        static constexpr uintptr_t SortInvitesByScoreExperimentLayer = 0xFFFF826600134EC0;
+        static constexpr uintptr_t ImmersiveBrandedAdsLearnMoreUrl = 0xFFFF8265FF3F9DB0;
+        static constexpr uintptr_t FAEUpsellDeviceNamePipeDenyList = 0xFFFF8265FF3C14A0;
+        static constexpr uintptr_t CapturesCarouselOpened = 0xFFFF826602708E00;
+        static constexpr uintptr_t LuaAppIECVRLayerName = 0xFFFF826602194280;
+        static constexpr uintptr_t LuaEnabledSduiTreatmentTypes = 0xFFFF8266021D2900;
+        static constexpr uintptr_t AppIaScrollAwayIxpVariantKey = 0xFFFF826602199C20;
+        static constexpr uintptr_t ExplorerSyntaxGuideUrl = 0xFFFF8265FF3F5170;
+        static constexpr uintptr_t SendTCRequestPath = 0xFFFF82660219BF90;
+        static constexpr uintptr_t IEAvatarAutoSetupBetaFeatureUrl = 0xFFFF8265FF391880;
+        static constexpr uintptr_t RewardedVideoAdsDocumentationUrl = 0xFFFF8265FF391DC0;
+        static constexpr uintptr_t LuaAppSduiEventDetailsIxpLayer = 0xFFFF826602673EF0;
+        static constexpr uintptr_t SquadCoordinationExperienceJoinExperimentLayer = 0xFFFF826602298900;
+        static constexpr uintptr_t OpenUserLuaProfileFromItemPageLayer = 0xFFFF8265FF392480;
+        static constexpr uintptr_t FlyoutIxpLayer = 0xFFFF8266023A3B00;
+        static constexpr uintptr_t OpenUserLuaProfileFromEDPIxpLayer = 0xFFFF8266022E5D40;
+        static constexpr uintptr_t PartyPageCarouselVariant = 0xFFFF8266022899E0;
+        static constexpr uintptr_t AXBackendDrivenCatalogLayersFString = 0xFFFF8265FF6E0100;
+        static constexpr uintptr_t ContactsListEmojiSortingIxpLayer = 0xFFFF8266023A7DC0;
+        static constexpr uintptr_t ProfileQRPageLoadFailed = 0xFFFF826602708600;
+        static constexpr uintptr_t PartyEmulatorBetaFeatureUrl = 0xFFFF8265FF431380;
+        static constexpr uintptr_t LuaAppSlpIxpLayer = 0xFFFF8266026BE500;
+        static constexpr uintptr_t ReimportBetaFeatureUrl = 0xFFFF8265FF3F7A10;
+        static constexpr uintptr_t RbxTransportDummyClientEnabledMinorVersions = 0xFFFF82660270C0C0;
+        static constexpr uintptr_t UserProfilesRequestSuccess = 0xFFFF8266027093C0;
+        static constexpr uintptr_t LuaAppUniverseIdToBrandNameMapping = 0xFFFF8266025ABC40;
+        static constexpr uintptr_t LuaAppSentryDsn = 0xFFFF8265FF3F9C20;
+        static constexpr uintptr_t ProfileQRPageLoad = 0xFFFF82660267B1B0;
+        static constexpr uintptr_t AXCatalogAndEditorExposureLayerName = 0xFFFF82660257B1B0;
+        static constexpr uintptr_t AXTooltipAllowedTooltips = 0xFFFF8265FF3F9130;
+        static constexpr uintptr_t FoundationImagesWhitelistedIconAssets = 0xFFFF8265FF3C2BD0;
+        static constexpr uintptr_t DeprecateLegacyTelemetryStatsDenyList = 0xFFFF8265FF6A0080;
+        static constexpr uintptr_t ExpChatChatWithTFAmpFeatureName = 0xFFFF8265FF3FAC10;
+        static constexpr uintptr_t LuaAppSduiEdpIxpLayer = 0xFFFF8266026B0900;
+        static constexpr uintptr_t SegmentByPartsBetaFeatureUrl = 0xFFFF8265FF433500;
+        static constexpr uintptr_t GameInviteBannerEnabledGameIds2 = 0xFFFF8265FF3FA850;
+        static constexpr uintptr_t PurchaseModalBonusBannerLayer = 0xFFFF8266026BFDC0;
+        static constexpr uintptr_t AddUILessModeIxpLayer = 0xFFFF826602678D50;
+        static constexpr uintptr_t AppChatChatBubbleUIRevampIxpLayer = 0xFFFF826602679AD0;
+        static constexpr uintptr_t GamesUrlPath = 0xFFFF82660267A2E0;
+        static constexpr uintptr_t FriendsLandingMountingPageTimeStats = 0xFFFF8266027074C0;
+        static constexpr uintptr_t LuaProfileUserLoadedPageWithDataCounter = 0xFFFF826602707FC0;
+        static constexpr uintptr_t SocialTabUserLoadedCounter = 0xFFFF82660267A940;
+        static constexpr uintptr_t ContactsListLoadedCounter = 0xFFFF82660267B030;
+        static constexpr uintptr_t ShareLinkAppOpen = 0xFFFF82660267B330;
+        static constexpr uintptr_t DiscoverabilityModalLoadCounter = 0xFFFF826602708A40;
+        static constexpr uintptr_t CustomizeNameModalOpened = 0xFFFF826602708B80;
+        static constexpr uintptr_t CapturesDeactivatedInGameMenu = 0xFFFF826602708F40;
+        static constexpr uintptr_t CapturesEntrypointActivated = 0xFFFF826602708E80;
+        static constexpr uintptr_t UserProfilesRequestBegin = 0xFFFF8266027080C0;
+        static constexpr uintptr_t UserProfilesRequestFail = 0xFFFF8266027090C0;
+        static constexpr uintptr_t UserProfilesUnmountEarly = 0xFFFF8266027095C0;
+        static constexpr uintptr_t UserSearchLoadingTimeDoneStats = 0xFFFF826602709E80;
+        static constexpr uintptr_t LuaAppGameTileMigrationExpLayer = 0xFFFF82660267C020;
+        static constexpr uintptr_t PointAndClickDefaultExperimentLayer = 0xFFFF8265FF3FB340;
+        static constexpr uintptr_t FlagRepoGitHashDynamicString = 0xFFFF82660270D440;
     }
 } // namespace FFlags
 
