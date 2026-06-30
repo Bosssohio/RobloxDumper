@@ -1,12 +1,7 @@
-// =============================================================================
-//  OffsetScanner.cpp  –  Implementation of generic scanners
-// =============================================================================
+// for humanoid stage scanner or 
 #include "OffsetScanner.hpp"
 #include <regex>
 
-// ------------------------------------------------------------------
-//  FindFloatOffset
-// ------------------------------------------------------------------
 uint32_t FindFloatOffset(HANDLE hProc, uintptr_t obj, float target, uint32_t maxOffset, uint32_t align) {
     SIZE_T got;
     for (uint32_t off = 0; off <= maxOffset; off += align) {
@@ -19,9 +14,6 @@ uint32_t FindFloatOffset(HANDLE hProc, uintptr_t obj, float target, uint32_t max
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  FindIntOffset
-// ------------------------------------------------------------------
 uint32_t FindIntOffset(HANDLE hProc, uintptr_t obj, int target, uint32_t maxOffset, uint32_t align) {
     SIZE_T got;
     for (uint32_t off = 0; off <= maxOffset; off += align) {
@@ -34,9 +26,6 @@ uint32_t FindIntOffset(HANDLE hProc, uintptr_t obj, int target, uint32_t maxOffs
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  FindBoolOffset
-// ------------------------------------------------------------------
 uint32_t FindBoolOffset(HANDLE hProc, uintptr_t obj, bool target, uint32_t maxOffset, uint32_t align) {
     SIZE_T got;
     uint8_t targetByte = target ? 1 : 0;
@@ -50,9 +39,6 @@ uint32_t FindBoolOffset(HANDLE hProc, uintptr_t obj, bool target, uint32_t maxOf
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  FindStringOffset
-// ------------------------------------------------------------------
 uint32_t FindStringOffset(HANDLE hProc, uintptr_t obj, const std::string& target, uint32_t maxOffset) {
     SIZE_T got;
     for (uint32_t off = 0; off <= maxOffset; off += 8) {
@@ -68,9 +54,6 @@ uint32_t FindStringOffset(HANDLE hProc, uintptr_t obj, const std::string& target
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  FindStringRegexOffset
-// ------------------------------------------------------------------
 uint32_t FindStringRegexOffset(HANDLE hProc, uintptr_t obj, const std::regex& pattern, uint32_t maxOffset) {
     SIZE_T got;
     for (uint32_t off = 0; off <= maxOffset; off += 8) {
@@ -86,9 +69,6 @@ uint32_t FindStringRegexOffset(HANDLE hProc, uintptr_t obj, const std::regex& pa
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  FindObjectOffset
-// ------------------------------------------------------------------
 uint32_t FindObjectOffset(HANDLE hProc, uintptr_t obj, const PEInfo& pe, uintptr_t targetVtable, uint32_t maxOffset) {
     SIZE_T got;
     for (uint32_t off = 0; off <= maxOffset; off += 8) {
@@ -97,7 +77,7 @@ uint32_t FindObjectOffset(HANDLE hProc, uintptr_t obj, const PEInfo& pe, uintptr
             continue;
         if (!IsPointerValid(hProc, ptr))
             continue;
-        // Check vtable of the pointed object
+        // Check vtable of the pointed object if i see this
         uintptr_t vtable = 0;
         if (!SafeRead(hProc, ptr, &vtable, sizeof(vtable), got) || got != sizeof(vtable))
             continue;

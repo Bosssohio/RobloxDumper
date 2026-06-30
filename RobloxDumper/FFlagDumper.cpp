@@ -1,15 +1,13 @@
-// =============================================================================
-//  FFlagDumper.cpp  –  With full pointer validation and strict checks
-// =============================================================================
 #include "FFlagDumper.hpp"
 #include <fstream>
 #include <unordered_set>
 
-// ------------------------------------------------------------------
-//  Helper: validate a user‑mode pointer (committed + readable)
-// ------------------------------------------------------------------
+static inline bool IsUserModeAddress(uintptr_t ptr) {
+    return ptr >= 0x10000 && ptr <= 0x00007FFFFFFFFFFF;
+}
+
 static bool IsUserModePointer(HANDLE hProc, uintptr_t ptr) {
-    if (ptr < 0x10000 || ptr > 0x00007FFFFFFFFFFF)
+    if (!IsUserModeAddress(ptr))
         return false;
     MEMORY_BASIC_INFORMATION mbi;
     if (!VirtualQueryEx(hProc, (LPCVOID)ptr, &mbi, sizeof(mbi)))
@@ -22,9 +20,6 @@ static bool IsUserModePointer(HANDLE hProc, uintptr_t ptr) {
     return true;
 }
 
-// ------------------------------------------------------------------
-//  Read an SSO string (local copy)
-// ------------------------------------------------------------------
 static std::optional<std::string> ReadSSOString_local(HANDLE hProc, uintptr_t addr) {
     if (!IsUserModePointer(hProc, addr))
         return std::nullopt;
@@ -48,12 +43,9 @@ static std::optional<std::string> ReadSSOString_local(HANDLE hProc, uintptr_t ad
     return std::string(str.data(), len);
 }
 
-// ------------------------------------------------------------------
-//  Find FFlag offsets
-// ------------------------------------------------------------------
 std::optional<FFlagOffsets> FindFFlagOffsets(HANDLE hProc, uintptr_t moduleBase) {
     FFlagOffsets offsets;
-    LOG_INFO("Scanning for FFlag map...");
+    LOG_INFO("a dumper is scanning for FFlag map...");
 
     uintptr_t ScanStart = 0x7000000;
     uintptr_t ScanEnd = 0x12000000;
@@ -72,17 +64,19 @@ std::optional<FFlagOffsets> FindFFlagOffsets(HANDLE hProc, uintptr_t moduleBase)
 
         for (size_t i = 0; i < AmountOfPointers; i++) {
             uintptr_t MaybeMap = Data[i];
-            if (!IsUserModePointer(hProc, MaybeMap))
+
+            // fast
+            if (!IsUserModeAddress(MaybeMap))
                 continue;
 
-            // Verify it's a map: read first 4 bytes as float; should be 1.0f
+            // signuare check
             uint32_t floatCheck = 0;
             if (!SafeRead(hProc, MaybeMap, &floatCheck, sizeof(uint32_t), got) || got != sizeof(uint32_t))
                 continue;
             if (floatCheck != 0x3F800000)
                 continue;
 
-            // Read map start/end pointers
+            // candiatle
             uintptr_t MapStart = 0;
             if (!SafeRead(hProc, MaybeMap + 0x8, &MapStart, sizeof(uintptr_t), got) || got != sizeof(uintptr_t))
                 continue;
@@ -102,10 +96,9 @@ std::optional<FFlagOffsets> FindFFlagOffsets(HANDLE hProc, uintptr_t moduleBase)
                 continue;
 
             uintptr_t Wow = currentOffset + (i * sizeof(uintptr_t));
-            LOG_OK("Potential FFlag map found at offset: 0x" + ToHex(Wow));
+            LOG_OK("we found potential FFlag map found at offset: 0x" + ToHex(Wow));
 
             while (Current != 0 && Current != MapEnd) {
-                // Read FFlag name
                 std::string Name = ReadSSOString_local(hProc, Current + 0x10).value_or("");
                 if (Name.empty()) {
                     uintptr_t Next = 0;
@@ -165,12 +158,9 @@ std::optional<FFlagOffsets> FindFFlagOffsets(HANDLE hProc, uintptr_t moduleBase)
     return std::nullopt;
 }
 
-// ------------------------------------------------------------------
-//  Dump FFlags
-// ------------------------------------------------------------------
 std::vector<FFlagEntry> DumpFFlagsWithOffsets(HANDLE hProc, uintptr_t moduleBase, const FFlagOffsets& offsets) {
     std::vector<FFlagEntry> flags;
-    LOG_INFO("Dumping FFlags using offsets...");
+    LOG_INFO("dumper is dumping FFlags using offsets...");
 
     uintptr_t FFlagPointer1 = 0;
     SIZE_T got = 0;
@@ -303,7 +293,7 @@ std::vector<FFlagEntry> DumpFFlagsWithOffsets(HANDLE hProc, uintptr_t moduleBase
         entry.name = Name;
         entry.value = value;
         entry.type = type;
-        entry.address = valueAddr;   // Safe: we validated valueAddr
+        entry.address = valueAddr;
         entry.isEncrypted = false;
         flags.push_back(entry);
 
@@ -319,13 +309,12 @@ std::vector<FFlagEntry> DumpFFlagsWithOffsets(HANDLE hProc, uintptr_t moduleBase
     return flags;
 }
 
-// ------------------------------------------------------------------
-//  Write FFlags to files
-// ------------------------------------------------------------------
+//idk it was exist
+
 void WriteFFlags(const std::vector<FFlagEntry>& flags, const std::string& txtPath, const std::string& jsonPath) {
     std::ofstream txt(txtPath);
     if (txt.is_open()) {
-        txt << "// Roblox FastFlags dumped from live process\n";
+        txt << "// boblox FastFlags dumped from live process\n";
         txt << "// Total: " << flags.size() << "\n\n";
         for (const auto& f : flags) {
             txt << f.name << " = " << f.value;

@@ -1,6 +1,3 @@
-// =============================================================================
-//  Workspace.hpp  –  Dynamic discovery of Workspace properties
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include "Instance.hpp"

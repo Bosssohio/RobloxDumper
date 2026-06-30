@@ -1,6 +1,3 @@
-// =============================================================================
-//  Script.cpp  –  Fully dynamic script offsets (multi‑size Script)
-// =============================================================================
 #include "Script.hpp"
 #include "Instance.hpp"
 #include <algorithm>
@@ -10,9 +7,7 @@
 #include <iomanip>
 #include <sstream>
 
-// ------------------------------------------------------------------
-//  Find a direct child by name (used to locate ReplicatedStorage)
-// ------------------------------------------------------------------
+//used in replicatedstorgae for localscript and modulescript
 static uintptr_t FindFirstChildByName(
     HANDLE hProc,
     uintptr_t parentPtr,
@@ -82,9 +77,7 @@ static uintptr_t FindFirstChildByName(
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  Recursively find a child by class name
-// ------------------------------------------------------------------
+//what da sigma, aaaaaaaaaaaaaaa
 static uintptr_t FindFirstChildByClassRecursive(
     HANDLE hProc,
     uintptr_t currentPtr,
@@ -107,7 +100,7 @@ static uintptr_t FindFirstChildByClassRecursive(
 
     SIZE_T got;
 
-    // Check current object's class name
+    // dumper is check current object's class name
     uintptr_t classDescPtr = 0;
     if (SafeRead(hProc, currentPtr + offsets.ClassDescriptor, &classDescPtr, sizeof(classDescPtr), got) && got == sizeof(classDescPtr) && classDescPtr) {
         uintptr_t namePtr = 0;
@@ -119,7 +112,7 @@ static uintptr_t FindFirstChildByClassRecursive(
         }
     }
 
-    // Recurse into children
+    // recurse into children
     if (!offsets.ChildrenStart || !offsets.ChildrenEnd) return 0;
     uintptr_t startPtr = 0;
     if (!SafeRead(hProc, currentPtr + offsets.ChildrenStart, &startPtr, sizeof(startPtr), got) || got != sizeof(startPtr) || !startPtr) return 0;
@@ -176,9 +169,7 @@ static uintptr_t FindFirstChildByClassRecursive(
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  find_offset_in_pointer – official method
-// ------------------------------------------------------------------
+// we got method reall!L!L!L!L!L!L! 100% legit
 static std::optional<std::pair<uint32_t, uint32_t>> find_offset_in_pointer(
     HANDLE hProc,
     uintptr_t objectPtr,
@@ -207,9 +198,6 @@ static std::optional<std::pair<uint32_t, uint32_t>> find_offset_in_pointer(
     return std::nullopt;
 }
 
-// ------------------------------------------------------------------
-//  Discover bytecode offsets for a given script type
-// ------------------------------------------------------------------
 static bool DiscoverBytecodeOffsetsForType(
     HANDLE hProc,
     uintptr_t scriptPtr,
@@ -219,22 +207,19 @@ static bool DiscoverBytecodeOffsetsForType(
     uint32_t& outSizeOffset,
     uint32_t maxOffset = 0x600)
 {
-    LOG_INFO("Scanning " + typeName + " for bytecode offsets (target size: " + std::to_string(targetSize) + ")...");
+    LOG_INFO("dumper is scanning " + typeName + " for bytecode offsets (target size: " + std::to_string(targetSize) + ")... for any script object (in game if u pubilshed)");
     auto result = find_offset_in_pointer(hProc, scriptPtr, targetSize, maxOffset, 0x100);
     if (!result) {
-        LOG_ERR("Could not find " + typeName + " bytecode offsets (target size " + std::to_string(targetSize) + ")");
+        LOG_ERR("could not find " + typeName + " bytecode offsets (target size " + std::to_string(targetSize) + "), did you mean do not remove script object or it is?");
         return false;
     }
     outPointerOffset = result->first;
     outSizeOffset = result->second;
-    LOG_OK("Found " + typeName + " bytecode: pointer offset 0x" + ToHex(outPointerOffset) +
+    LOG_OK("founded " + typeName + " bytecode: pointer offset 0x" + ToHex(outPointerOffset) +
         ", size offset 0x" + ToHex(outSizeOffset) + " (size=" + std::to_string(targetSize) + ")");
     return true;
 }
 
-// ------------------------------------------------------------------
-//  Discover hash offset
-// ------------------------------------------------------------------
 static bool DiscoverHashOffsetForType(
     HANDLE hProc,
     uintptr_t scriptPtr,
@@ -242,11 +227,11 @@ static bool DiscoverHashOffsetForType(
     uint32_t& outHashOffset,
     uint32_t bytecodeOffset = 0)
 {
-    const uint32_t TARGET_HASH = 1680946276;
+    const uint32_t TARGET_HASH = 1680946276; //found in github
     const uint32_t MAX_OFF = 0x300;
     SIZE_T got;
 
-    LOG_INFO("Scanning " + typeName + " for hash offset...");
+    LOG_INFO("dumper is scanning " + typeName + " for hash offset...");
 
     for (uint32_t ptrOff = 0x20; ptrOff < MAX_OFF; ptrOff += 8) {
         if (bytecodeOffset != 0 && ptrOff == bytecodeOffset) continue;
@@ -257,17 +242,14 @@ static bool DiscoverHashOffsetForType(
         if (!SafeRead(hProc, ptr, &val, sizeof(val), got) || got != sizeof(val)) continue;
         if (val == TARGET_HASH) {
             outHashOffset = ptrOff;
-            LOG_OK("Found " + typeName + " hash offset = 0x" + ToHex(ptrOff) + " (hash=0x" + ToHex(val) + ")");
+            LOG_OK("founded " + typeName + " hash offset = 0x" + ToHex(ptrOff) + " (hash=0x" + ToHex(val) + ")");
             return true;
         }
     }
-    LOG_WARN("Could not find " + typeName + " hash offset");
+    LOG_WARN("could'nt find " + typeName + " hash offset, better luck next time, ahahhaa");
     return false;
 }
 
-// ------------------------------------------------------------------
-//  Main entry point
-// ------------------------------------------------------------------
 ScriptOffsets FindScriptOffsets(
     HANDLE hProc,
     uintptr_t dataModelPtr,
@@ -277,7 +259,7 @@ ScriptOffsets FindScriptOffsets(
     res.Valid = false;
 
     if (!dataModelPtr || !instanceOffsets.Valid) {
-        LOG_ERR("DataModel or Instance offsets not available");
+        LOG_ERR("datamodel or just instance is not available or trying while game loading");
         return res;
     }
 
@@ -292,27 +274,27 @@ ScriptOffsets FindScriptOffsets(
         return res;
     }
 
-    LOG_INFO("Searching for ModuleScript, LocalScript, and Script in Workspace and ReplicatedStorage...");
+    LOG_INFO("dumper is searching for ModuleScript and LocalScript in ReplicatedStorage... (totally)");
 
     uintptr_t workspacePtr = instanceOffsets.WorkspacePtr;
-    if (!workspacePtr) LOG_WARN("Workspace pointer not available");
+    if (!workspacePtr) LOG_WARN("workspace pointer not available");
 
     uintptr_t replicatedStorage = FindFirstChildByName(hProc, dataModelPtr, instanceOffsets, *pe, "ReplicatedStorage");
-    if (!replicatedStorage) LOG_WARN("ReplicatedStorage not found");
+    if (!replicatedStorage) LOG_WARN("replicatedStorage not found");
 
     uintptr_t moduleScript = 0, localScript = 0;
     int nodesVisited = 0;
 
-    // Scan ReplicatedStorage
+    // scanning replicatedstorage
     if (replicatedStorage) {
         nodesVisited = 0;
         moduleScript = FindFirstChildByClassRecursive(hProc, replicatedStorage, instanceOffsets, *pe, "ModuleScript", 0, nodesVisited);
 
-        nodesVisited = 0; // Reset budget for the next instance type
+        nodesVisited = 0; // ithor from item asylum seset budget for the next instance type
         localScript = FindFirstChildByClassRecursive(hProc, replicatedStorage, instanceOffsets, *pe, "LocalScript", 0, nodesVisited);
     }
 
-    // Fallback to Workspace scan if needed
+    // fallback to if its not found (workspace doesnt have module and local script)
     if (!moduleScript && workspacePtr) {
         nodesVisited = 0;
         moduleScript = FindFirstChildByClassRecursive(hProc, workspacePtr, instanceOffsets, *pe, "ModuleScript", 0, nodesVisited);
@@ -322,7 +304,7 @@ ScriptOffsets FindScriptOffsets(
         localScript = FindFirstChildByClassRecursive(hProc, workspacePtr, instanceOffsets, *pe, "LocalScript", 0, nodesVisited);
     }
 
-    // Ultimate fallback: Full DataModel Scan
+    // final fallback, scanning datamodel
     if (!moduleScript) {
         LOG_INFO("Scanning entire DataModel for ModuleScript...");
         nodesVisited = 0;
@@ -344,7 +326,7 @@ ScriptOffsets FindScriptOffsets(
         return res;
     }
 
-    // ---- ModuleScript (target 61) ----
+    // 61 61 61 61 size ! (PLEASE NOT MEME)
     if (moduleScript) {
         uint32_t bytecodePtrOff = 0, sizeOff = 0;
         if (DiscoverBytecodeOffsetsForType(hProc, moduleScript, "ModuleScript", 61, bytecodePtrOff, sizeOff, 0x600)) {
@@ -358,20 +340,20 @@ ScriptOffsets FindScriptOffsets(
         }
     }
 
-    // ---- LocalScript (target 86) ----
+    // 86 size
     if (localScript) {
         uint32_t bytecodePtrOff = 0, sizeOff = 0;
         if (DiscoverBytecodeOffsetsForType(hProc, localScript, "LocalScript", 86, bytecodePtrOff, sizeOff, 0x600)) {
             res.LocalScriptBytecode = bytecodePtrOff;
             if (res.ByteCodeSize == 0) res.ByteCodeSize = sizeOff;
-            // reuse ModuleScript hash if available
+            // reuse ModuleScript hash if available or not
             if (res.ModuleScriptHash != 0) {
                 uintptr_t hashPtr = 0; uint32_t hashVal = 0; SIZE_T got;
                 if (SafeRead(hProc, localScript + res.ModuleScriptHash, &hashPtr, sizeof(hashPtr), got) && got == sizeof(hashPtr) && IsPointerValid(hProc, hashPtr)) {
                     if (SafeRead(hProc, hashPtr, &hashVal, sizeof(hashVal), got) && got == sizeof(hashVal) && hashVal == 1680946276) {
                         res.LocalScriptHash = res.ModuleScriptHash;
                         res.LocalScriptGuid = res.ModuleScriptHash;
-                        LOG_OK("Reused ModuleScript hash offset for LocalScript: 0x" + ToHex(res.LocalScriptHash));
+                        LOG_OK("reused ModuleScript hash offset for LocalScript: 0x" + ToHex(res.LocalScriptHash));
                     }
                 }
             }

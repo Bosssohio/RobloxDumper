@@ -131,19 +131,27 @@
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="FFlagDumper.cpp" />
+    <ClCompile Include="OffsetScanner.cpp" />
     <ClCompile Include="RobloxDumper.cpp" />
     <ClCompile Include="Stages\DataModel.cpp" />
+    <ClCompile Include="Stages\FakeDataModel.cpp" />
+    <ClCompile Include="Stages\Humanoid.cpp" />
     <ClCompile Include="Stages\Instance.cpp" />
     <ClCompile Include="Stages\Script.cpp" />
     <ClCompile Include="Stages\TaskScheduler.cpp" />
+    <ClCompile Include="Stages\Workspace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="FFlagDumper.hpp" />
+    <ClInclude Include="OffsetScanner.hpp" />
     <ClInclude Include="Stages\DataModel.hpp" />
+    <ClInclude Include="Stages\FakeDataModel.hpp" />
+    <ClInclude Include="Stages\Humanoid.hpp" />
     <ClInclude Include="Stages\Instance.hpp" />
     <ClInclude Include="Stages\Script.hpp" />
     <ClInclude Include="Stages\TaskScheduler.hpp" />
+    <ClInclude Include="Stages\Workspace.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

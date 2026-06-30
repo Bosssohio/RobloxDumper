@@ -1,6 +1,3 @@
-// =============================================================================
-//  TaskScheduler.hpp  – singleton resolver, struct field analysis, job/max fps
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include <vector>

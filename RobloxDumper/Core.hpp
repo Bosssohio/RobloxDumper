@@ -1,6 +1,4 @@
-// =============================================================================
-//  Core.hpp  – shared low‑level helpers, PE parsing, string search, RTTI
-// =============================================================================
+
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -15,9 +13,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <set>
-#include <iostream>      // <--- add
-#include <iomanip>       // <--- add
-#include <sstream>       // <--- add (for ToHex)
+#include <iostream>     
+#include <iomanip>      
+#include <sstream>     
 
 #pragma comment(lib, "Psapi.lib")
 
@@ -50,41 +48,25 @@ namespace Color {
 #define LOG_ERR(m)   do{Color::Err();  std::cout<<"[-] "<<m<<"\n"; Color::Reset();}while(0)
 #define LOG_STEP(m)  do{Color::Dim();  std::cout<<"    >> "<<m<<"\n"; Color::Reset();}while(0)
 
-// Inside Core.hpp, where other LOG_* macros are defined
-
-// Debug logging – you can conditionally enable it with a global flag
 #define LOG_DEBUG(msg) \
     do { \
         std::cout << "[DEBUG] " << msg << std::endl; \
     } while (0)
 
-// Or if you have a verbosity flag:
-/*
-extern bool g_Verbose;
-#define LOG_DEBUG(msg) \
-    do { \
-        if (g_Verbose) { \
-            std::cout << "[DEBUG] " << msg << std::endl; \
-        } \
-    } while (0)
-*/
-
-extern bool g_verbose;
-
-// ---- Utility ----
-inline DWORD AlignUp(DWORD v, DWORD a) { return (v + a - 1) & ~(a - 1); }
+// utili
+inline DWORD AlignUp(DWORD v, DWORD a) { return (v + a - 1) & ~(a - 1); };
 std::string ToHex(uintptr_t v, int w = 16);
 std::string EscapeCString(const std::string& s);
 std::string ToValidIdentifier(const std::string& s);
 
-// ---- Memory reading ----
+// reading memory!!
 void InitNtFunctions();
 bool SEH_RawRead(HANDLE hProc, LPVOID ptr, BYTE* buf, SIZE_T size, SIZE_T& got);
 bool SEH_NtRead(HANDLE hProc, uintptr_t addr, BYTE* buf, SIZE_T size, SIZE_T& got);
 bool SafeRead(HANDLE hProc, uintptr_t addr, void* buf, SIZE_T size, SIZE_T& got);
 SIZE_T ForceDecryptAndReadPage(HANDLE hProc, uintptr_t va, uint8_t* dst, SIZE_T size);
 
-// ---- PE parsing ----
+// parsing boblox
 struct SectionInfo {
     char name[9];
     uintptr_t rva;
@@ -104,7 +86,7 @@ std::optional<PEInfo> ParsePE(HANDLE hProc, uintptr_t base);
 std::vector<uint8_t> ReadSection(HANDLE hProc, const PEInfo& pe, const SectionInfo& sec, bool decrypt = true);
 std::vector<uint8_t> ReadTextGhost(HANDLE hProc, const PEInfo& pe, const SectionInfo& sec);
 
-// ---- String discovery ----
+// find string
 struct StringHit {
     size_t offset;
     uintptr_t va;
@@ -116,7 +98,7 @@ std::vector<StringHit> ScanPlain(const uint8_t* data, size_t sz, uintptr_t baseV
 std::vector<StringHit> ScanXOR(const uint8_t* data, size_t sz, uintptr_t baseVA, const uint8_t* needle, size_t nlen);
 std::vector<StringHit> DiscoverString(const std::vector<uint8_t>& buf, uintptr_t baseVA, const std::vector<uint8_t>& needle, bool noXor = false);
 
-// ---- RTTI ----
+// find rtti (scary)
 struct RTTIResult {
     uintptr_t stringVA;
     uintptr_t typeDescRVA;
@@ -132,3 +114,58 @@ std::optional<RTTIResult> FindRTTI(HANDLE hProc, const PEInfo& pe,
 
 // Read an MSVC std::string (SSO or heap) from the target process
 std::optional<std::string> ReadRobloxString(HANDLE hProc, uintptr_t addr);
+
+static bool IsPointerValid(HANDLE hProc, uintptr_t ptr) {
+    if (ptr < 0x10000 || ptr > 0x00007FFFFFFFFFFF) return false;
+    MEMORY_BASIC_INFORMATION mbi;
+    if (!VirtualQueryEx(hProc, (LPCVOID)ptr, &mbi, sizeof(mbi))) return false;
+    if (mbi.State != MEM_COMMIT) return false;
+    if (!(mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_EXECUTE_READ |
+        PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
+        return false;
+    return true;
+}
+
+static std::optional<std::string> ReadStringSafe(HANDLE hProc, uintptr_t ptr) {
+    if (!IsPointerValid(hProc, ptr)) return std::nullopt;
+    return ReadRobloxString(hProc, ptr);
+}
+
+
+static bool HasValidVTable(HANDLE hProc, uintptr_t objectPtr, const PEInfo& pe) {
+    if (!IsPointerValid(hProc, objectPtr)) return false;
+    uintptr_t vtable = 0;
+    SIZE_T got;
+    if (!SafeRead(hProc, objectPtr, &vtable, sizeof(vtable), got) || got != sizeof(vtable))
+        return false;
+    for (const auto& sec : pe.sections) {
+        uintptr_t secStart = pe.moduleBase + sec.rva;
+        uintptr_t secEnd = secStart + sec.virtualSize;
+        if (vtable >= secStart && vtable < secEnd)
+            return true;
+    }
+    return false;
+}
+
+static std::optional<PEInfo> GetPEInfo(HANDLE hProc, uintptr_t moduleBase) {
+    static std::optional<PEInfo> cached;
+    static uintptr_t cachedModuleBase = 0;
+    if (cached.has_value() && cachedModuleBase == moduleBase)
+        return cached;
+    auto pe = ParsePE(hProc, moduleBase);
+    if (pe) {
+        cached = pe;
+        cachedModuleBase = moduleBase;
+    }
+    return cached;
+}
+
+static uintptr_t GetModuleBase(HANDLE hProc) {
+    HMODULE hMod;
+    DWORD cb;
+    if (!EnumProcessModules(hProc, &hMod, sizeof(hMod), &cb)) return 0;
+    MODULEINFO mi;
+    if (!GetModuleInformation(hProc, hMod, &mi, sizeof(mi))) return 0;
+    return (uintptr_t)mi.lpBaseOfDll;
+}
+

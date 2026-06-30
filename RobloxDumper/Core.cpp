@@ -1,6 +1,4 @@
-// =============================================================================
-//  Core.cpp  – implementations
-// =============================================================================
+
 #include "Core.hpp"
 #include <iostream>
 #include <iomanip>
@@ -9,7 +7,7 @@
 #include <algorithm>
 #include <cstdio>
 
-// ---- globals ----
+// global 
 NtRVM_t g_NtRVM = nullptr;
 NtSuspendProcess_t g_NtSuspendProcess = nullptr;
 NtResumeProcess_t g_NtResumeProcess = nullptr;
@@ -17,10 +15,10 @@ bool g_ForceDecrypt = true;
 bool g_SuspendProcess = true;
 bool g_verbose = false;
 
-// ---- utility ----
+// util
 std::string ToHex(uintptr_t v, int w) {
     std::ostringstream s;
-    s << "0x" << std::uppercase << std::hex << std::setw(w) << std::setfill('0') << v;
+    s << std::uppercase << std::hex << std::setw(w) << std::setfill('0') << v;
     return s.str();
 }
 
@@ -67,7 +65,7 @@ std::string ToValidIdentifier(const std::string& s) {
     return final;
 }
 
-// ---- memory ----
+// memory reading
 void InitNtFunctions() {
     HMODULE ntdll = GetModuleHandleW(L"ntdll.dll");
     if (ntdll) {
@@ -76,6 +74,8 @@ void InitNtFunctions() {
         g_NtResumeProcess = (NtResumeProcess_t)GetProcAddress(ntdll, "NtResumeProcess");
     }
 }
+
+//can skip invaild memory
 
 bool SEH_RawRead(HANDLE hProc, LPVOID ptr, BYTE* buf, SIZE_T size, SIZE_T& got) {
     got = 0; bool ok = false;
@@ -111,7 +111,7 @@ SIZE_T ForceDecryptAndReadPage(HANDLE hProc, uintptr_t va, uint8_t* dst, SIZE_T 
     return ok ? got : 0;
 }
 
-// ---- PE ----
+// parsing pe!
 std::optional<PEInfo> ParsePE(HANDLE hProc, uintptr_t base) {
     IMAGE_DOS_HEADER dos; SIZE_T bytesRead = 0;
     if (!SafeRead(hProc, base, &dos, sizeof(dos), bytesRead) || bytesRead != sizeof(dos) || dos.e_magic != IMAGE_DOS_SIGNATURE)
@@ -201,7 +201,7 @@ std::vector<uint8_t> ReadTextGhost(HANDLE hProc, const PEInfo& pe, const Section
     return buf;
 }
 
-// ---- strings ----
+// strings
 std::vector<StringHit> ScanPlain(const uint8_t* data, size_t sz, uintptr_t baseVA, const uint8_t* needle, size_t nlen) {
     std::vector<StringHit> r;
     for (size_t i = 0; i + nlen + 1 <= sz; i++) {
@@ -234,7 +234,7 @@ std::vector<StringHit> DiscoverString(const std::vector<uint8_t>& buf, uintptr_t
     return {};
 }
 
-// ---- RTTI ----
+// rtti
 std::optional<RTTIResult> FindRTTI(HANDLE hProc, const PEInfo& pe,
     const std::vector<uint8_t>& rdataBuf, const std::vector<uint8_t>& dataBuf,
     const std::string& typeName) {

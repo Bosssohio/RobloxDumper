@@ -1,6 +1,3 @@
-// =============================================================================
-//  Instance.hpp  –  Fully dynamic offset discovery (no hardcoded offsets)
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include <string>

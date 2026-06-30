@@ -1,6 +1,3 @@
-// =============================================================================
-//  DataModel.hpp  – find FakeDataModel → real DataModel offset
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include <optional>

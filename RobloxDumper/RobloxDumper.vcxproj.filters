@@ -24,7 +24,7 @@
     <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stages\DataModel.cpp">
+    <ClCompile Include="Stages\FakeDataModel.cpp">
       <Filter>Source Files\Stages</Filter>
     </ClCompile>
     <ClCompile Include="Stages\TaskScheduler.cpp">
@@ -39,6 +39,18 @@
     <ClCompile Include="Stages\Script.cpp">
       <Filter>Source Files\Stages</Filter>
     </ClCompile>
+    <ClCompile Include="OffsetScanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\DataModel.cpp">
+      <Filter>Source Files\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\Humanoid.cpp">
+      <Filter>Source Files\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\Workspace.cpp">
+      <Filter>Source Files\Stages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.hpp">
@@ -47,7 +59,7 @@
     <ClInclude Include="Stages\TaskScheduler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stages\DataModel.hpp">
+    <ClInclude Include="Stages\FakeDataModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FFlagDumper.hpp">
@@ -57,6 +69,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stages\Script.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OffsetScanner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\DataModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\Humanoid.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\Workspace.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

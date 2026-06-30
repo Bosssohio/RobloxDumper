@@ -1,6 +1,3 @@
-// =============================================================================
-//  Instance.cpp  –  Fully dynamic with ClassDescriptor and safe tree dump
-// =============================================================================
 #include "Instance.hpp"
 #include <algorithm>
 #include <fstream>
@@ -10,9 +7,6 @@
 #include <sstream>
 
 
-// ------------------------------------------------------------------
-//  Find Workspace & Name offset (unchanged)
-// ------------------------------------------------------------------
 static std::pair<uintptr_t, uint32_t> FindWorkspaceAndNameOffset(
     HANDLE hProc, uintptr_t dataModelPtr, const PEInfo& pe)
 {
@@ -20,7 +14,7 @@ static std::pair<uintptr_t, uint32_t> FindWorkspaceAndNameOffset(
     const uint32_t MAX_NAME_OFF = 0x200;
     SIZE_T got;
 
-    LOG_INFO("Scanning DataModel for Workspace and Name offset...");
+    LOG_INFO("scanning dataModel for Workspace and Name offset...");
 
     for (uint32_t vecOff = 0; vecOff + 24 <= MAX_VEC_OFF; vecOff += 8) {
         uintptr_t vec[3] = { 0 };
@@ -133,9 +127,8 @@ static bool ValidateCandidate(
     return true;
 }
 
-// ------------------------------------------------------------------
-//  Dynamic search for ChildrenStart/End (skip endOff = 0)
-// ------------------------------------------------------------------
+//dynamic
+
 static bool FindChildrenOffsetsDynamic(
     HANDLE hProc,
     uintptr_t parentPtr,
@@ -149,7 +142,7 @@ static bool FindChildrenOffsetsDynamic(
     const uint32_t MAX_OFF = 0x800;
     const uint32_t MAX_END_OFF = 0x100;
 
-    LOG_INFO("Dynamic search for ChildrenStart/End offsets...");
+    LOG_INFO("dynamic is searching for ChildrenStart/End offsets...");
 
     for (uint32_t startOff = 0; startOff < MAX_OFF; startOff += 8) {
         uintptr_t startPtr = 0;
@@ -158,14 +151,14 @@ static bool FindChildrenOffsetsDynamic(
             continue;
         if (!IsPointerValid(hProc, startPtr)) continue;
 
-        for (uint32_t endOff = 0x8; endOff < MAX_END_OFF; endOff += 8) { // start from 0x8
+        for (uint32_t endOff = 0x8; endOff < MAX_END_OFF; endOff += 8) { // start from 0x8 yeah
             size_t childCount = 0;
             std::string method;
             if (ValidateCandidate(hProc, parentPtr, workspacePtr, nameOffset, pe,
                 startOff, endOff, childCount, method)) {
-                LOG_OK("Found valid children: start=0x" + ToHex(startOff) +
-                    ", end=0x" + ToHex(endOff) + " (method: " + method +
-                    "), count=" + std::to_string(childCount));
+                LOG_OK("found valid children: start=>0x" + ToHex(startOff) +
+                    ", end=>0x" + ToHex(endOff) + " (method: " + method +
+                    "), count=>" + std::to_string(childCount));
                 outStartOff = startOff;
                 outEndOff = endOff;
                 outChildCount = childCount;
@@ -174,17 +167,14 @@ static bool FindChildrenOffsetsDynamic(
         }
     }
 
-    LOG_ERR("No valid children offsets found");
+    LOG_ERR("no offsets found, lests larp!!P!!!");
     return false;
 }
 
-// ------------------------------------------------------------------
-//  Parent offset (dynamic)
-// ------------------------------------------------------------------
 static uint32_t FindParentOffset(HANDLE hProc, uintptr_t workspacePtr, uintptr_t dataModelPtr) {
     const uint32_t MAX_OFF = 0x200;
     SIZE_T got;
-    LOG_INFO("Scanning Workspace for Parent");
+    LOG_INFO("scanning Workspace for Parent");
     for (uint32_t off = 0; off <= MAX_OFF; off += 8) {
         uintptr_t val = 0;
         if (!SafeRead(hProc, workspacePtr + off, &val, sizeof(val), got) || got != sizeof(val))
@@ -198,9 +188,6 @@ static uint32_t FindParentOffset(HANDLE hProc, uintptr_t workspacePtr, uintptr_t
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  ClassDescriptor and ClassName via RTTI (no hardcoded offsets)
-// ------------------------------------------------------------------
 static bool FindClassOffsetsViaRTTI(
     HANDLE hProc,
     uintptr_t workspacePtr,
@@ -210,11 +197,11 @@ static bool FindClassOffsetsViaRTTI(
     uint32_t& outClassDescriptorOffset,
     uint32_t& outClassNameOffset)
 {
-    LOG_INFO("Finding ClassDescriptor and ClassName via RTTI...");
+    LOG_INFO("finding ClassDescriptor and ClassName, yeah");
 
     auto rtti = FindRTTI(hProc, pe, rdataBuf, dataBuf, ".?AVClassDescriptor@Reflection@RBX@@");
     if (!rtti) {
-        LOG_ERR("ClassDescriptor RTTI not found");
+        LOG_ERR("ClassDescriptor RTTI not found, if rtti is changed, we will find :), or its game not loading");
         return false;
     }
 
@@ -222,7 +209,6 @@ static bool FindClassOffsetsViaRTTI(
     const uint32_t MAX_OFF = 0x200;
     SIZE_T got;
 
-    // Scan Workspace for the ClassDescriptor pointer
     for (uint32_t off = 0; off <= MAX_OFF; off += 8) {
         uintptr_t val = 0;
         if (!SafeRead(hProc, workspacePtr + off, &val, sizeof(val), got) || got != sizeof(val))
@@ -234,11 +220,8 @@ static bool FindClassOffsetsViaRTTI(
             continue;
         if (vtable != classDescVtable) continue;
 
-        // Found the ClassDescriptor pointer – store its offset
         outClassDescriptorOffset = off;
 
-        // Now find the class name string inside the ClassDescriptor
-        // Scan for a string "Workspace" inside the ClassDescriptor object
         bool nameFound = false;
         for (uint32_t nameOff = 0; nameOff < 0x100; nameOff += 8) {
             uintptr_t namePtr = 0;
@@ -261,9 +244,7 @@ static bool FindClassOffsetsViaRTTI(
     return false;
 }
 
-// ------------------------------------------------------------------
-//  Main entry point
-// ------------------------------------------------------------------
+//main
 InstanceOffsets FindInstanceOffsets(
     HANDLE hProc,
     uintptr_t dataModelPtr,
@@ -280,52 +261,50 @@ InstanceOffsets FindInstanceOffsets(
     auto pe = GetPEInfo(hProc, moduleBase);
     if (!pe) { LOG_ERR("Could not parse PE"); return res; }
 
-    // 1. Workspace & Name
+    // 1. workspace & name
     auto [workspacePtr, nameOffset] = FindWorkspaceAndNameOffset(hProc, dataModelPtr, *pe);
     if (!workspacePtr || !nameOffset) {
-        LOG_ERR("Failed to find Workspace or Name offset");
+        LOG_ERR("failed to find Workspace or Name offset");
         return res;
     }
     res.Name = nameOffset;
     res.WorkspacePtr = workspacePtr;
     res.DataModelPtr = dataModelPtr;
 
-    // 2. Children offsets
+    // 2. children offsets
     uint32_t startOff = 0, endOff = 0;
     size_t childCount = 0;
     if (!FindChildrenOffsetsDynamic(hProc, dataModelPtr, workspacePtr, nameOffset, *pe,
         startOff, endOff, childCount)) {
-        LOG_ERR("Failed to find children offsets");
+        LOG_ERR("failed to find children offsets");
         return res;
     }
     res.ChildrenStart = startOff;
     res.ChildrenEnd = endOff;
     res.Attributes = (uint32_t)childCount;
 
-    // 3. Parent
+    // 3. parent
     res.Parent = FindParentOffset(hProc, workspacePtr, dataModelPtr);
     if (res.Parent == 0) {
-        LOG_ERR("Failed to find Parent offset");
+        LOG_ERR("failed to find Parent offset");
         return res;
     }
 
     // 4. ClassDescriptor & ClassName via RTTI
     uint32_t classDescOff = 0, classNameOff = 0;
     if (!FindClassOffsetsViaRTTI(hProc, workspacePtr, *pe, rdataBuf, dataBuf, classDescOff, classNameOff)) {
-        LOG_ERR("Failed to find ClassDescriptor or ClassName");
+        LOG_ERR("failed to find ClassDescriptor or ClassName");
         return res;
     }
     res.ClassDescriptor = classDescOff;
     res.ClassName = classNameOff;
 
     res.Valid = true;
-    LOG_OK("Instance offsets discovered successfully");
+    LOG_OK("yay, instance offsets discovered successfully");
     return res;
 }
 
-// ------------------------------------------------------------------
-//  Tree dump with safe child validation and BOTH endPtr methods
-// ------------------------------------------------------------------
+//tree dumper (we do not add because we cause the long and large file)
 void DumpInstanceTree(
     HANDLE hProc,
     uintptr_t rootInstancePtr,

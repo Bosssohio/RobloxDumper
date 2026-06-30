@@ -1,13 +1,8 @@
-// =============================================================================
-//  DataModel.cpp  –  Discover DataModel properties (Fixed Dynamic Scanner)
-// =============================================================================
 #include "DataModel.hpp"
 #include "../OffsetScanner.hpp"
 #include <regex>
 
-// ------------------------------------------------------------------
-//  Helper: Robustly read an MSVC x64 string layout safely
-// ------------------------------------------------------------------
+//helper
 static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
     if (!IsPointerValid(hProc, addr)) return std::nullopt;
 
@@ -15,6 +10,8 @@ static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
     // [0x00] - Data pointer (Long) / Inline char buffer (Short/SSO)
     // [0x10] - Length (size_t)
     // [0x18] - Capacity (size_t)
+
+    // this is for issue and we wil bullshot back
     size_t length = 0;
     size_t capacity = 0;
     SIZE_T got;
@@ -22,14 +19,14 @@ static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
     if (!SafeRead(hProc, addr + 0x10, &length, sizeof(length), got) || got != sizeof(length)) return std::nullopt;
     if (!SafeRead(hProc, addr + 0x18, &capacity, sizeof(capacity), got) || got != sizeof(capacity)) return std::nullopt;
 
-    // Sanity check bounds to reject invalid memory regions
+    // sanity check bounds to reject invalid memory regions
     if (length == 0 || length > 1000) return std::nullopt;
 
-    // MSVC string verification: capacity is either exactly 15 (short) or >= 16 (long)
+    // MSVC string verification: capacity is either exactly 15 (short) or >= 16 (long) and also, STINKY
     if (capacity != 15 && capacity < 16) return std::nullopt;
 
     if (capacity >= 16) {
-        // Long string: read string data from heap pointer
+        // long string: read string data from heap pointer
         uintptr_t heapPtr = 0;
         if (SafeRead(hProc, addr, &heapPtr, sizeof(heapPtr), got) && got == sizeof(heapPtr) && IsPointerValid(hProc, heapPtr)) {
             std::string result(length, '\0');
@@ -39,7 +36,7 @@ static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
         }
     }
     else {
-        // Short string: read string data directly inline
+        // short string: read string data directly inline
         std::string result(length, '\0');
         if (SafeRead(hProc, addr, &result[0], length, got) && got == length) {
             return result;
@@ -49,17 +46,15 @@ static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
     return std::nullopt;
 }
 
-// ------------------------------------------------------------------
-//  Helper: validate an IP string (strict)
-// ------------------------------------------------------------------
+
+// HAHAHAHA IM GONNA LEAK YOUR IP ADDRESS AND STOLE TO ASS!!!!!!!!
+// jk, its for safety not leaking
 static bool IsValidIP(const std::string& str) {
     std::regex ipRegex(R"((\d{1,3}\.){3}\d{1,3}([:|]\d+)?)");
     return std::regex_match(str, ipRegex);
 }
 
-// ------------------------------------------------------------------
-//  Helper: validate a UUID string
-// ------------------------------------------------------------------
+//for job application HAHAHAHAHAHAH
 static bool IsValidUUID(const std::string& str) {
     std::regex uuidRegex(R"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})");
     return std::regex_match(str, uuidRegex);
@@ -77,13 +72,13 @@ DataModelOffsets FindDataModelOffsets(
     res.Valid = false;
 
     if (!dataModelPtr || !instanceOffsets.Valid) {
-        LOG_ERR("DataModel or Instance offsets not available");
+        LOG_ERR("datamodel or just instance is not available or trying while game loading");
         return res;
     }
 
-    LOG_INFO("Discovering DataModel properties...");
+    LOG_INFO("discovering DataModel properties...");
 
-    // 1. GameLoaded – scan for uint32_t value 31
+    // 1. GameLoaded (oooo too easy)
     uint32_t gameLoadedOff = FindIntOffset(hProc, dataModelPtr, 31, 0x1000, 4);
     if (gameLoadedOff) {
         res.GameLoaded = gameLoadedOff;
@@ -93,42 +88,12 @@ DataModelOffsets FindDataModelOffsets(
         LOG_WARN("GameLoaded offset not found");
     }
 
-    // 2. Find NetworkClient (RTTI → container scan → flat pointer)
+    // 2. Find NetworkClient (NOT RTTI IF ITS NOT EXISTED)
     uintptr_t networkClientPtr = 0;
     uint32_t networkClientOffset = 0;
 
-    std::vector<std::string> rttiNames = {
-        ".?AVNetworkClientProp@Network@RBX@@",
-        ".?AVNetworkClient@RBX@@"
-    };
-
-    for (const auto& name : rttiNames) {
-        auto rtti = FindRTTI(hProc, pe, rdataBuf, dataBuf, name);
-        if (rtti) {
-            uintptr_t networkVtable = pe.moduleBase + rtti->vtableRVA;
-            LOG_OK("NetworkClient vtable found (RTTI: " + name + ") at 0x" + ToHex(networkVtable));
-            const uint32_t MAX_SCAN = 0x1000;
-            for (uint32_t off = 0x20; off < MAX_SCAN; off += 8) {
-                uintptr_t ptr = 0;
-                SIZE_T got;
-                if (!SafeRead(hProc, dataModelPtr + off, &ptr, sizeof(ptr), got) || got != sizeof(ptr)) continue;
-                if (!IsPointerValid(hProc, ptr)) continue;
-                uintptr_t vtable = 0;
-                if (!SafeRead(hProc, ptr, &vtable, sizeof(vtable), got) || got != sizeof(vtable)) continue;
-                if (vtable == networkVtable) {
-                    networkClientPtr = ptr;
-                    networkClientOffset = off;
-                    LOG_OK("NetworkClient found at 0x" + ToHex(networkClientPtr) +
-                        " (offset 0x" + ToHex(off) + " in DataModel)");
-                    break;
-                }
-            }
-            if (networkClientPtr) break;
-        }
-    }
 
     if (!networkClientPtr) {
-        LOG_INFO("RTTI lookup failed. Scanning DataModel for service containers...");
         const uint32_t MAX_SCAN = 0x500;
         for (uint32_t off = 0x10; off < MAX_SCAN; off += 8) {
             uintptr_t vecStart = 0, vecEnd = 0;
@@ -162,7 +127,7 @@ DataModelOffsets FindDataModelOffsets(
     }
 
     if (!networkClientPtr) {
-        LOG_INFO("Container scan missed, performing flat pointer scan...");
+        LOG_INFO("container scan missed, performing flat pointer scan...");
         const uint32_t MAX_SCAN = 0x1000;
         for (uint32_t off = 0x20; off < MAX_SCAN; off += 8) {
             uintptr_t ptr = 0;
@@ -187,18 +152,17 @@ DataModelOffsets FindDataModelOffsets(
     }
 
     if (!networkClientPtr) {
-        LOG_WARN("NetworkClient not found (all methods exhausted)");
+        LOG_WARN("NetworkClient not found (all methods failed) better luck next time, idiot hahahaha");
     }
 
-    // 3. Scan for JobId and ServerIP independently (No Cross-Contamination)
+    // 3. scanning for JobId and ServerIP independently 
     const uint32_t MAX_SCAN = 0x4000;
 
-    // Prioritize scanning DataModel first as standard practice, then use NetworkClient as fallback object
     std::vector<std::pair<uintptr_t, std::string>> targets;
     targets.push_back({ dataModelPtr, "DataModel" });
     if (networkClientPtr) targets.push_back({ networkClientPtr, "NetworkClient" });
 
-    // Find JobId Loop
+    // Find JobId Loop if its available for mcdonaldo
     for (const auto& [obj, objName] : targets) {
         LOG_INFO("Scanning " + objName + " for JobId (8-byte alignment)...");
         for (uint32_t off = 0x20; off < MAX_SCAN; off += 8) {
@@ -212,7 +176,7 @@ DataModelOffsets FindDataModelOffsets(
         if (res.JobId) break;
     }
 
-    // Find ServerIP Loop
+    // Find ServerIP Loop die
     for (const auto& [obj, objName] : targets) {
         LOG_INFO("Scanning " + objName + " for ServerIP (8-byte alignment)...");
         for (uint32_t off = 0x20; off < MAX_SCAN; off += 8) {
@@ -226,8 +190,8 @@ DataModelOffsets FindDataModelOffsets(
         if (res.ServerIP) break;
     }
 
-    if (!res.JobId)    LOG_WARN("JobId offset could not be dynamically resolved.");
-    if (!res.ServerIP) LOG_WARN("ServerIP offset could not be dynamically resolved.");
+    if (!res.JobId)    LOG_WARN("JobId offset could not be dynamically resolved. a");
+    if (!res.ServerIP) LOG_WARN("ServerIP offset could not be dynamically resolved. h");
 
     res.Valid = true;
     LOG_OK("DataModel properties discovery completed.");

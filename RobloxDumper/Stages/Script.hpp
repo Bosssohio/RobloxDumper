@@ -1,6 +1,3 @@
-// =============================================================================
-//  Script.hpp  –  Dynamic discovery for ModuleScript, LocalScript, and Script
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include "Instance.hpp"

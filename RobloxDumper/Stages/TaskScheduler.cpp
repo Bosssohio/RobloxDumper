@@ -1,11 +1,11 @@
-// =============================================================================
-//  TaskScheduler.cpp
-// =============================================================================
+
 #include "TaskScheduler.hpp"
 #include <algorithm>
 #include <map>
 #include <cmath>
 
+
+//scan important for this
 static const std::unordered_set<std::string> kKnownJobNames = {
     "WorkspaceTaskQueue", "PerformanceControlCoordinatorV2Job", "NotifyAliveJob",
     "LuaGc", "WaitingHybridScriptsJob", "ClearUnusedLuaRefsJob", "LuauTelemetry",

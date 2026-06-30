@@ -1,6 +1,3 @@
-// =============================================================================
-//  Workspace.cpp  –  Fully dynamic Workspace offsets (triple‑sample time gate)
-// =============================================================================
 #include "Workspace.hpp"
 #include "../OffsetScanner.hpp"
 #include <cmath>
@@ -9,9 +6,6 @@
 #include <vector>
 #include <algorithm>
 
-// ------------------------------------------------------------------
-//  Helper: find pointer to a structure containing a specific float (gravity)
-// ------------------------------------------------------------------
 static std::optional<std::pair<uint32_t, uint32_t>> find_offset_to_float_pointer(
     HANDLE hProc,
     uintptr_t objectPtr,
@@ -40,9 +34,6 @@ static std::optional<std::pair<uint32_t, uint32_t>> find_offset_to_float_pointer
     return std::nullopt;
 }
 
-// ------------------------------------------------------------------
-//  Helper: find object by class name (for CurrentCamera)
-// ------------------------------------------------------------------
 static uint32_t FindObjectByClassName(
     HANDLE hProc,
     uintptr_t parentPtr,
@@ -74,11 +65,7 @@ static uint32_t FindObjectByClassName(
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  Triple‑sample time‑gated scanner for DistributedGameTime
-//  No hardcoded offsets – purely dynamic.
-//  Adjusted EPSILON and MAX_VALUE to handle real‑world environments.
-// ------------------------------------------------------------------
+//does it find the impossible offsets yeah?
 static uint32_t FindDistributedGameTime(
     HANDLE hProc,
     uintptr_t obj,
@@ -91,7 +78,7 @@ static uint32_t FindDistributedGameTime(
     const double RATIO_TOLERANCE = 0.25;   // absorb frame‑rate quantization
     const double MAX_GAME_TIME = 500000.0; // covers servers running for several days
 
-    // ---- Sample 1: read all doubles, store in a flat vector ----
+    // sample 1
     std::vector<std::pair<uint32_t, double>> sample1;
     sample1.reserve((endOff - startOff) / align + 1);
     for (uint32_t off = startOff; off <= endOff; off += align) {
@@ -102,13 +89,13 @@ static uint32_t FindDistributedGameTime(
     }
     if (sample1.empty()) return 0;
 
-    // ---- Sleep 1 (longer duration to absorb frame jitter) ----
+    // sleep 1
     auto t1_start = std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(std::chrono::milliseconds(150));
     auto t1_end = std::chrono::high_resolution_clock::now();
     double elapsed1 = std::chrono::duration<double>(t1_end - t1_start).count();
 
-    // ---- Sample 2: compute delta1, filter candidates ----
+    // sample 2
     std::vector<std::tuple<uint32_t, double, double>> candidates; // off, val1, delta1
     for (const auto& [off, val1] : sample1) {
         double val2 = 0.0;
@@ -121,13 +108,13 @@ static uint32_t FindDistributedGameTime(
     }
     if (candidates.empty()) return 0;
 
-    // ---- Sleep 2 (significantly different duration) ----
+    // sleep 2
     auto t2_start = std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(std::chrono::milliseconds(350));
     auto t2_end = std::chrono::high_resolution_clock::now();
     double elapsed2 = std::chrono::duration<double>(t2_end - t2_start).count();
 
-    // ---- Sample 3: validate scaling ratio ----
+    // smaple 3
     double bestScore = -1.0;
     uint32_t bestOff = 0;
 
@@ -156,9 +143,6 @@ static uint32_t FindDistributedGameTime(
     return bestOff;
 }
 
-// ------------------------------------------------------------------
-//  Main discovery function
-// ------------------------------------------------------------------
 WorkspaceOffsets FindWorkspaceOffsets(
     HANDLE hProc,
     uintptr_t workspacePtr,
@@ -168,13 +152,13 @@ WorkspaceOffsets FindWorkspaceOffsets(
     res.Valid = false;
 
     if (!workspacePtr || !instanceOffsets.Valid) {
-        LOG_ERR("Workspace or Instance offsets not available");
+        LOG_ERR("Workspace or Instance offsets not available, better luck next time!");
         return res;
     }
 
-    LOG_INFO("Discovering Workspace offsets...");
+    LOG_INFO("dumper is discovering Workspace offsets...");
 
-    // 1. CurrentCamera – find by class name
+    // 1. CurrentCamera 
     uint32_t camOff = FindObjectByClassName(hProc, workspacePtr, instanceOffsets, "Camera", 0x20, 0x600, 8);
     if (camOff) {
         res.CurrentCamera = camOff;
@@ -184,8 +168,8 @@ WorkspaceOffsets FindWorkspaceOffsets(
         LOG_WARN("CurrentCamera not found");
     }
 
-    // 2. World – find pointer to gravity structure (196.2f)
-    LOG_INFO("Searching for World via gravity pointer...");
+    // 2. World 
+    LOG_INFO("dumper is searching for World via gravity pointer");
     auto result = find_offset_to_float_pointer(hProc, workspacePtr, 196.2f, 0x1000, 0x800, 0x8, 0x4);
     if (result) {
         res.World = result->first;
@@ -195,8 +179,8 @@ WorkspaceOffsets FindWorkspaceOffsets(
         LOG_WARN("World not found");
     }
 
-    // 3. DistributedGameTime – triple‑sample time gating (pure dynamic)
-    LOG_INFO("Scanning for DistributedGameTime using triple‑sample scaling...");
+    // 3. DistributedGameTime 
+    LOG_INFO("dumper is scanning for DistributedGameTime");
     uint32_t timeOff = FindDistributedGameTime(hProc, workspacePtr, 0x100, 0x2000, 8);
     if (timeOff) {
         res.DistributedGameTime = timeOff;

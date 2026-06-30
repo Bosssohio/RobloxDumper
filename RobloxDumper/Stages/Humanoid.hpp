@@ -1,6 +1,3 @@
-// =============================================================================
-//  Humanoid.hpp  –  Expanded Humanoid offset discovery
-// =============================================================================
 #pragma once
 #include "../Core.hpp"
 #include "Instance.hpp"

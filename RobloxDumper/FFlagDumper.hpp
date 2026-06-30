@@ -1,6 +1,3 @@
-// =============================================================================
-//  FFlagDumper.hpp  – FFlag offset discovery, dump, file writing
-// =============================================================================
 #pragma once
 #include "Core.hpp"
 #include <vector>

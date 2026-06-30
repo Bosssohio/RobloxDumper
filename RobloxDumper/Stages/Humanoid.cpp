@@ -1,15 +1,9 @@
-// =============================================================================
-//  Humanoid.cpp  –  Fully Dynamic Discovery (Fixed Offsets)
-// =============================================================================
 #include "Humanoid.hpp"
 #include "../OffsetScanner.hpp"
 #include <set>
 #include <cmath>
 #include <cctype>
 
-// ------------------------------------------------------------------
-//  Helper: recursively find an instance by class name
-// ------------------------------------------------------------------
 static uintptr_t FindFirstChildByClassRecursive(
     HANDLE hProc,
     uintptr_t currentPtr,
@@ -89,9 +83,6 @@ static uintptr_t FindFirstChildByClassRecursive(
     return 0;
 }
 
-// ------------------------------------------------------------------
-//  Helpers: Type checking and math validation
-// ------------------------------------------------------------------
 static bool IsFloatEqual(float a, float b, float eps = 0.001f) {
     return fabs(a - b) < eps;
 }
@@ -127,6 +118,7 @@ static uint32_t FindIntInRange(HANDLE hProc, uintptr_t obj, int target, uint32_t
 }
 
 // Robust MSVC std::string Inline/SSO Reader
+//make sure if its ass bruh
 static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
     size_t length = 0;
     size_t capacity = 0;
@@ -153,27 +145,24 @@ static std::optional<std::string> ReadStringSSO(HANDLE hProc, uintptr_t addr) {
 }
 
 static uintptr_t FindHumanoidInstance(HANDLE hProc, uintptr_t dataModelPtr, const InstanceOffsets& instanceOffsets, const PEInfo& pe) {
-    LOG_INFO("Searching DataModel for Humanoid...");
+    LOG_INFO("dumper is searching DataModel for NPC->Humanoid...");
     int totalNodes = 0;
     uintptr_t humanoid = FindFirstChildByClassRecursive(hProc, dataModelPtr, instanceOffsets, pe, "Humanoid", 0, totalNodes);
     if (humanoid) {
         LOG_OK("Humanoid found at 0x" + ToHex(humanoid));
     }
     else {
-        LOG_WARN("Humanoid not found in DataModel");
+        LOG_WARN("humanoid not found in DataModel, please do not remove");
     }
     return humanoid;
 }
 
-// ------------------------------------------------------------------
-//  Main discovery function
-// ------------------------------------------------------------------
 HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const InstanceOffsets& instanceOffsets) {
     HumanoidOffsets res;
     res.Valid = false;
 
     if (!dataModelPtr || !instanceOffsets.Valid) {
-        LOG_ERR("DataModel or Instance offsets not available");
+        LOG_ERR("datamodel or just instance is not available or trying while game loading");
         return res;
     }
 
@@ -190,18 +179,18 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
 
     uintptr_t humanoid = FindHumanoidInstance(hProc, dataModelPtr, instanceOffsets, *pe);
     if (!humanoid) {
-        LOG_ERR("Humanoid not found, cannot discover offsets");
+        LOG_ERR("dumper cannot Humanoid founded, cannot discover offsets");
         return res;
     }
 
     LOG_INFO("Discovering Humanoid offsets dynamically...");
-    std::set<uint32_t> usedOffsets;  // Track used offsets to avoid overlaps
+    std::set<uint32_t> usedOffsets;
 
-    // ----- Floats -----
+    // floats
     res.Health = FindFloatInRange(hProc, humanoid, 100.0f, 0x190, 0x1A0, 4);
     if (res.Health) { usedOffsets.insert(res.Health); LOG_OK("Health offset: 0x" + ToHex(res.Health)); }
 
-    // MaxHealth – skip Health offset
+    // maxhealth (floats)
     for (uint32_t off = 0x1B0; off <= 0x1C0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0;
@@ -214,7 +203,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // WalkSpeed – try 16, then heuristic
+    // walkspeed
     uint32_t wsOff = FindFloatInRange(hProc, humanoid, 16.0f, 0x1D0, 0x1F0, 4);
     if (wsOff && usedOffsets.find(wsOff) == usedOffsets.end()) {
         res.WalkSpeed = wsOff; usedOffsets.insert(wsOff);
@@ -228,7 +217,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // JumpPower – try 50, then heuristic
+    // jumppower
     uint32_t jpOff = FindFloatInRange(hProc, humanoid, 50.0f, 0x1A8, 0x1C0, 4);
     if (jpOff && usedOffsets.find(jpOff) == usedOffsets.end()) {
         res.JumpPower = jpOff; usedOffsets.insert(jpOff);
@@ -242,7 +231,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // JumpHeight – try 7.2, then heuristic
+    // jumpheight
     uint32_t jhOff = FindFloatInRange(hProc, humanoid, 7.2f, 0x1A0, 0x1B0, 4);
     if (jhOff && usedOffsets.find(jhOff) == usedOffsets.end()) {
         res.JumpHeight = jhOff; usedOffsets.insert(jhOff);
@@ -256,7 +245,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // HipHeight (default 0.0)
+    // hipheight
     for (uint32_t off = 0x198; off <= 0x1A8; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0; SIZE_T got;
@@ -267,7 +256,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ★ FIXED: MaxSlopeAngle – default 89.0f, skip used offsets
+    // maxslopeangle (SLOP RETROSLOP?!?!?! AHAHAHHAH)
     for (uint32_t off = 0x1B0; off <= 0x1C0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0;
@@ -279,7 +268,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
             break;
         }
     }
-    // Fallback to heuristic if 89.0 not found
+    // fallback to shit if 89 doesnt exist (impossible to rid fallback)
     if (res.MaxSlopeAngle == 0) {
         for (uint32_t off = 0x1B0; off <= 0x1C0; off += 4) {
             if (usedOffsets.find(off) != usedOffsets.end()) continue;
@@ -294,7 +283,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // WalkTimer (default 0.0)
+    // walktimer
     for (uint32_t off = 0x1D0; off <= 0x1E0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0; SIZE_T got;
@@ -305,7 +294,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // HealthDisplayDistance (default 0.0)
+    // healthdisplaydistance (easy)
     for (uint32_t off = 0x190; off <= 0x1A0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0; SIZE_T got;
@@ -316,8 +305,8 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ----- Booleans (byte offsets) -----
-    // AutoJumpEnabled – we set it to 1 for detection
+    // booleans offsets
+    // autojumpenabled
     for (uint32_t off = 0x1E0; off <= 0x200; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -330,7 +319,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // AutoRotate (default true = 1)
+    // autorotate
     for (uint32_t off = 0x1E0; off <= 0x1E2; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -341,7 +330,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // Sit (default false = 0)
+    // Sit (cute)
     for (uint32_t off = 0x1E8; off <= 0x1EA; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -352,7 +341,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // BreakJointsOnDeath (default false = 0)
+    // BreakJointsOnDeath (ahh fresh meat)
     for (uint32_t off = 0x1E4; off <= 0x1E6; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -363,7 +352,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // PlatformStand (default false = 0)
+    // PlatformStand 
     for (uint32_t off = 0x1E6; off <= 0x1E8; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -374,7 +363,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // RequiresNeck (default true = 1)
+    // RequiresNeck 
     for (uint32_t off = 0x1E0; off <= 0x1EC; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -387,7 +376,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // UseJumpPower (default false = 0)
+    // UseJumpPower 
     for (uint32_t off = 0x1E0; off <= 0x1EC; off += 1) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         uint8_t val = 0; SIZE_T got;
@@ -400,8 +389,8 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ----- Enums / Ints (fixed) -----
-    // ★ NameOcclusion – official offset 0x1C0, value 2 = OccludeAll
+    // emuns/int
+    // nameocculans (issue)
     for (uint32_t off = 0x1B0; off <= 0x1D0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         int val = 0; SIZE_T got;
@@ -411,7 +400,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
             break;
         }
     }
-    // Fallback: if not found, try any non‑zero int in that range
+    // fallback if not founded 
     if (res.NameOcclusion == 0) {
         for (uint32_t off = 0x1B0; off <= 0x1D0; off += 4) {
             if (usedOffsets.find(off) != usedOffsets.end()) continue;
@@ -424,12 +413,12 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // RigType (default 0, official 0x1EC)
+    // RigType
     for (uint32_t off = 0x1EC; off <= 0x220; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         int val = 0; SIZE_T got;
         if (SafeRead(hProc, humanoid + off, &val, sizeof(val), got) && got == sizeof(val) && val == 0) {
-            // Ensure it doesn't overlap with NameOcclusion (we already inserted that offset)
+            // im not so ensure it doesn't overlap with NameOcclusion
             if (off != res.NameOcclusion) {
                 res.RigType = off; usedOffsets.insert(off);
                 LOG_OK("RigType offset: 0x" + ToHex(off));
@@ -438,7 +427,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // HumanoidState – scan for 8 (Running) or 0
+    // HumanoidState 
     for (uint32_t off = 0x1F0; off <= 0x240; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         int val = 0; SIZE_T got;
@@ -462,8 +451,8 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ----- Vector3 (first float) -----
-    // CameraOffset – official 0x1C0, but we scan for 0.0f
+    // vector3 (first float)
+    // CameraOffset 
     for (uint32_t off = 0x1B0; off <= 0x1D0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0; SIZE_T got;
@@ -474,7 +463,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // MoveDirection – official 0x1D0
+    // MoveDirection
     for (uint32_t off = 0x1D0; off <= 0x1E0; off += 4) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
         float val = 0; SIZE_T got;
@@ -485,7 +474,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ----- Object Pointers -----
+    // object pointer
     const uint32_t MAX_OBJ_SCAN = 0x500;
     for (uint32_t off = 0x400; off < MAX_OBJ_SCAN; off += 8) {
         if (usedOffsets.find(off) != usedOffsets.end()) continue;
@@ -514,7 +503,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ----- DisplayName (string via SSO) -----
+    // display name
     const uint32_t MAX_STRING_SCAN = 0x400;
     for (uint32_t off = 0x20; off < MAX_STRING_SCAN; off += 4) {
         if (off == instanceOffsets.Name) continue;
@@ -531,7 +520,7 @@ HumanoidOffsets FindHumanoidOffsets(HANDLE hProc, uintptr_t dataModelPtr, const 
         }
     }
 
-    // ✅ Valid if Health and MaxHealth are found
+    // vaild if its founded
     res.Valid = (res.Health != 0 && res.MaxHealth != 0);
     if (res.Valid) {
         LOG_OK("Humanoid offsets discovered successfully");
