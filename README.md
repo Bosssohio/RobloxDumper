@@ -22,7 +22,8 @@ WARNING: This includes stage and Script stage will find the test localscript and
 
 ## If you wanted to get offsets
 
-Then click here [Download Offsets and FFlags](Offsets/offsetsandfflags.h?raw=true)
+Then click here [Download Offsets and FFlags](https://githubusercontent.com)
+
 
 
 
