@@ -9,61 +9,6 @@
 #include <iomanip>
 #include <sstream>
 
-// ------------------------------------------------------------------
-//  Helpers (unchanged)
-// ------------------------------------------------------------------
-static bool IsPointerValid(HANDLE hProc, uintptr_t ptr) {
-    if (ptr < 0x10000 || ptr > 0x00007FFFFFFFFFFF) return false;
-    MEMORY_BASIC_INFORMATION mbi;
-    if (!VirtualQueryEx(hProc, (LPCVOID)ptr, &mbi, sizeof(mbi))) return false;
-    if (mbi.State != MEM_COMMIT) return false;
-    if (!(mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_EXECUTE_READ |
-        PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-        return false;
-    return true;
-}
-
-static bool HasValidVTable(HANDLE hProc, uintptr_t objectPtr, const PEInfo& pe) {
-    if (!IsPointerValid(hProc, objectPtr)) return false;
-    uintptr_t vtable = 0;
-    SIZE_T got;
-    if (!SafeRead(hProc, objectPtr, &vtable, sizeof(vtable), got) || got != sizeof(vtable))
-        return false;
-    for (const auto& sec : pe.sections) {
-        uintptr_t secStart = pe.moduleBase + sec.rva;
-        uintptr_t secEnd = secStart + sec.virtualSize;
-        if (vtable >= secStart && vtable < secEnd)
-            return true;
-    }
-    return false;
-}
-
-static std::optional<PEInfo> GetPEInfo(HANDLE hProc, uintptr_t moduleBase) {
-    static std::optional<PEInfo> cached;
-    static uintptr_t cachedModuleBase = 0;
-    if (cached.has_value() && cachedModuleBase == moduleBase)
-        return cached;
-    auto pe = ParsePE(hProc, moduleBase);
-    if (pe) {
-        cached = pe;
-        cachedModuleBase = moduleBase;
-    }
-    return cached;
-}
-
-static uintptr_t GetModuleBase(HANDLE hProc) {
-    HMODULE hMod;
-    DWORD cb;
-    if (!EnumProcessModules(hProc, &hMod, sizeof(hMod), &cb)) return 0;
-    MODULEINFO mi;
-    if (!GetModuleInformation(hProc, hMod, &mi, sizeof(mi))) return 0;
-    return (uintptr_t)mi.lpBaseOfDll;
-}
-
-static std::optional<std::string> ReadStringSafe(HANDLE hProc, uintptr_t ptr) {
-    if (!IsPointerValid(hProc, ptr)) return std::nullopt;
-    return ReadRobloxString(hProc, ptr);
-}
 
 // ------------------------------------------------------------------
 //  Find Workspace & Name offset (unchanged)

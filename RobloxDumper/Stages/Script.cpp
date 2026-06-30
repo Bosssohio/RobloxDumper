@@ -1,5 +1,5 @@
 // =============================================================================
-//  Script.cpp  –  Official target‑size method, hash reused
+//  Script.cpp  –  Fully dynamic script offsets (multi‑size Script)
 // =============================================================================
 #include "Script.hpp"
 #include "Instance.hpp"
@@ -11,65 +11,7 @@
 #include <sstream>
 
 // ------------------------------------------------------------------
-//  Helpers (unchanged)
-// ------------------------------------------------------------------
-static bool IsPointerValid(HANDLE hProc, uintptr_t ptr) {
-    if (ptr < 0x10000 || ptr > 0x00007FFFFFFFFFFF) return false;
-    MEMORY_BASIC_INFORMATION mbi;
-    if (!VirtualQueryEx(hProc, (LPCVOID)ptr, &mbi, sizeof(mbi))) return false;
-    if (mbi.State != MEM_COMMIT) return false;
-    if (!(mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_EXECUTE_READ |
-        PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-        return false;
-    return true;
-}
-
-static bool HasValidVTable(HANDLE hProc, uintptr_t objectPtr, const PEInfo& pe) {
-    if (!IsPointerValid(hProc, objectPtr)) return false;
-    uintptr_t vtable = 0;
-    SIZE_T got;
-    if (!SafeRead(hProc, objectPtr, &vtable, sizeof(vtable), got) || got != sizeof(vtable))
-        return false;
-    for (const auto& sec : pe.sections) {
-        uintptr_t secStart = pe.moduleBase + sec.rva;
-        uintptr_t secEnd = secStart + sec.virtualSize;
-        if (vtable >= secStart && vtable < secEnd)
-            return true;
-    }
-    return false;
-}
-
-static std::optional<std::string> ReadStringSafe(HANDLE hProc, uintptr_t ptr) {
-    if (!IsPointerValid(hProc, ptr)) return std::nullopt;
-    return ReadRobloxString(hProc, ptr);
-}
-
-static std::optional<PEInfo> GetPEInfo(HANDLE hProc, uintptr_t moduleBase) {
-    static std::optional<PEInfo> cached;
-    static uintptr_t cachedModuleBase = 0;
-    if (cached.has_value() && cachedModuleBase == moduleBase)
-        return cached;
-    auto pe = ParsePE(hProc, moduleBase);
-    if (pe) {
-        cached = pe;
-        cachedModuleBase = moduleBase;
-    }
-    return cached;
-}
-
-static uintptr_t GetModuleBase(HANDLE hProc) {
-    HMODULE hMod;
-    DWORD cb;
-    if (!EnumProcessModules(hProc, &hMod, sizeof(hMod), &cb)) return 0;
-    MODULEINFO mi;
-    if (!GetModuleInformation(hProc, hMod, &mi, sizeof(mi))) return 0;
-    return (uintptr_t)mi.lpBaseOfDll;
-}
-
-//#define VERBOSE_LOG(msg) LOG_INFO(msg)
-
-// ------------------------------------------------------------------
-//  Find a direct child by name
+//  Find a direct child by name (used to locate ReplicatedStorage)
 // ------------------------------------------------------------------
 static uintptr_t FindFirstChildByName(
     HANDLE hProc,
@@ -141,7 +83,101 @@ static uintptr_t FindFirstChildByName(
 }
 
 // ------------------------------------------------------------------
-//  Official find_offset_in_pointer
+//  Recursively find a child by class name
+// ------------------------------------------------------------------
+static uintptr_t FindFirstChildByClassRecursive(
+    HANDLE hProc,
+    uintptr_t currentPtr,
+    const InstanceOffsets& offsets,
+    const PEInfo& pe,
+    const std::string& className,
+    int depth,
+    int& totalNodesVisited) // Removed defaults
+{
+    const int MAX_DEPTH = 200;
+    const int MAX_TOTAL_NODES = 5000;
+
+    if (depth > MAX_DEPTH || !currentPtr || totalNodesVisited > MAX_TOTAL_NODES) {
+        return 0;
+    }
+
+    if (!HasValidVTable(hProc, currentPtr, pe)) {
+        return 0;
+    }
+
+    SIZE_T got;
+
+    // Check current object's class name
+    uintptr_t classDescPtr = 0;
+    if (SafeRead(hProc, currentPtr + offsets.ClassDescriptor, &classDescPtr, sizeof(classDescPtr), got) && got == sizeof(classDescPtr) && classDescPtr) {
+        uintptr_t namePtr = 0;
+        if (SafeRead(hProc, classDescPtr + offsets.ClassName, &namePtr, sizeof(namePtr), got) && got == sizeof(namePtr) && namePtr) {
+            auto str = ReadStringSafe(hProc, namePtr);
+            if (str && *str == className) {
+                return currentPtr;
+            }
+        }
+    }
+
+    // Recurse into children
+    if (!offsets.ChildrenStart || !offsets.ChildrenEnd) return 0;
+    uintptr_t startPtr = 0;
+    if (!SafeRead(hProc, currentPtr + offsets.ChildrenStart, &startPtr, sizeof(startPtr), got) || got != sizeof(startPtr) || !startPtr) return 0;
+    uintptr_t firstChild = 0;
+    if (!SafeRead(hProc, startPtr, &firstChild, sizeof(firstChild), got) || got != sizeof(firstChild) || !firstChild) return 0;
+
+    if (!IsPointerValid(hProc, firstChild)) return 0;
+
+    uintptr_t endPtrA = 0, endPtrB = 0;
+    bool okA = false, okB = false;
+    size_t countA = 0, countB = 0;
+
+    if (SafeRead(hProc, firstChild + offsets.ChildrenEnd, &endPtrA, sizeof(endPtrA), got) && got == sizeof(endPtrA) && endPtrA > firstChild) {
+        if (IsPointerValid(hProc, endPtrA)) {
+            countA = (endPtrA - firstChild) / 0x10;
+            if (countA > 0 && countA <= 500) okA = true;
+        }
+    }
+    if (SafeRead(hProc, startPtr + offsets.ChildrenEnd, &endPtrB, sizeof(endPtrB), got) && got == sizeof(endPtrB) && endPtrB > firstChild) {
+        if (IsPointerValid(hProc, endPtrB)) {
+            countB = (endPtrB - firstChild) / 0x10;
+            if (countB > 0 && countB <= 500) okB = true;
+        }
+    }
+
+    uintptr_t endPtr = 0;
+    size_t count = 0;
+    if (okA && okB) {
+        if (countB <= countA) { endPtr = endPtrB; count = countB; }
+        else { endPtr = endPtrA; count = countA; }
+    }
+    else if (okA) {
+        endPtr = endPtrA; count = countA;
+    }
+    else if (okB) {
+        endPtr = endPtrB; count = countB;
+    }
+    else {
+        return 0;
+    }
+
+    for (size_t i = 0; i < count; i++) {
+        uintptr_t child = 0;
+        if (SafeRead(hProc, firstChild + i * 0x10, &child, sizeof(child), got) && got == sizeof(child) && child) {
+            if (!IsPointerValid(hProc, child)) continue;
+            totalNodesVisited++;
+            if (totalNodesVisited > MAX_TOTAL_NODES) {
+                return 0;
+            }
+            uintptr_t found = FindFirstChildByClassRecursive(hProc, child, offsets, pe, className, depth + 1, totalNodesVisited);
+            if (found) return found;
+        }
+    }
+    return 0;
+}
+
+// ------------------------------------------------------------------
+//  find_offset_in_pointer – official method
 // ------------------------------------------------------------------
 static std::optional<std::pair<uint32_t, uint32_t>> find_offset_in_pointer(
     HANDLE hProc,
@@ -172,7 +208,7 @@ static std::optional<std::pair<uint32_t, uint32_t>> find_offset_in_pointer(
 }
 
 // ------------------------------------------------------------------
-//  Discover bytecode offsets using target size
+//  Discover bytecode offsets for a given script type
 // ------------------------------------------------------------------
 static bool DiscoverBytecodeOffsetsForType(
     HANDLE hProc,
@@ -180,26 +216,24 @@ static bool DiscoverBytecodeOffsetsForType(
     const std::string& typeName,
     uint32_t targetSize,
     uint32_t& outPointerOffset,
-    uint32_t& outSizeOffset)
+    uint32_t& outSizeOffset,
+    uint32_t maxOffset = 0x600)
 {
     LOG_INFO("Scanning " + typeName + " for bytecode offsets (target size: " + std::to_string(targetSize) + ")...");
-
-    auto result = find_offset_in_pointer(hProc, scriptPtr, targetSize, 0x300, 0x100);
+    auto result = find_offset_in_pointer(hProc, scriptPtr, targetSize, maxOffset, 0x100);
     if (!result) {
         LOG_ERR("Could not find " + typeName + " bytecode offsets (target size " + std::to_string(targetSize) + ")");
         return false;
     }
-
     outPointerOffset = result->first;
     outSizeOffset = result->second;
-
     LOG_OK("Found " + typeName + " bytecode: pointer offset 0x" + ToHex(outPointerOffset) +
         ", size offset 0x" + ToHex(outSizeOffset) + " (size=" + std::to_string(targetSize) + ")");
     return true;
 }
 
 // ------------------------------------------------------------------
-//  Discover hash offset – uses same offset for both types
+//  Discover hash offset
 // ------------------------------------------------------------------
 static bool DiscoverHashOffsetForType(
     HANDLE hProc,
@@ -219,7 +253,6 @@ static bool DiscoverHashOffsetForType(
         uintptr_t ptr = 0;
         if (!SafeRead(hProc, scriptPtr + ptrOff, &ptr, sizeof(ptr), got) || got != sizeof(ptr)) continue;
         if (!IsPointerValid(hProc, ptr)) continue;
-        // Try inner offsets (hash is often at offset 0)
         uint32_t val = 0;
         if (!SafeRead(hProc, ptr, &val, sizeof(val), got) || got != sizeof(val)) continue;
         if (val == TARGET_HASH) {
@@ -259,97 +292,94 @@ ScriptOffsets FindScriptOffsets(
         return res;
     }
 
-    LOG_INFO("Searching for ModuleScript and LocalScript in Workspace and ReplicatedStorage...");
+    LOG_INFO("Searching for ModuleScript, LocalScript, and Script in Workspace and ReplicatedStorage...");
 
     uintptr_t workspacePtr = instanceOffsets.WorkspacePtr;
-    if (!workspacePtr) {
-        LOG_WARN("Workspace pointer not available");
-    }
+    if (!workspacePtr) LOG_WARN("Workspace pointer not available");
 
     uintptr_t replicatedStorage = FindFirstChildByName(hProc, dataModelPtr, instanceOffsets, *pe, "ReplicatedStorage");
-    if (!replicatedStorage) {
-        LOG_WARN("ReplicatedStorage not found");
-    }
+    if (!replicatedStorage) LOG_WARN("ReplicatedStorage not found");
 
-    uintptr_t moduleScript = 0;
-    uintptr_t localScript = 0;
+    uintptr_t moduleScript = 0, localScript = 0;
+    int nodesVisited = 0;
 
+    // Scan ReplicatedStorage
     if (replicatedStorage) {
-        moduleScript = FindFirstChildByName(hProc, replicatedStorage, instanceOffsets, *pe, "ModuleScript");
-        localScript = FindFirstChildByName(hProc, replicatedStorage, instanceOffsets, *pe, "LocalScript");
+        nodesVisited = 0;
+        moduleScript = FindFirstChildByClassRecursive(hProc, replicatedStorage, instanceOffsets, *pe, "ModuleScript", 0, nodesVisited);
 
-        if (!moduleScript) {
-            uintptr_t scriptsFolder = FindFirstChildByName(hProc, replicatedStorage, instanceOffsets, *pe, "Scripts");
-            if (scriptsFolder) {
-                moduleScript = FindFirstChildByName(hProc, scriptsFolder, instanceOffsets, *pe, "ModuleScript");
-                localScript = FindFirstChildByName(hProc, scriptsFolder, instanceOffsets, *pe, "LocalScript");
-            }
-        }
+        nodesVisited = 0; // Reset budget for the next instance type
+        localScript = FindFirstChildByClassRecursive(hProc, replicatedStorage, instanceOffsets, *pe, "LocalScript", 0, nodesVisited);
     }
 
+    // Fallback to Workspace scan if needed
     if (!moduleScript && workspacePtr) {
-        moduleScript = FindFirstChildByName(hProc, workspacePtr, instanceOffsets, *pe, "ModuleScript");
-        localScript = FindFirstChildByName(hProc, workspacePtr, instanceOffsets, *pe, "LocalScript");
+        nodesVisited = 0;
+        moduleScript = FindFirstChildByClassRecursive(hProc, workspacePtr, instanceOffsets, *pe, "ModuleScript", 0, nodesVisited);
+    }
+    if (!localScript && workspacePtr) {
+        nodesVisited = 0;
+        localScript = FindFirstChildByClassRecursive(hProc, workspacePtr, instanceOffsets, *pe, "LocalScript", 0, nodesVisited);
     }
 
-    if (moduleScript) {
-        LOG_INFO("ModuleScript found at 0x" + ToHex(moduleScript));
+    // Ultimate fallback: Full DataModel Scan
+    if (!moduleScript) {
+        LOG_INFO("Scanning entire DataModel for ModuleScript...");
+        nodesVisited = 0;
+        moduleScript = FindFirstChildByClassRecursive(hProc, dataModelPtr, instanceOffsets, *pe, "ModuleScript", 0, nodesVisited);
     }
-    else {
-        LOG_WARN("ModuleScript not found (add a test ModuleScript to ReplicatedStorage)");
+    if (!localScript) {
+        LOG_INFO("Scanning entire DataModel for LocalScript...");
+        nodesVisited = 0;
+        localScript = FindFirstChildByClassRecursive(hProc, dataModelPtr, instanceOffsets, *pe, "LocalScript", 0, nodesVisited);
     }
 
-    if (localScript) {
-        LOG_INFO("LocalScript found at 0x" + ToHex(localScript));
-    }
-    else {
-        LOG_WARN("LocalScript not found (add a test LocalScript to ReplicatedStorage)");
-    }
+    if (moduleScript) LOG_INFO("ModuleScript found at 0x" + ToHex(moduleScript));
+    else LOG_WARN("ModuleScript not found");
+    if (localScript) LOG_INFO("LocalScript found at 0x" + ToHex(localScript));
+    else LOG_WARN("LocalScript not found");
 
     if (!moduleScript && !localScript) {
-        LOG_ERR("Could not find any ModuleScript or LocalScript for testing");
+        LOG_ERR("Could not find any ModuleScript or LocalScript");
         return res;
     }
 
-    // ---- ModuleScript ----
+    // ---- ModuleScript (target 61) ----
     if (moduleScript) {
         uint32_t bytecodePtrOff = 0, sizeOff = 0;
-        if (DiscoverBytecodeOffsetsForType(hProc, moduleScript, "ModuleScript", 61, bytecodePtrOff, sizeOff)) {
+        if (DiscoverBytecodeOffsetsForType(hProc, moduleScript, "ModuleScript", 61, bytecodePtrOff, sizeOff, 0x600)) {
             res.ModuleScriptBytecode = bytecodePtrOff;
             res.ByteCodeSize = sizeOff;
             uint32_t hashOff = 0;
             if (DiscoverHashOffsetForType(hProc, moduleScript, "ModuleScript", hashOff, bytecodePtrOff)) {
                 res.ModuleScriptHash = hashOff;
+                res.ModuleScriptGuid = hashOff;
             }
         }
     }
 
-    // ---- LocalScript ----
+    // ---- LocalScript (target 86) ----
     if (localScript) {
         uint32_t bytecodePtrOff = 0, sizeOff = 0;
-        if (DiscoverBytecodeOffsetsForType(hProc, localScript, "LocalScript", 86, bytecodePtrOff, sizeOff)) {
+        if (DiscoverBytecodeOffsetsForType(hProc, localScript, "LocalScript", 86, bytecodePtrOff, sizeOff, 0x600)) {
             res.LocalScriptBytecode = bytecodePtrOff;
-            if (res.ByteCodeSize == 0) {
-                res.ByteCodeSize = sizeOff;
-            }
-            // Reuse ModuleScript hash offset if available
+            if (res.ByteCodeSize == 0) res.ByteCodeSize = sizeOff;
+            // reuse ModuleScript hash if available
             if (res.ModuleScriptHash != 0) {
-                // Verify it works for LocalScript
-                uintptr_t hashPtr = 0;
-                uint32_t hashVal = 0;
-                SIZE_T got;
+                uintptr_t hashPtr = 0; uint32_t hashVal = 0; SIZE_T got;
                 if (SafeRead(hProc, localScript + res.ModuleScriptHash, &hashPtr, sizeof(hashPtr), got) && got == sizeof(hashPtr) && IsPointerValid(hProc, hashPtr)) {
                     if (SafeRead(hProc, hashPtr, &hashVal, sizeof(hashVal), got) && got == sizeof(hashVal) && hashVal == 1680946276) {
                         res.LocalScriptHash = res.ModuleScriptHash;
+                        res.LocalScriptGuid = res.ModuleScriptHash;
                         LOG_OK("Reused ModuleScript hash offset for LocalScript: 0x" + ToHex(res.LocalScriptHash));
                     }
                 }
             }
-            // If reuse failed, scan for LocalScript hash
             if (res.LocalScriptHash == 0) {
                 uint32_t hashOff = 0;
                 if (DiscoverHashOffsetForType(hProc, localScript, "LocalScript", hashOff, bytecodePtrOff)) {
                     res.LocalScriptHash = hashOff;
+                    res.LocalScriptGuid = hashOff;
                 }
             }
         }
@@ -357,12 +387,6 @@ ScriptOffsets FindScriptOffsets(
 
     res.ByteCodePointer = 0x10;
     res.Valid = (res.ModuleScriptBytecode != 0 || res.LocalScriptBytecode != 0) && res.ByteCodeSize != 0;
-    if (res.Valid) {
-        LOG_OK("Script offsets discovered successfully");
-    }
-    else {
-        LOG_ERR("Failed to discover sufficient script offsets");
-    }
 
     return res;
 }
