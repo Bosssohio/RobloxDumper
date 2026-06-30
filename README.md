@@ -1,6 +1,6 @@
 ## What is RobloxDumper
 
-RobloxDumper is just a dumper tool that can dump offsets and it is mini-inspired nopjo/roblox-dumper (known as john) for instance stage (not all stages idk) and it runs roblox process and scans memory and steal offsets 
+RobloxDumper is just a dumper tool that can dump offsets and it runs roblox process and scans memory and steal offsets
 
 ## How to Run it?:
 
